@@ -1,6 +1,6 @@
 import { ErrorMessage } from "../ErrorMessage";
 import React from "react";
-import ReactStars from "react-rating-stars-component";
+//import ReactStars from "react-rating-stars-component";
 
 const RatingBar = ({
   children,
@@ -13,8 +13,8 @@ const RatingBar = ({
   ...restProps
 }) => {
   return (
-    <>
-      <ReactStars
+    
+     {/* <ReactStars
         edit={isEditable}
         classNames={className}
         count={starCount}
@@ -26,7 +26,7 @@ const RatingBar = ({
       />
       <ErrorMessage errors={errors} />
       {children}
-    </>
+    </>*/}
   );
 };
 
