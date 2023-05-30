@@ -9,16 +9,30 @@ import Creaciones from './Views/Creaciones'
 
 
 
+
+
+
+
+import About from './Views/About';
 function App() {
   return (
     <div >
         <Routes>
           <Route path="/home" element={<Home />}/>
+
+          
+
+
+
+          
+          <Route path="/about" element={<About />}/>
+
           <Route path="/" element={<Login />}/>
           <Route path="/creaciones" element={<Creaciones />}/>
           <Route path="/menu" element={<Menu />}/>
           <Route path="*" element={<NotFound />}/>
           
+
         </Routes>
       
     </div>
