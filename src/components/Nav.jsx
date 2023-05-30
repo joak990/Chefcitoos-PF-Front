@@ -84,7 +84,7 @@ const Nav = () => {
             Creaciones
           </Link>
           <Link
-            to="/nosotros"
+            to="/about"
             className={`text-md font-semibold leading-6 text-gray-900 hover:text-orange-600 hover:border-b-2 border-orange-600 ${
               location.pathname === "/nosotros"
                 ? "active border-b-2 border-orange-600 text-orange-600"
@@ -151,25 +151,25 @@ const Nav = () => {
               <div className="-mx-3">
                 <div className="mt-2 space-y-2" id="disclosure-1">
                   <a
-                    href="#"
+                    href="/home"
                     className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
                   >
                     Home
                   </a>
                   <a
-                    href="#"
+                    href="/menu"
                     className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
                   >
                     Menú
                   </a>
                   <a
-                    href="#"
+                    href="/creaciones"
                     className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
                   >
                     Creaciones
                   </a>
                   <a
-                    href="#"
+                    href="/about"
                     className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
                   >
                     Nosotros
