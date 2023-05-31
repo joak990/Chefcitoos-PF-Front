@@ -14,12 +14,14 @@ import Creaciones from './Views/Creaciones'
 
 
 import About from './Views/About';
+import FormCreate from './Views/FormCreate';
 function App() {
   return (
     <>
         <Nav />
         <Routes>
           <Route path="/home" element={<Home />}/>
+          <Route path="/create" element={<FormCreate />}/>
 
           
 
