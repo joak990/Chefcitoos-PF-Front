@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import Home from './Views/Home';
 import Nav from './components/Nav';
@@ -16,9 +16,11 @@ import Creaciones from './Views/Creaciones'
 import About from './Views/About';
 import FormCreate from './Views/FormCreate';
 function App() {
+  const location = useLocation();
   return (
     <>
-        <Nav />
+    {location.pathname !== "/" ? ( <Nav/>) : ("")}
+  
         <Routes>
           <Route path="/home" element={<Home />}/>
           <Route path="/create" element={<FormCreate />}/>
