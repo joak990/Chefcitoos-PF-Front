@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logochefcito from "../img/hamburguesafinal.png";
-
+import { postRegisterUser } from "../Redux/actions";
+import {useDispatch} from "react-redux"
 function Register() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
+    type:"user"
   });
 
   const handleInputChange = (event) => {
@@ -56,7 +60,9 @@ function Register() {
         email: "",
         password: "",
       });
-      // Aquí enviaríamos el formulario
+      dispatch(postRegisterUser(form))
+     alert("El usuario se creo correctamente") 
+      navigate("/")
     }
   };
 
