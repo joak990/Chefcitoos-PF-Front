@@ -1,12 +1,14 @@
 import { DELETE_PRODUCTS, 
         GET_PRODUCTS, 
         POST_PRODUCTS, 
-        PUT_PRODUCTS
+        PUT_PRODUCTS,
+        REGISTER_USER
     } from "./typeAction";
 
 const initialState = {
     Products : [],
-    AllProducts : []
+    AllProducts : [],
+    AllUsers: []
 }
 
 const rootReducer = (state = initialState, {type,payload}) => {
@@ -32,6 +34,11 @@ const rootReducer = (state = initialState, {type,payload}) => {
                 ...state,
                 Products : [...payload]
             }
+            case REGISTER_USER:
+             return {
+                ...state,
+                
+                }
         default:
             return {...state}
     }

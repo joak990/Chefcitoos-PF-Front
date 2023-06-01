@@ -1,7 +1,10 @@
+
 import { GET_PRODUCTS, 
         DELETE_PRODUCTS,
         POST_PRODUCTS,
-        PUT_PRODUCTS
+        PUT_PRODUCTS,
+        REGISTER_USER,
+        LOGIN_USER
         } from "./typeAction";
 
 import axios from 'axios';
@@ -61,3 +64,28 @@ export const putProducts = (id , payload) => {
     }
 }
 
+export const postRegisterUser = (payload) => {
+    console.log(payload);
+    return async function(dispatch) {
+        try {
+            const post = await axios.post(`http://localhost:3001/users`, payload)
+            return post
+        } catch (error) {
+            alert(`Message ${REGISTER_USER}:` ,error)
+        }
+    }
+}
+
+export const postLoginUser = (payload) => {
+    console.log(payload);
+    return async function(dispatch) {
+        try {
+            const post = await axios.post(`http://localhost:3001/users/validate`, payload) 
+            console.log(post.data);
+            return post.data
+           
+        } catch (error) {
+            alert("" ,error)
+        }
+    }
+}
