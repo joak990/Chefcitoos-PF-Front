@@ -16,7 +16,11 @@ import Register from './Views/Register';
 import About from './Views/About';
 import FormCreate from './Views/FormCreate';
 
-function App() {
+
+
+
+
+ function App() {
   const location = useLocation();
   return (
     <>
