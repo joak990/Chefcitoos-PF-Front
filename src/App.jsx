@@ -10,6 +10,7 @@ import Register from './Views/Register';
 import About from './Views/About';
 import FormCreate from './Views/FormCreate';
 import Publicaciones from './Views/Publicaciones';
+import Detail from './Views/Detail';
 function App() {
   const location = useLocation();
   return (
@@ -34,6 +35,8 @@ function App() {
           <Route path="/publicaciones" element={<Publicaciones/>}/>
           
           <Route path="/register" element={<Register />}/>
+          <Route path="/detail" element={<Detail/>}/>
+          
 
         </Routes>
     </>
