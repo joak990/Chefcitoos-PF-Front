@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import burguer from "../img/hamburguesa.jpg";
 
-function CardMenu({ id, image, name, description, price }) {
+function CardMenu({ id, image, name, description, price, onOrderProduct }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -21,10 +21,11 @@ function CardMenu({ id, image, name, description, price }) {
 
   return (
     <div
-      className="flex flex-row items-center  justify-center p-8  "
+      className="flex flex-row items-center  justify-center p-8 "
       style={cardStyle}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={onOrderProduct}
     >
       <div className="flex flex-col">
         <h6 className="font-semibold text-lg">Hamburguesa</h6>
