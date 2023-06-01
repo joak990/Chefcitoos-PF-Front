@@ -1,8 +1,10 @@
 import React from 'react'
 import Card from '../components/Card';
+import { useUser } from '../useUser';
 
 export default function Publicaciones() {
-    const burgers = [
+  const userstorage = useUser(); 
+  const burgers = [
         {
           id: 1,
           image: "ruta/imagen1.jpg",

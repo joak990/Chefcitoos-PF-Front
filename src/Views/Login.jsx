@@ -1,8 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logochefcito from "../img/hamburguesafinal.png";
-
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, setPersistence, browserSessionPersistence } from "firebase/auth";
+import { app } from "../Firebase.config";
 function Login() {
+  const navigate = useNavigate();
+  const firebaseAuth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+ 
+ 
   const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
     email: "",
@@ -49,7 +56,35 @@ function Login() {
       })
       // Aquí enviaríamos el formulario
     }
-   
+    
+  };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+      if (user) {
+      
+        navigate("/home");
+      }
+    });
+
+    return () => {
+      // Limpiar el event listener al desmontar el componente
+      unsubscribe();
+    };
+  }, [firebaseAuth, navigate]);
+
+
+  const handleLogin = async () => {
+    try {
+      
+      await setPersistence(firebaseAuth, browserSessionPersistence);
+
+      // Iniciar sesión con Google
+      const response = await signInWithPopup(firebaseAuth, provider);
+      console.log(response)
+
+    } catch (error) {
+      console.log("Error al iniciar sesión:", error);
+    }
   };
 
   return (
@@ -62,7 +97,7 @@ function Login() {
       >
         <h1 className="text-3xl font-bold mb-8 text-center">Ingresar</h1>
         <div className="mb-6 lg:ml-4">
-          <button className="bg-blue-500 w-56 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button onClick={handleLogin}  className="bg-blue-500 w-56 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             <div className=" flex items-center justify-center items-center"></div>
             Sign in with Google
           </button>
