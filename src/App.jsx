@@ -16,20 +16,12 @@ import Register from './Views/Register';
 import About from './Views/About';
 import FormCreate from './Views/FormCreate';
 
-
-
-
-
 function App() {
-  
-  
-  
-  
   const location = useLocation();
   return (
     <>
- 
  {location.pathname !== "/register" && location.pathname !== "/" && <Nav />}
+         
          <Routes>
           <Route path="/home" element={<Home />}/>
           <Route path="/create" element={<FormCreate />}/>
