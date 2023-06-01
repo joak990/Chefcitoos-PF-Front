@@ -3,8 +3,8 @@ import imgChefcitos from '../img/LogoChefcitoos.png'
 import imglog from '../img/logo.jpg'
 import hambur from '../img/pruebaProducto.jpeg'
 import Card from '../components/Card'
+import { useUser } from '../useUser';
 
-const Home = () => {
   const burgers = [
     {
       id: 1,
@@ -32,7 +32,6 @@ const Home = () => {
     }
   ]
 
-import { useUser } from '../useUser';
 
 
 const Home = () => {
