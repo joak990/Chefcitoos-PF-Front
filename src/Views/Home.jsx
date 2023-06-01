@@ -32,6 +32,11 @@ const Home = () => {
     }
   ]
 
+import { useUser } from '../useUser';
+
+
+const Home = () => {
+  const userstorage = useUser();
   return (
     <div className="flex md:flex-row flex-row md:gap-10 items-center justify-around w-full pt-20 bg-gradient-to-b from-orange-100 to-white">
     <div className="flex flex-col items-center justify-start rounded-[16px]">

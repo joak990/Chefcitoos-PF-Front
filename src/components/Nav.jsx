@@ -1,17 +1,35 @@
 import React, { useState } from "react";
 import logo from "../img/logo.jpg";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
+import { app } from "../Firebase.config";
+import { useUser } from "../useUser";
 
 const Nav = () => {
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
-
+  const [userorigin, setUserOrigin] = useState(null); // Estado del usuario
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const navigate = useNavigate();
+  const firebaseAuth = getAuth(app);
+  const user = firebaseAuth.currentUser;
+
+  const handleLogout = async () => {
+    try {
+      await signOut(firebaseAuth);
+      navigate("/");
+    } catch (error) {
+      console.log("Error al hacer logout:", error);
+    }
+  };
+  const userstorage = useUser();
 
   return (
     <header className="bg-orange-100 ">
@@ -91,7 +109,7 @@ const Nav = () => {
                 : ""
             }`}
           >
-           Publicaciones
+            Publicaciones
           </Link>
 
           <Link
@@ -110,11 +128,18 @@ const Nav = () => {
           <div className="bg-white rounded-full flex justify-center items-center mr-4 w-12">
             <FontAwesomeIcon icon={faShoppingCart} />
           </div>
-          <button className="bg-orange-600 w-28 h-12 text-white rounded-xl font-bold mr-4">
+          <button
+            onClick={handleLogout}
+            className="bg-orange-600 w-28 h-12 text-white rounded-xl font-bold mr-4"
+          >
             Logout
           </button>
           <div className="bg-gray-200 rounded-full flex justify-center items-center w-12">
-            <FontAwesomeIcon icon={faUser} />
+            <img
+              className="rounded-full"
+              src={user ? user.photoURL : <FontAwesomeIcon icon={faUser} />}
+              alt=""
+            />
           </div>
         </div>
       </nav>
