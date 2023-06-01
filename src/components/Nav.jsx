@@ -84,6 +84,17 @@ const Nav = () => {
             Creaciones
           </Link>
           <Link
+            to="/publicaciones"
+            className={`text-md font-semibold leading-6 text-gray-900 hover:text-orange-600 hover:border-b-2 border-orange-600 ${
+              location.pathname === "/publicaciones"
+                ? "active border-b-2 border-orange-600 text-orange-600"
+                : ""
+            }`}
+          >
+           Publicaciones
+          </Link>
+
+          <Link
             to="/about"
             className={`text-md font-semibold leading-6 text-gray-900 hover:text-orange-600 hover:border-b-2 border-orange-600 ${
               location.pathname === "/nosotros"
