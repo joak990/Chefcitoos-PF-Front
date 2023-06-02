@@ -11,7 +11,7 @@ import { getCreations } from '../Redux/actions';
 export default function Publicaciones() {
   const userstorage = useUser(); 
   const allCreations = useSelector((state) => state.allCreations);
-  console.log("------------->",allCreations)
+ 
  
   const dispatch = useDispatch();
 
@@ -40,12 +40,13 @@ export default function Publicaciones() {
     <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6'>
         {allCreations&&
         allCreations.map((elem)=>{
-          return (<CardCreations
+          return (
+          <CardCreations
             key={elem.product_id}
-            id={elem.product_id}
+            product={elem.product.name}
                image={elem.image}
                name={elem.name}
-               user={elem.users_id}
+               user={elem.Users.name}
              />)
           
         }
