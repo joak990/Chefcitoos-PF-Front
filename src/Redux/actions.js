@@ -7,6 +7,7 @@ import {
   LOGIN_USER,
   GET_CREATIONS,
   LOGIN_SUCCESS,
+  GET_CREATIONS_BY_ID,
 } from "./typeAction";
 
 import axios from "axios";
@@ -40,6 +41,21 @@ export const getCreations = () => {
     }
   };
 };
+
+export const getCreationDetail = (id) => {
+  return async function (dispatch) {
+    try{
+      const json = await axios.get(`http://localhost:3001/creations/${id}`) //esperar ruta del back
+    return dispatch({
+        type: GET_CREATIONS_BY_ID,
+        payload: json.data,
+      });
+    } catch (error) {
+      alert(`Message ${GET_CREATIONS_BY_ID}:`, error);
+    }
+  };
+  
+}
 
 export const deleteProducts = (id) => {
   return async function (dispatch) {

@@ -54,13 +54,13 @@ function Creaciones() {
       <button className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6">Perro Caliente</button>
       <button className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6">Sandwich</button>
       <button className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6">Burrito</button>
-      <select defaultValue={"DEFAULT"} className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6"> Precio
+      <select defaultValue={"DEFAULT"} className="bg-gray-300 mr-3 w-36 h-12 text-black rounded-xl font-bold  mt-6"> Precio
         <option value="DEFAULT" disabled className="text-center">Precio</option>
         <option value="asc">Menor Pecio</option>
         <option value="desc">Mayor Precio</option>
       </select>
       </div>
-      <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6'>
+      <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6 mt-5'>
         {burgers.map((burger)=>
          <Card  
          key={burger.id}

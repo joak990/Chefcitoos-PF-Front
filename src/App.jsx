@@ -35,7 +35,7 @@ function App() {
           <Route path="/publicaciones" element={<Publicaciones/>}/>
           
           <Route path="/register" element={<Register />}/>
-          <Route path="/detail" element={<Detail/>}/>
+          <Route path="/detail/:id" element={<Detail/>}/>
           
 
         </Routes>

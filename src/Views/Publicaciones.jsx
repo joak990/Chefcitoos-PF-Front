@@ -45,6 +45,7 @@ export default function Publicaciones() {
                image={elem.image}
                name={elem.name}
                user={elem.Users.name}
+               price={elem.price}
              />)
           
         }
