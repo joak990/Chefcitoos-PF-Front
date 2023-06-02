@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useUser } from '../useUser';
 import { useSelector } from 'react-redux';
 import CardCreations from '../components/CardCreations';
+import { useDispatch, useSelector } from 'react-redux';
+import CardCreations from '../components/cardCreations';
+import { getCreations } from '../Redux/actions';
 
 
 
 export default function Publicaciones() {
   const userstorage = useUser(); 
   const allCreations = useSelector((state) => state.allCreations);
+  console.log("------------->",allCreations)
  
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+      dispatch(getCreations())
+  }, [dispatch])
+
   return (
     <div className='flex flex-col items-center justify-start w-full md:px-20'>
    
@@ -30,12 +40,14 @@ export default function Publicaciones() {
     <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6'>
         {allCreations&&
         allCreations.map((elem)=>{
-          <CardCreations
-         key={elem.product_id}
-            image={elem.image}
-            name={elem.name}
-            user={elem.users_id}
-          />
+          return (<CardCreations
+            key={elem.product_id}
+            id={elem.product_id}
+               image={elem.image}
+               name={elem.name}
+               user={elem.users_id}
+             />)
+          
         }
          
           
