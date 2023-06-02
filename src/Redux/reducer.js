@@ -1,6 +1,7 @@
 import { DELETE_PRODUCTS, 
         GET_CREATIONS, 
         GET_PRODUCTS, 
+        LOGIN_SUCCESS, 
         POST_PRODUCTS, 
         PUT_PRODUCTS,
         REGISTER_USER
@@ -11,6 +12,7 @@ const initialState = {
     AllProducts : [],
     AllUsers: [],
     allCreations: [],
+    isAuthenticated: false,
 }
 
 const rootReducer = (state = initialState, {type,payload}) => {
@@ -46,6 +48,11 @@ const rootReducer = (state = initialState, {type,payload}) => {
                     ...state,
                 allCreations : [...payload],
                 }
+                case LOGIN_SUCCESS:
+                 return {
+                ...state,
+                isAuthenticated: true,
+                };
         default:
             return {...state}
     }

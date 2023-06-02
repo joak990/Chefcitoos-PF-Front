@@ -24,6 +24,8 @@ const Nav = () => {
   const handleLogout = async () => {
     try {
       await signOut(firebaseAuth);
+      localStorage.removeItem("email");
+    localStorage.removeItem("password");
       navigate("/");
     } catch (error) {
       console.log("Error al hacer logout:", error);
@@ -134,12 +136,16 @@ const Nav = () => {
           >
             Logout
           </button>
+          
           <div className="bg-gray-200 rounded-full flex justify-center items-center w-12">
-            <img
+            {
+              user ?  <img
               className="rounded-full"
-              src={user ? user.photoURL : <FontAwesomeIcon icon={faUser} />}
+              src={user && user.photoURL}
               alt=""
-            />
+            />: <FontAwesomeIcon icon={faUser} />
+            }
+           
           </div>
         </div>
       </nav>
@@ -215,7 +221,7 @@ const Nav = () => {
             </div>
             <div className="py-6">
               <a
-                href="#"
+                href="/"
                 className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
               >
                 Logout

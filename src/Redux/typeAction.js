@@ -5,3 +5,4 @@ export const PUT_PRODUCTS = "PUT_PRODUCTS";
 export const REGISTER_USER = "REGISTER_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const GET_CREATIONS = "GET_CREATIONS"
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS"

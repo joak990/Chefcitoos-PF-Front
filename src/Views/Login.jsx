@@ -61,33 +61,50 @@ function Login() {
     }))
     
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    
-console.log(setErrors);
-    // Si no hay errores, enviar el formulario
-    if (Object.keys(setErrors).length === 0) {
-      dispatch(postLoginUser(form))
-      console.log(  dispatch(postLoginUser(form)));
-      setForm({
-        email: "",
-    password: "",
+
+    dispatch(postLoginUser(form))
+      .then((response) => {
+      console.log(response);
+        if (response.success === true) {
+           localStorage.setItem("user", JSON.stringify(response.user));
+          // Si la respuesta es true, el inicio de sesión fue exitoso
+          // Redireccionar al Home
+          navigate("/home");
+        } else {
+          alert("los datos son incorrectos")
+        }
       })
-    }
+      .catch((error) => {
+        // Manejar el error en caso de fallo en la acción postLoginUser
+        console.error("Error en el inicio de sesión:", error);
+      });
   };
-  useEffect(() => {
+const userSession = JSON.parse(localStorage.getItem("user"));
+
+useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         navigate("/home");
+      }else{
+        const email = localStorage.getItem("email");
+        const password = localStorage.getItem("password");
+        if (email && password) {
+          // Redireccionar automáticamente al Home
+          navigate("/home");
+        }
       }
+     
     });
+    
 
     return () => {
       // Limpiar el event listener al desmontar el componente
       unsubscribe();
     };
   }, [firebaseAuth, navigate]);
+  
 
   const handleLogin = async () => {
     await setPersistence(firebaseAuth, browserSessionPersistence);

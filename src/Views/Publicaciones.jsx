@@ -1,7 +1,7 @@
 import React from 'react'
 import { useUser } from '../useUser';
 import { useSelector } from 'react-redux';
-import CardCreations from '../components/cardCreations';
+import CardCreations from '../components/CardCreations';
 
 
 
