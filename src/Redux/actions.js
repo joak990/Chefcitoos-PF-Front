@@ -4,7 +4,8 @@ import { GET_PRODUCTS,
         POST_PRODUCTS,
         PUT_PRODUCTS,
         REGISTER_USER,
-        LOGIN_USER
+        LOGIN_USER,
+        GET_CREATIONS
         } from "./typeAction";
 
 import axios from 'axios';
@@ -20,6 +21,21 @@ export const getProducts = () => {
             })
         } catch (error) {
             alert(`Message ${GET_PRODUCTS}:` ,error)
+        }
+    }
+}
+
+export const getCreations = () => {
+    return async function(dispatch) {
+        try {
+            const json = await axios.get(`http://localhost:3001/creations`)
+            console.log('::json.data:::', json.data);
+            return dispatch ({
+                type : GET_CREATIONS,
+                payload : json.data
+            })
+        } catch (error) {
+            alert(`Message ${GET_CREATIONS}:` ,error)
         }
     }
 }

@@ -1,4 +1,5 @@
 import { DELETE_PRODUCTS, 
+        GET_CREATIONS, 
         GET_PRODUCTS, 
         POST_PRODUCTS, 
         PUT_PRODUCTS,
@@ -8,7 +9,8 @@ import { DELETE_PRODUCTS,
 const initialState = {
     Products : [],
     AllProducts : [],
-    AllUsers: []
+    AllUsers: [],
+    allCreations: [],
 }
 
 const rootReducer = (state = initialState, {type,payload}) => {
@@ -38,6 +40,11 @@ const rootReducer = (state = initialState, {type,payload}) => {
              return {
                 ...state,
                 
+                }
+            case GET_CREATIONS:
+                return {
+                    ...state,
+                allCreations : [...payload],
                 }
         default:
             return {...state}
