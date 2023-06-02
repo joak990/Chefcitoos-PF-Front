@@ -6,3 +6,4 @@ export const REGISTER_USER = "REGISTER_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const GET_CREATIONS = "GET_CREATIONS"
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
+export const GET_CREATIONS_BY_ID = "GET_CREATIONS_BY_ID"
