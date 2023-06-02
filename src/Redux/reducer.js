@@ -14,6 +14,7 @@ const initialState = {
     AllUsers: [],
     allCreations: [],
     yourCreations: [],
+    creationDetail: {},
     isAuthenticated: false,
 }
 
@@ -53,7 +54,7 @@ const rootReducer = (state = initialState, {type,payload}) => {
             case GET_CREATIONS_BY_ID:
                 return{
                     ...state,
-                    yourCreations: [...payload],
+                    creationDetail: payload,
                 }
                 case LOGIN_SUCCESS:
                  return {

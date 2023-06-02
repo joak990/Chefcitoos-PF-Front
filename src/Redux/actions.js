@@ -8,6 +8,7 @@ import {
   GET_CREATIONS,
   LOGIN_SUCCESS,
   GET_CREATIONS_BY_ID,
+  GET_CREATIONS_BY_USER,
 } from "./typeAction";
 
 import axios from "axios";
@@ -43,10 +44,12 @@ export const getCreations = () => {
 };
 
 export const getCreationDetail = (id) => {
+  console.log("holaaaaaa");
   return async function (dispatch) {
-    try{
-      const json = await axios.get(`http://localhost:3001/creations/${id}`) //esperar ruta del back
-    return dispatch({
+    try {
+      const json = await axios.get(`http://localhost:3001/creations/${id}?type=creation`);
+      console.log("::json.data:::", json.data);
+      return dispatch({
         type: GET_CREATIONS_BY_ID,
         payload: json.data,
       });
@@ -54,8 +57,21 @@ export const getCreationDetail = (id) => {
       alert(`Message ${GET_CREATIONS_BY_ID}:`, error);
     }
   };
-  
-}
+};
+export const getCreationDetailByUser = (id) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`http://localhost:3001/creations/${id}?type=user`);
+      console.log("::json.data:::", json.data);
+      return dispatch({
+        type: GET_CREATIONS_BY_USER,
+        payload: json.data,
+      });
+    } catch (error) {
+      alert(`Message ${GET_CREATIONS_BY_USER}:`, error);
+    }
+  };
+};
 
 export const deleteProducts = (id) => {
   return async function (dispatch) {
