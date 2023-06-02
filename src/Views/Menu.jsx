@@ -7,12 +7,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../Redux/actions";
 
 function Menu() {
-  const [showModal, setShowModal] = useState(false);
+
+  const component_categ_producto = [];
+
+  const [productSelected, setProductSelected] = useState(null);
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.AllProducts);
 
-  const handleShowModal = () => {
-    setShowModal(!showModal);
+
+
+  const addProductToCart = () => {
+    console.log("agregar producto al carrito");
   };
 
   useEffect(() => {
@@ -34,7 +39,7 @@ function Menu() {
                     <CardMenu
                       key={product.id}
                       product={product}
-                      onOrderProduct={handleShowModal}
+                      onOrderProduct={ () => setProductSelected(product)}
                     />
                   );
               })}
@@ -52,7 +57,7 @@ function Menu() {
                     <CardMenu
                       key={product.id}
                       product={product}
-                      onOrderProduct={handleShowModal}
+                      onOrderProduct={ () => setProductSelected(product)}
                     />
                   );
               })}
@@ -70,7 +75,7 @@ function Menu() {
                     <CardMenu
                       key={product.id}
                       product={product}
-                      onOrderProduct={handleShowModal}
+                      onOrderProduct={ () => setProductSelected(product)}
                     />
                   );
               })}
@@ -88,7 +93,7 @@ function Menu() {
                     <CardMenu
                       key={product.id}
                       product={product}
-                      onOrderProduct={handleShowModal}
+                      onOrderProduct={ () => setProductSelected(product)}
                     />
                   );
               })}
@@ -106,7 +111,7 @@ function Menu() {
                     <CardMenu
                       key={product.id}
                       product={product}
-                      onOrderProduct={handleShowModal}
+                      onOrderProduct={addProductToCart}
                     />
                   );
               })}
@@ -124,15 +129,15 @@ function Menu() {
                     <CardMenu
                       key={product.id}
                       product={product}
-                      onOrderProduct={handleShowModal}
+                      onOrderProduct={addProductToCart}
                     />
                   );
               })}
           </div>
         </div>
       </div>
-      {showModal && (
-        <Modal showModal={showModal} handleShowModal={handleShowModal} />
+      {productSelected && (
+        <Modal productSelected={productSelected} onClose={() => setProductSelected(null)} />
       )}
     </>
   );
