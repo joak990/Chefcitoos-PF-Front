@@ -62,7 +62,7 @@ function Register() {
       });
       dispatch(postRegisterUser(form))
  
-      navigate("/")
+      
     }
   };
 

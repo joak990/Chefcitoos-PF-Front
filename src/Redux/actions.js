@@ -127,20 +127,19 @@ export const postRegisterUser = (payload) => {
   return async function (dispatch) {
     try {
       const post = await axios.post(`http://localhost:3001/users`, payload);
-      //console.log("--->", post.data);
-
-       
-      if(post.data.root === "register" && !post.data.uid){
-         alert("el se creo correctamente ")
+      
+     if(post.data.root === "register"){
+      if(post.data.duplicated === true){
+        alert("el usuario ya esta registrado")
       }else{
- // console.log(post.data);
- 
- localStorage.setItem("email", post.data.email);
- localStorage.setItem("id", post.data.id);
- localStorage.setItem("name", post.data.name);
- return post.data;
+        alert("el usuario se creo correctamente")
       }
-     
+     }else{
+      localStorage.setItem("email", post.data.email);
+      localStorage.setItem("id", post.data.id);
+      localStorage.setItem("name", post.data.name);
+      return post.data;
+     }     
     } catch (error) {
       alert(`Message ${REGISTER_USER}:`, error);
     }
@@ -159,12 +158,7 @@ export const postLoginUser = (payload) => {
         "http://localhost:3001/users/validate",
         payload
       );
-      
-      console.log('response', response.data);
-      // if(response.data === true){
-      //   return alert('El usuario ya existente, Redi')
-      // }
-      // console.log("=>>>>>",response.data.validCredentials);
+    
       if (response.data.email && response.data.id && response.data.name) {
         // Autenticación exitosa
         // Puedes realizar acciones adicionales aquí, como guardar el token de autenticación en el estado global
