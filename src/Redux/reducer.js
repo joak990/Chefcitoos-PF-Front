@@ -3,11 +3,15 @@ import { DELETE_PRODUCTS,
         GET_CREATIONS, 
         GET_CREATIONS_BY_ID, 
         GET_CREATIONS_BY_USER, 
+        GET_CREATION_FILTERS, 
         GET_PRODUCTS, 
         LOGIN_SUCCESS, 
         POST_PRODUCTS, 
         PUT_PRODUCTS,
-        REGISTER_USER
+        REGISTER_USER,
+        GET_CREATION_FILTERS_PRICE,
+        GET_PUBLICATION_FILTERS,
+        GET_PUBLICATION_FILTERS_PRICE
     } from "./typeAction";
 
 const initialState = {
@@ -45,14 +49,13 @@ const rootReducer = (state = initialState, {type,payload}) => {
                 Products : [...payload]
             }
             case REGISTER_USER:
-             return {
+                return {
                 ...state,
-                
                 }
             case GET_CREATIONS:
                 return {
                     ...state,
-                allCreations : [...payload],
+                    allCreations : [...payload],
                 }
             case GET_CREATIONS_BY_ID:
                 return{
@@ -64,16 +67,36 @@ const rootReducer = (state = initialState, {type,payload}) => {
                     ...state,
                     yourCreations: payload,
                 }
-                case LOGIN_SUCCESS:
-                 return {
-                ...state,
-                isAuthenticated: true,
+            case LOGIN_SUCCESS:
+                return {
+                    ...state,
+                    isAuthenticated: true,
                 };
             case GET_COMPONENTS:
                 return {
-                ...state,
-                components: [...payload],
+                    ...state,
+                    components: [...payload],
                 };
+            case GET_CREATION_FILTERS:
+                return {
+                    ...state,
+                    yourCreations: [...payload]
+                }
+            case GET_CREATION_FILTERS_PRICE:
+                return {
+                    ...state,
+                    yourCreations: [...payload]
+                }
+            case GET_PUBLICATION_FILTERS:
+                return {
+                    ...state,
+                    allCreations: [...payload]
+                }
+            case GET_PUBLICATION_FILTERS_PRICE:
+                return {
+                    ...state,
+                    allCreations: [...payload]
+                }
         default:
             return {...state}
     }

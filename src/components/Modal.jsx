@@ -9,6 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Modal = ({ productSelected, onClose }) => {
+  console.log('___productSelected___', productSelected);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const components = useSelector((state) => state.components);
@@ -97,7 +98,7 @@ const Modal = ({ productSelected, onClose }) => {
       users_id: userId, //arreglar usuario
       components,
       name,
-      image: "image", //arreglar image
+      image: productSelected.image? productSelected.image : "image", //arreglar image
       price: productSelected.price,
       isPosted: isPostable,
       purchased_amount: 1,
