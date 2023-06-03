@@ -9,6 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Modal = ({ productSelected, onClose }) => {
+  console.log('___productSelected___', productSelected);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const components = useSelector((state) => state.components);
