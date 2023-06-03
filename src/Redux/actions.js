@@ -15,7 +15,7 @@ export const getProducts = () => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/products`);
-      console.log("::json.data:::", json.data);
+      // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_PRODUCTS,
         payload: json.data,
@@ -30,7 +30,7 @@ export const getCreations = () => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/creations`);
-      console.log("::json.data:::", json.data);
+      // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_CREATIONS,
         payload: json.data,
@@ -83,39 +83,54 @@ export const putProducts = (id, payload) => {
   };
 };
 
+// USER --> ok -> TRUE - NO ->> USUARIO
+//Login GOOGLE
 export const postRegisterUser = (payload) => {
-  console.log(payload);
+  console.log('::payload:',payload);
   return async function (dispatch) {
     try {
       const post = await axios.post(`http://localhost:3001/users`, payload);
-      return post;
+      // console.log(post.data);
+      console.log("--->", post.data);
+      localStorage.setItem("email", post.data.email);
+      localStorage.setItem("id", post.data.id);
+      
+      return post.data;
     } catch (error) {
       alert(`Message ${REGISTER_USER}:`, error);
     }
   };
 };
+// 
 
+// VALIDATE ->>> OK -> email y id(datos son validos) - NO --> FALSE (datos son incorrectos)
+
+//LOGIN REGISTER
 export const postLoginUser = (payload) => {
+  console.log('payload', payload);
   return async function (dispatch) {
     try {
       const response = await axios.post(
         "http://localhost:3001/users/validate",
         payload
       );
-      const data = response.data;
-    
-      console.log("=>>>>>",response.data.validCredentials);
-      if (response.data.validCredentials === true) {
+      
+      console.log('response', response.data);
+      // if(response.data === true){
+      //   return alert('El usuario ya existente, Redi')
+      // }
+      // console.log("=>>>>>",response.data.validCredentials);
+      if (response.data.email && response.data.id) {
         // Autenticación exitosa
         // Puedes realizar acciones adicionales aquí, como guardar el token de autenticación en el estado global
         localStorage.setItem("email", response.data.email);
-        localStorage.setItem("password", response.data.password);
+        localStorage.setItem("id", response.data.id);
         // y redireccionar al usuario al home
         dispatch({ type: LOGIN_SUCCESS });
-        return { success: true,email:response.data.email,password:response.data.password };
+        return { success: true,email:response.data.email, id:response.data.id };
       } else {
         // Autenticación fallida
-        const errorMessage = data.message || "Error de autenticación";
+        const errorMessage = response.data.message || "Error de autenticación";
         return { success: false, message: errorMessage };
       }
     } catch (error) {
