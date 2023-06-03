@@ -45,10 +45,8 @@ export const getCreations = () => {
 };
 
 export const getCreationDetail = (id) => {
- 
   return async function (dispatch) {
     try {
-      console.log("id");
       const json = await axios.get(`http://localhost:3001/creations/${id}?type=creation`);
       console.log("::json.data:::", json.data);
       return dispatch({
