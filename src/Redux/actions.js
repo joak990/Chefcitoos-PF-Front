@@ -9,6 +9,7 @@ import {
   LOGIN_SUCCESS,
   GET_CREATIONS_BY_ID,
   GET_CREATIONS_BY_USER,
+  GET_COMPONENTS,
 } from "./typeAction";
 
 import axios from "axios";
@@ -154,6 +155,21 @@ export const postLoginUser = (payload) => {
       // Error en la petición
       console.error(error);
       return { success: false, message: "Error de autenticación" };
+    }
+  };
+};
+
+export const getComponents = () => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`http://localhost:3001/components`);
+      console.log("::json.data:::", json.data);
+      return dispatch({
+        type: GET_COMPONENTS,
+        payload: json.data,
+      });
+    } catch (error) {
+      alert(`Message ${GET_COMPONENTS}:`, error);
     }
   };
 };

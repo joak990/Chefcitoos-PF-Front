@@ -1,4 +1,5 @@
 import { DELETE_PRODUCTS, 
+        GET_COMPONENTS, 
         GET_CREATIONS, 
         GET_CREATIONS_BY_ID, 
         GET_PRODUCTS, 
@@ -16,6 +17,7 @@ const initialState = {
     yourCreations: [],
     creationDetail: {},
     isAuthenticated: false,
+    components: [],
 }
 
 const rootReducer = (state = initialState, {type,payload}) => {
@@ -60,6 +62,11 @@ const rootReducer = (state = initialState, {type,payload}) => {
                  return {
                 ...state,
                 isAuthenticated: true,
+                };
+            case GET_COMPONENTS:
+                return {
+                ...state,
+                components: [...payload],
                 };
         default:
             return {...state}

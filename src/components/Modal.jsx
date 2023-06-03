@@ -1,27 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import image from "../img/hamburguesa.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getComponents } from "../Redux/actions";
 
 const Modal = ({ productSelected, onClose }) => {
+  const dispatch = useDispatch();
+  const components = useSelector((state) => state.components);
+  const [selectedComponents, setSelectedComponents] = useState([]);
   console.log(productSelected);
 
-  const components = [
-    { id: 1, name: "Jamon", component_categ_id: 1 },
-    { id: 2, name: "Lechuga", component_categ_id: 1 },
-    { id: 3, name: "Tomate", component_categ_id: 1 },
-    { id: 4, name: "Queso", component_categ_id: 1 },
-    { id: 5, name: "Huevo Frito", component_categ_id: 2 },
-    { id: 6, name: "Tocineta", component_categ_id: 2 },
-    { id: 7, name: "Pernil de cerdo", component_categ_id: 3 },
-    { id: 8, name: "Salami", component_categ_id: 3 },
-    { id: 9, name: "Pavo", component_categ_id: 3 },
-    { id: 10, name: "Salsa de Tomate", component_categ_id: 4 },
-    { id: 11, name: "Mayonesa", component_categ_id: 4 },
-  ];
-
-  productSelected.components = [
+  const components_product = [
     {
       id: 1,
       product_id: 1,
@@ -32,11 +23,60 @@ const Modal = ({ productSelected, onClose }) => {
     {
       id: 2,
       product_id: 1,
-      component_categ_id: 4,
-      component_categ: { id: 4, name: "Salsas" },
+      component_categ_id: 2,
+      component_categ: { id: 2, name: "Salsas" },
       amount: 13,
     },
   ];
+
+  useEffect(() => {
+    dispatch(getComponents());
+  }, []);
+
+  const IsComponentSelected = (component) => {
+    return selectedComponents.some(
+      (component_current) => component_current.id === component.id
+    );
+  };
+
+  const handlerSelectComponent = (component) => {
+    if (IsComponentSelected(component)) { // unselect
+      setSelectedComponents((selectedComponentsOld) => [
+        ...selectedComponentsOld.filter(
+          (component_current) => component_current.id !== component.id
+        ),
+      ]);
+    } else {
+      if (isAllowedToAddComponent(component)) //select
+        setSelectedComponents((selectedComponentsOld) => [
+          ...selectedComponentsOld,
+          component,
+        ]);
+    }
+  };
+
+  const isAllowedToAddComponent = (component) => {
+    let response = false;
+    components_product.forEach((component_current) => {
+      if (
+        Number(component_current.component_categ_id) ===
+          Number(component.component_categ_id) &&
+        component_current.amount >
+          numberOfComponentsSelectedByCateg(component.component_categ_id)
+      ) {
+        response = true;
+      }
+    });
+    return response;
+  };
+
+  const numberOfComponentsSelectedByCateg = (component_categ_id) => {
+    return selectedComponents.filter(
+      (component_selected) =>
+        Number(component_selected.component_categ_id) ===
+        Number(component_categ_id)
+    ).length;
+  };
 
   return ReactDOM.createPortal(
     <div
@@ -99,45 +139,64 @@ const Modal = ({ productSelected, onClose }) => {
                       </label>
                     </div>
                     <form className="">
-                      <div className="mt-4">
-                        <div className="flex justify-between">
-                          <h5 className="text-md font-bold">Ingredientes</h5>
-                          <span className="text-xs font-bold bg-orange-600 text-white rounded-lg self-center px-1 py-0.5">
-                            Obligatorio
+                      {components_product.map((component_produc) => (
+                        <div className="mt-4">
+                          <div className="flex justify-between">
+                            <h5 className="text-md font-bold">
+                              {component_produc.component_categ.name}
+                            </h5>
+                            <span className="text-xs font-bold bg-orange-600 text-white rounded-lg self-center px-1 py-0.5">
+                              Requerido
+                            </span>
+                          </div>
+                          <span className="text-sm">
+                            Selecciona hasta {component_produc.amount} opciones
                           </span>
+                          {components.map((component) => {
+                            if (
+                              Number(component.component_categ_id) ===
+                              Number(component_produc.component_categ_id)
+                            ) {
+                              return (
+                                <div class="flex items-center mb-1">
+                                  <input
+                                    id={component.id}
+                                    type="checkbox"
+                                    value=""
+                                    checked={IsComponentSelected(component)}
+                                    onChange={() =>
+                                      handlerSelectComponent(component)
+                                    }
+                                    name={`checkbox-${component.name}`}
+                                    className="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 focus:ring-orange-600 focus:ring-1"
+                                  />
+                                  <label
+                                    for={component.id}
+                                    className="ml-2 text-sm font-medium text-gray-900"
+                                  >
+                                    {component.name}
+                                  </label>
+                                </div>
+                              );
+                            }
+                          })}
                         </div>
-                        <span className="text-sm">
-                          Selecciona hasta xxx opciones
-                        </span>
-                        <div class="flex items-center mb-1">
-                          <input
-                            id="default-radio-1"
-                            type="radio"
-                            value=""
-                            name="default-radio"
-                            className="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 focus:ring-orange-600 focus:ring-1"
-                          />
-                          <label
-                            for="default-radio-1"
-                            className="ml-2 text-sm font-medium text-gray-900"
-                          >
-                            Queso
-                          </label>
-                        </div>
-                      </div>
+                      ))}
                     </form>
                     <div class="flex items-center mt-4">
                       <input
                         id="default-checkbox"
                         type="checkbox"
                         value=""
+                        checked={true}
                         class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-600 focus:ring-2 "
                       />
                       <label
                         for="default-checkbox"
                         class="ml-2 text-xs font-medium text-gray-800"
                       >
-                        Check si deseas que tu creación se publique y sea visible a la comunidad de chefsitos
+                        ¿Deseas que tu creación se publique y sea visible a la
+                        comunidad de chefcitoos?
                       </label>
                     </div>
                   </div>
