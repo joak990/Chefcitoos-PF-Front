@@ -5,12 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getComponents } from "../Redux/actions";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ productSelected, onClose }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const components = useSelector((state) => state.components);
   const [selectedComponents, setSelectedComponents] = useState([]);
-  console.log(productSelected);
+  const [name, setName] = useState('');
+  const [isPostable, setIsPostable] = useState(true);
 
   const components_product = [
     {
@@ -25,13 +29,21 @@ const Modal = ({ productSelected, onClose }) => {
       product_id: 1,
       component_categ_id: 2,
       component_categ: { id: 2, name: "Salsas" },
-      amount: 13,
+      amount: 5,
     },
   ];
 
   useEffect(() => {
     dispatch(getComponents());
   }, []);
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  }
+
+  const onChangeCheckIsPostable = () => {
+    setIsPostable(!isPostable);
+  }
 
   const IsComponentSelected = (component) => {
     return selectedComponents.some(
@@ -77,6 +89,30 @@ const Modal = ({ productSelected, onClose }) => {
         Number(component_categ_id)
     ).length;
   };
+
+  const onSaveCreation = () => {
+    const components = selectedComponents.map(component => component.id)
+    const body = {
+      product_id: productSelected.id,
+      users_id: 11, //arreglar usuario
+      components,
+      name,
+      image: "image", //arreglar image
+      price: productSelected.price,
+      isPosted: isPostable,
+      purchased_amount: 1,
+      isDeleted: false,
+    }
+    console.log(body);
+    axios
+        .post('http://localhost:3001/creations', body)
+        .then((response) => {
+          navigate("/creaciones");
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+  }
 
   return ReactDOM.createPortal(
     <div
@@ -128,22 +164,26 @@ const Modal = ({ productSelected, onClose }) => {
                       <input
                         type="text"
                         id="name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2"
+                        value={name}
+                        onChange={handleNameChange}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-600 focus:border-orange-600 block w-full p-2"
                         placeholder="Escribe un nombre para tu creación"
                       />
                       <label
-                        for="name"
-                        class="block mb-2 text-sm font-medium text-gray-900"
+                        htmlFor="name"
+                        className="block mb-2 text-sm font-medium text-gray-900"
                       >
                         Nombre
                       </label>
                     </div>
                     <form className="">
                       {components_product.map((component_produc) => (
-                        <div className="mt-4">
+                        <div className="mt-4" key={component_produc.id}>
                           <div className="flex justify-between">
                             <h5 className="text-md font-bold">
                               {component_produc.component_categ.name}
+                              {' '}
+                              ({ numberOfComponentsSelectedByCateg(component_produc.component_categ_id) } / {component_produc.amount})
                             </h5>
                             <span className="text-xs font-bold bg-orange-600 text-white rounded-lg self-center px-1 py-0.5">
                               Requerido
@@ -158,7 +198,7 @@ const Modal = ({ productSelected, onClose }) => {
                               Number(component_produc.component_categ_id)
                             ) {
                               return (
-                                <div class="flex items-center mb-1">
+                                <div className="flex items-center mb-1">
                                   <input
                                     id={component.id}
                                     type="checkbox"
@@ -171,7 +211,7 @@ const Modal = ({ productSelected, onClose }) => {
                                     className="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 focus:ring-orange-600 focus:ring-1"
                                   />
                                   <label
-                                    for={component.id}
+                                    htmlFor={component.id}
                                     className="ml-2 text-sm font-medium text-gray-900"
                                   >
                                     {component.name}
@@ -183,17 +223,18 @@ const Modal = ({ productSelected, onClose }) => {
                         </div>
                       ))}
                     </form>
-                    <div class="flex items-center mt-4">
+                    <div className="flex items-center mt-4">
                       <input
                         id="default-checkbox"
                         type="checkbox"
-                        value=""
-                        checked={true}
-                        class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-600 focus:ring-2 "
+                        value={isPostable}
+                        checked={isPostable}
+                        onChange={onChangeCheckIsPostable}
+                        className="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-600 focus:ring-2 "
                       />
                       <label
-                        for="default-checkbox"
-                        class="ml-2 text-xs font-medium text-gray-800"
+                        htmlFor="default-checkbox"
+                        className="ml-2 text-xs font-medium text-gray-800"
                       >
                         ¿Deseas que tu creación se publique y sea visible a la
                         comunidad de chefcitoos?
@@ -208,7 +249,7 @@ const Modal = ({ productSelected, onClose }) => {
             <button
               type="button"
               className="bg-orange-600 w-24 h-8 text-white rounded-xl font-bold"
-              onClick=""
+              onClick={onSaveCreation}
             >
               Agregar
             </button>
