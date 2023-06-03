@@ -3,40 +3,7 @@ import SeacrhBar from '../components/SeacrhBar'
 import Card from '../components/Card'
 
 function Creaciones() {
-  const burgers = [
-    {
-      id: 1,
-      image: "ruta/imagen1.jpg",
-      name: "Hamburguesa Clásica",
-      description: "Una deliciosa hamburguesa con ingredientes frescos y jugosa carne de res.",
-      ratingValue: 4.5,
-      price: 8.99
-    },
-    {
-      id: 2,
-      image: "ruta/imagen2.jpg",
-      name: "Hamburguesa con Queso",
-      description: "Una hamburguesa con queso fundido y carne jugosa, perfecta para los amantes del queso.",
-      ratingValue: 4.2,
-      price: 9.99
-    },
-    {
-      id: 3,
-      image: "ruta/imagen3.jpg",
-      name: "Hamburguesa Vegetariana",
-      description: "Una opción saludable y deliciosa, hecha con una mezcla de vegetales frescos y legumbres.",
-      ratingValue: 4.0,
-      price: 7.99
-    },
-    {
-      id: 4,
-      image: "ruta/imagen3.jpg",
-      name: "Hamburguesa Chefcitoos",
-      description: "Una opción saludable y deliciosa, hecha con una mezcla de vegetales frescos y legumbres.",
-      ratingValue: 4.0,
-      price: 7.99
-    },
-  ];
+  
 
   
   return (
