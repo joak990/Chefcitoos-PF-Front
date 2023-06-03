@@ -10,6 +10,10 @@ import {
   GET_CREATIONS_BY_ID,
   GET_CREATIONS_BY_USER,
   GET_COMPONENTS,
+  GET_CREATION_FILTERS,
+  GET_CREATION_FILTERS_PRICE,
+  GET_PUBLICATION_FILTERS,
+  GET_PUBLICATION_FILTERS_PRICE
 } from "./typeAction";
 
 import axios from "axios";
@@ -18,7 +22,7 @@ export const getProducts = () => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/products`);
-      // console.log("::json.data:::", json.data);
+      console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_PRODUCTS,
         payload: json.data,
@@ -126,20 +130,19 @@ export const postRegisterUser = (payload) => {
   return async function (dispatch) {
     try {
       const post = await axios.post(`http://localhost:3001/users`, payload);
-      //console.log("--->", post.data);
-
-       
-      if(post.data.root === "register" && !post.data.uid){
-         alert("el se creo correctamente ")
+      
+     if(post.data.root === "register"){
+      if(post.data.duplicated === true){
+        alert("el usuario ya esta registrado")
       }else{
- // console.log(post.data);
- 
- localStorage.setItem("email", post.data.email);
- localStorage.setItem("id", post.data.id);
- localStorage.setItem("name", post.data.name);
- return post.data;
+        alert("el usuario se creo correctamente")
       }
-     
+     }else{
+      localStorage.setItem("email", post.data.email);
+      localStorage.setItem("id", post.data.id);
+      localStorage.setItem("name", post.data.name);
+      return post.data;
+     }     
     } catch (error) {
       alert(`Message ${REGISTER_USER}:`, error);
     }
@@ -158,12 +161,7 @@ export const postLoginUser = (payload) => {
         "http://localhost:3001/users/validate",
         payload
       );
-      
-      console.log('response', response.data);
-      // if(response.data === true){
-      //   return alert('El usuario ya existente, Redi')
-      // }
-      // console.log("=>>>>>",response.data.validCredentials);
+    
       if (response.data.email && response.data.id && response.data.name) {
         // Autenticación exitosa
         // Puedes realizar acciones adicionales aquí, como guardar el token de autenticación en el estado global
@@ -200,3 +198,59 @@ export const getComponents = () => {
     }
   };
 };
+//http://localhost:3001/creations/?filterName=typeProduct(nombreDelProducto)
+ export const getCreationFilters = (TypeProducts) => {
+  return async function (dispatch){
+    try {
+      const json = await axios.get(`http://localhost:3001/creations/?filterName=typeProduct${TypeProducts}`)
+      return dispatch ({
+        type : GET_CREATION_FILTERS,
+        payload : json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_CREATION_FILTERS}:`, error))
+    }
+  }
+ }
+
+ export const getCreationFilterPrice = (TypePrice) => {
+  return async function (dispatch){
+    try {
+      const json = await axios.get(`http://localhost:3001/creations/?filterName=${TypePrice}`)
+      return dispatch ({
+        type : GET_CREATION_FILTERS_PRICE,
+        payload : json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_CREATION_FILTERS_PRICE}:`, error))
+    }
+  }
+ }
+ 
+ export const getPublicacionesFilters = (TypeProducts) => {
+  return async function (dispatch){
+    try {
+      const json = await axios.get(`http://localhost:3001/creations/?filterName=typeProduct${TypeProducts}`)
+      return dispatch ({
+        type : GET_PUBLICATION_FILTERS,
+        payload : json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_PUBLICATION_FILTERS}:`, error))
+    }
+  }
+ }
+
+ export const getPublicacionesFilterPrice = (TypePrice) => {
+  return async function (dispatch){
+    try {
+      const json = await axios.get(`http://localhost:3001/creations/?filterName=${TypePrice}`)
+      return dispatch ({
+        type : GET_PUBLICATION_FILTERS_PRICE,
+        payload : json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_PUBLICATION_FILTERS_PRICE}:`, error))
+    }
+  }
+ }
