@@ -64,11 +64,15 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+
     dispatch(postLoginUser(form))
       .then((response) => {
-      console.log(response);
+      console.log("adentrooo");
+      // if (!Object.keys(response)){
+      //   navigate("/")
+      // }
         if (response.success === true) {
-           localStorage.setItem("user", JSON.stringify(response.user));
+          localStorage.setItem("user", JSON.stringify(response.user));
           // Si la respuesta es true, el inicio de sesión fue exitoso
           // Redireccionar al Home
           navigate("/home");
@@ -81,7 +85,7 @@ function Login() {
         console.error("Error en el inicio de sesión:", error);
       });
   };
-const userSession = JSON.parse(localStorage.getItem("user"));
+// const userSession = JSON.parse(localStorage.getItem("user"));
 
 useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
@@ -89,8 +93,11 @@ useEffect(() => {
         navigate("/home");
       }else{
         const email = localStorage.getItem("email");
-        const password = localStorage.getItem("password");
-        if (email && password) {
+        const id = localStorage.getItem("id");
+        console.log('email', email);
+        console.log('id', id);
+
+        if (email && id) {
           // Redireccionar automáticamente al Home
           navigate("/home");
         }

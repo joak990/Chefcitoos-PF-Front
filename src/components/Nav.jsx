@@ -6,7 +6,7 @@ import { faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../Firebase.config";
-import { useUser } from "../useUser";
+// import { useUser } from "../useUser";
 
 const Nav = () => {
   const location = useLocation();
@@ -31,7 +31,7 @@ const Nav = () => {
       console.log("Error al hacer logout:", error);
     }
   };
-  const userstorage = useUser();
+  // const userstorage = useUser();
 
   return (
     <header className="bg-orange-100 ">
