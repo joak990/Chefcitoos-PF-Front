@@ -1,27 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SeacrhBar from '../components/SeacrhBar'
 import Card from '../components/Card'
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCreationDetailByUser } from '../Redux/actions';
+import CardCreations from '../components/CardCreations';
 
 function Creaciones() {
   
-  const {id} = useParams();
-  console.log(id);
+  //const {id} = useParams();
+  const userId = localStorage.getItem('id')
   const dispatch = useDispatch();
   ;
   const creation = useSelector((state) => state.yourCreations);
 
  useEffect(() => {
-  dispatch(getCreationDetailByUser(id))
+  dispatch(getCreationDetailByUser(userId))
 }, [dispatch]);
 console.log(creation);
     
   
   return (
     <div className='flex flex-col items-center justify-start w-full md:px-20'>
-     
+      <button className="bg-orange-600 w-36 h-12 text-white rounded-xl font-bold self-end mt-6">
+            Nueva Creación
+          </button>
       <h3 className='text-gray-900 font-bold text-5xl mt-6 mb-6'>Tus Creaciones</h3>
       <div className='flex flex-row flex-wrap p-5'>
       <SeacrhBar></SeacrhBar>
@@ -39,17 +42,20 @@ console.log(creation);
       </select>
       </div>
       <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6 mt-5'>
-        {burgers.map((burger)=>
-         <Card  
-         key={burger.id}
-            id={burger.id}
-            image={burger.image}
-            name={burger.name}
-            description= {burger.description}
-            ratingValue={burger.ratingValue}
-            price={burger.price}
-            
-          />
+      {creation&&
+       creation.map((elem)=>{
+          return (
+          <CardCreations
+            key={elem.product_id}
+            product={elem.product.name}
+               image={elem.image}
+               name={elem.name}
+               user={elem.Users.name}
+               price={elem.price}
+             />)
+          
+        }
+         
           
          
          )}
