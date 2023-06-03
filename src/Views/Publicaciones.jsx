@@ -16,7 +16,8 @@ export default function Publicaciones() {
   useEffect(()=>{
       dispatch(getCreations())
   }, [dispatch])
-
+  
+  
   return (
     <div className='flex flex-col items-center justify-start w-full md:px-20'>
    
@@ -41,6 +42,7 @@ export default function Publicaciones() {
           return (
           <CardCreations
             key={elem.product_id}
+            id= {elem.id}
             product={elem.product.name}
                image={elem.image}
                name={elem.name}
