@@ -1,10 +1,23 @@
 import React from 'react'
 import SeacrhBar from '../components/SeacrhBar'
 import Card from '../components/Card'
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCreationDetailByUser } from '../Redux/actions';
 
 function Creaciones() {
   
+  const {id} = useParams();
+  console.log(id);
+  const dispatch = useDispatch();
+  ;
+  const creation = useSelector((state) => state.yourCreations);
 
+ useEffect(() => {
+  dispatch(getCreationDetailByUser(id))
+}, [dispatch]);
+console.log(creation);
+    
   
   return (
     <div className='flex flex-col items-center justify-start w-full md:px-20'>
