@@ -115,19 +115,31 @@ export const putProducts = (id, payload) => {
   };
 };
 
-// USER --> ok -> TRUE - NO ->> USUARIO
+// USER --> ok -> TRUE - NO ->> USUARIO 
 //Login GOOGLE
+
+//necesitamos que si viene de register (importante filtrar solo por register) y ademas esta duplicado al consultar
+//en el back devolve una nueva propiedad que se llame duplicated y que sea true
+//podes enviar duplicated de uktina en false si no lo esta 
 export const postRegisterUser = (payload) => {
-  console.log('::payload:',payload);
+  //console.log('::payload:',payload);
   return async function (dispatch) {
     try {
       const post = await axios.post(`http://localhost:3001/users`, payload);
-      // console.log(post.data);
-      console.log("--->", post.data);
-      localStorage.setItem("email", post.data.email);
-      localStorage.setItem("id", post.data.id);
-      
-      return post.data;
+      //console.log("--->", post.data);
+
+       
+      if(post.data.root === "register" && !post.data.uid){
+         alert("el se creo correctamente ")
+      }else{
+ // console.log(post.data);
+ 
+ localStorage.setItem("email", post.data.email);
+ localStorage.setItem("id", post.data.id);
+ localStorage.setItem("name", post.data.name);
+ return post.data;
+      }
+     
     } catch (error) {
       alert(`Message ${REGISTER_USER}:`, error);
     }
@@ -152,11 +164,12 @@ export const postLoginUser = (payload) => {
       //   return alert('El usuario ya existente, Redi')
       // }
       // console.log("=>>>>>",response.data.validCredentials);
-      if (response.data.email && response.data.id) {
+      if (response.data.email && response.data.id && response.data.name) {
         // Autenticación exitosa
         // Puedes realizar acciones adicionales aquí, como guardar el token de autenticación en el estado global
         localStorage.setItem("email", response.data.email);
         localStorage.setItem("id", response.data.id);
+        localStorage.setItem("name", response.data.name);
         // y redireccionar al usuario al home
         dispatch({ type: LOGIN_SUCCESS });
         return { success: true,email:response.data.email, id:response.data.id };
