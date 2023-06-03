@@ -2,6 +2,7 @@ import { DELETE_PRODUCTS,
         GET_COMPONENTS, 
         GET_CREATIONS, 
         GET_CREATIONS_BY_ID, 
+        GET_CREATIONS_BY_USER, 
         GET_PRODUCTS, 
         LOGIN_SUCCESS, 
         POST_PRODUCTS, 
@@ -57,6 +58,11 @@ const rootReducer = (state = initialState, {type,payload}) => {
                 return{
                     ...state,
                     creationDetail: payload,
+                }
+            case GET_CREATIONS_BY_USER:
+                return {
+                    ...state,
+                    yourCreations: payload,
                 }
                 case LOGIN_SUCCESS:
                  return {
