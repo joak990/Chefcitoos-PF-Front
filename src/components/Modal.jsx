@@ -15,7 +15,7 @@ const Modal = ({ productSelected, onClose }) => {
   const [selectedComponents, setSelectedComponents] = useState([]);
   const [name, setName] = useState('');
   const [isPostable, setIsPostable] = useState(true);
-
+  const userId = localStorage.getItem('id')
   const components_product = [
     {
       id: 1,
@@ -94,7 +94,7 @@ const Modal = ({ productSelected, onClose }) => {
     const components = selectedComponents.map(component => component.id)
     const body = {
       product_id: productSelected.id,
-      users_id: 11, //arreglar usuario
+      users_id: userId, //arreglar usuario
       components,
       name,
       image: "image", //arreglar image
