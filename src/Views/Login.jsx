@@ -67,7 +67,7 @@ function Login() {
 
     dispatch(postLoginUser(form))
       .then((response) => {
-      console.log("adentrooo");
+     // console.log("adentrooo");
       // if (!Object.keys(response)){
       //   navigate("/")
       // }
@@ -94,8 +94,8 @@ useEffect(() => {
       }else{
         const email = localStorage.getItem("email");
         const id = localStorage.getItem("id");
-        console.log('email', email);
-        console.log('id', id);
+        //console.log('email', email);
+        //console.log('id', id);
 
         if (email && id) {
           // Redireccionar automáticamente al Home

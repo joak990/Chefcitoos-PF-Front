@@ -11,7 +11,7 @@ function Register() {
     name: "",
     email: "",
     password: "",
-    type:"user"
+    type:"user",
   });
 
   const handleInputChange = (event) => {
@@ -61,7 +61,7 @@ function Register() {
         password: "",
       });
       dispatch(postRegisterUser(form))
-     alert("El usuario se creo correctamente") 
+ 
       navigate("/")
     }
   };
