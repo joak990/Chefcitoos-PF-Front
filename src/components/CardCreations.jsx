@@ -1,5 +1,6 @@
 import React from "react";
 import RatingStars from "./RatingStars";
+import { Link } from "react-router-dom";
 
 
 
@@ -31,7 +32,13 @@ const CardCreations =(props) => {
             Ordenar ahora
           </button>
         </div>
-       
+        <div className="flex flex-row justify-center mt-4">
+    <Link to={`/detail/${props.id}`}>
+      <button className="cursor-pointer font-bold text-sm text-center text-orange-600">
+        Ver más
+      </button>
+    </Link>
+  </div>
           
         
     

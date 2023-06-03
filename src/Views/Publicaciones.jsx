@@ -52,6 +52,7 @@ export default function Publicaciones() {
           return (
           <CardCreations
             key={elem.product_id}
+            id= {elem.id}
             product={elem.product.name}
                image={elem.image}
                name={elem.name}
