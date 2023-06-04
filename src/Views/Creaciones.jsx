@@ -8,9 +8,10 @@ import CardCreations from '../components/CardCreations';
 
 function Creaciones() {
   
-  //const {id} = useParams();
+  const {id} = useParams();
   const userId = localStorage.getItem('id')
   const dispatch = useDispatch();
+
    let creation = useSelector((state) => state.yourCreations);
    console.log('creation', creation);
 
@@ -56,6 +57,7 @@ function Creaciones() {
           return (
           <CardCreations
             key={elem.product_id}
+            id={elem.id}
             product={elem.product.name}
                image={elem.image}
                name={elem.name}
@@ -71,9 +73,8 @@ function Creaciones() {
        
       
       </div>
-
-      
-    </div>
+</div>
+   
     
   )
 }

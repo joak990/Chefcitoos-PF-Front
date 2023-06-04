@@ -13,7 +13,8 @@ import {
   GET_CREATION_FILTERS,
   GET_CREATION_FILTERS_PRICE,
   GET_PUBLICATION_FILTERS,
-  GET_PUBLICATION_FILTERS_PRICE
+  GET_PUBLICATION_FILTERS_PRICE,
+  CLEAN_DETAIL
 } from "./typeAction";
 
 import axios from "axios";
@@ -49,7 +50,6 @@ export const getCreations = () => {
 };
 
 export const getCreationDetail = (id) => {
-
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/creations/${id}?type=creation`);
@@ -259,3 +259,9 @@ export const getComponents = () => {
     }
   }
  }
+
+ export function cleanDetail(){
+  return {
+    type: CLEAN_DETAIL,
+  }
+}

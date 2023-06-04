@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import logochefcito from "../img/hamburguesafinal.png"
 import { useDispatch, useSelector } from 'react-redux';
-import { getCreationDetail } from '../Redux/actions';
+import { cleanDetail, getCreationDetail } from '../Redux/actions';
 import { useParams } from 'react-router-dom';
 
 
@@ -15,6 +15,9 @@ export default function Detail() {
 
  useEffect(() => {
   dispatch(getCreationDetail(id))
+  return ()=>{
+    dispatch(cleanDetail())
+}
 }, [dispatch]);
 console.log(creation);
     
@@ -24,15 +27,22 @@ console.log(creation);
             <div className='flex flex-col items-center justify-start w-full md:px-20'>
               
         <img className="w-35 h-36 lg:h-96 lg:mb-4 " src={creation?.image} alt="" />
-      
-       <h2>{creation.product?.name}</h2>
-       <h2>{creation?.name}</h2>
-       <h4>{creation.Users?.name} </h4>
-        <h2>Ingredientes</h2>
-        <div>
-            <h1>Comentarios</h1>
-            <p>cndshjfdbssdbfhjfdsfbdhbfsbchgdsvcbdndsvfhjsdfhjfdvhjsdyudfgdsjfjfdvjhdjkvhjdxbjvhjdcdvdvsdcgsdvcgsd</p>
-        </div>
+        <h2 className="text-gray-900 text-2xl font-semibold">{creation?.name}</h2>
+       <h2 className="text-gray-900 text-md font-semibold">{creation.product?.name}</h2>
+       <h4 className="text-gray-900 text-sm font-semibold">{creation.Users?.name} </h4>
+        <h6 className='text-gray-900 font-bold text-center text-5xl mt-6 mb-6'>Ingredientes</h6>
+        <h3 className= "capitalize">
+        {creation &&
+        creation.componentNames?.map((elem)=>{
+          return (
+            
+            `- ${elem } ` 
+            )
+        })}
+
+        </h3>
+       
+       
             </div>
         
     
