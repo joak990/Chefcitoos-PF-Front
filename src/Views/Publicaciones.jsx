@@ -16,7 +16,10 @@ function Publicaciones() {
    console.log('::::AllPublications:::', allCreations);
 
  useEffect(() => {
-  dispatch(getCreations())
+  if(allCreations.length <= 0){
+    dispatch(getCreations())
+  }
+
 }, [dispatch]);
 
 

@@ -16,7 +16,10 @@ function Creaciones() {
    console.log('::::creation::::', creation);
 
  useEffect(() => {
-  dispatch(getCreationDetailByUser(userId))
+  if(creation.length <0){
+    dispatch(getCreationDetailByUser(userId))
+  }
+
 }, [dispatch]);
 
 
@@ -40,12 +43,12 @@ function Creaciones() {
       <SeacrhBar></SeacrhBar>
       </div>
       <div class="space-x-4">
-      <button value="Todas" onClick={HandleButton} className="bg-orange-600 w-36 h-12 text-white rounded-xl font-bold mt-6">Todas</button>
-      <button value="Burgers" onClick={HandleButton} className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6">Hamburguesa</button>
-      <button value="HotDogs" onClick={HandleButton}className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6">Perro Caliente</button>
-      <button value="Sandwitch" onClick={HandleButton}className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6">Sandwich</button>
-      <button value="Burrito"  onClick={HandleButton}className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6">Burrito</button>
-      <select onChange={HandlePrice} defaultValue={"DEFAULT"} className="bg-gray-300 mr-3 w-36 h-12 text-black rounded-xl font-bold  mt-6"> Precio
+      <button value="Todas" onClick={HandleButton} className="bg-orange-600 w-36 h-12 text-white rounded-xl font-bold mt-6 ">Todas</button>
+      <button value="Burgers" onClick={HandleButton} className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6 hover:bg-orange-600 hover:text-white">Hamburguesa</button>
+      <button value="HotDogs" onClick={HandleButton}className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6  hover:bg-orange-600 hover:text-white">Perro Caliente</button>
+      <button value="Sandwitch" onClick={HandleButton}className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6  hover:bg-orange-600 hover:text-white">Sandwich</button>
+      <button value="Burrito"  onClick={HandleButton}className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6  hover:bg-orange-600 hover:text-white">Burrito</button>
+      <select onChange={HandlePrice} defaultValue={"DEFAULT"} className="bg-gray-300 mr-3 w-36 h-12 text-black rounded-xl font-bold  mt-6  hover:bg-orange-600 hover:text-white"> Precio
         <option value="DEFAULT" disabled className="text-center">Precio</option>
         <option value="desc">Menor Pecio</option>
         <option value="asc">Mayor Precio</option>
