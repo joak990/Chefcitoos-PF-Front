@@ -59,7 +59,7 @@ const rootReducer = (state = initialState, {type,payload}) => {
                 return {
                     ...state,
                     allCreations :payload,
-
+                   
                 }
             case GET_CREATIONS_BY_ID:
                 return{
@@ -101,7 +101,7 @@ const rootReducer = (state = initialState, {type,payload}) => {
             case GET_PUBLICATION_FILTERS_PRICE:
                 return {
                     ...state,
-                    allCreations:[...payload]
+                    allCreations:payload
                 }
                 case CLEAN_DETAIL:
                     return{

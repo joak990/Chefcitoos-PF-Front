@@ -49,7 +49,8 @@ export const getCreations = () => {
   };
 };
 
-export const getCreationDetail = (id) => {
+
+export const  getCreationDetail = (id) => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/creations/myCreations/${id}?type=creation`);
@@ -63,6 +64,8 @@ export const getCreationDetail = (id) => {
     }
   };
 };
+
+
 //todas las creaciones del usuario
 export const getCreationDetailByUser = (id) => {
   console.log('id',id);
@@ -79,6 +82,7 @@ export const getCreationDetailByUser = (id) => {
     }
   };
 };
+
 
 export const deleteProducts = (id) => {
   return async function (dispatch) {
@@ -218,6 +222,19 @@ export const getComponents = () => {
   }
  }
 
+ export const getPublicacionesFilters = (TypeProducts) => {
+  return async function (dispatch){
+    try {
+      const json = await axios.get(`http://localhost:3001/creations/posts?filterName=typeProduct${TypeProducts}`)
+      return dispatch ({
+        type : GET_PUBLICATION_FILTERS,
+        payload : json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_PUBLICATION_FILTERS}:`, error))
+    }
+  }
+ }
  export const getCreationFilterPrice = (TypePrice,id) => {
   return async function (dispatch){
     try {
@@ -232,19 +249,6 @@ export const getComponents = () => {
   }
  }
  
- export const getPublicacionesFilters = (TypeProducts) => {
-  return async function (dispatch){
-    try {
-      const json = await axios.get(`http://localhost:3001/creations/posts?filterName=typeProduct${TypeProducts}`)
-      return dispatch ({
-        type : GET_PUBLICATION_FILTERS,
-        payload : json.data,
-      })
-    } catch (error) {
-      alert((`Message ${GET_PUBLICATION_FILTERS}:`, error))
-    }
-  }
- }
 
  export const getPublicacionesFilterPrice = (TypePrice) => {
   return async function (dispatch){

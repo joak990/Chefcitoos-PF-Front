@@ -54,6 +54,7 @@ function Creaciones() {
       <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6 mt-5'>
       {creation &&
        creation.map((elem)=>{
+        console.log('creacionesssss',elem)
           return (
           <CardCreations
             key={elem.product_id}
