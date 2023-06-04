@@ -13,10 +13,13 @@ function Publicaciones() {
   const dispatch = useDispatch();
 
    let allCreations = useSelector((state) => state.allCreations);
-  //  console.log('creation', creation);
+   console.log('::::AllPublications:::', allCreations);
 
  useEffect(() => {
-  dispatch(getCreations())
+  if(allCreations.length <= 0){
+    dispatch(getCreations())
+  }
+
 }, [dispatch]);
 
 
@@ -47,8 +50,8 @@ function Publicaciones() {
     <button value="Burrito"onClick={HandleButton}className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6">Burrito</button>
     <select onChange={HandlePrice} defaultValue={"DEFAULT"} className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6"> Precio
       <option value="DEFAULT" disabled className="text-center">Precio</option>
-      <option value="priceDesc">Menor Pecio</option>
-      <option value="priceAsc">Mayor Precio</option>
+      <option value="desc">Menor Pecio</option>
+      <option value="asc">Mayor Precio</option>
     </select>
     </div>
     <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6'>

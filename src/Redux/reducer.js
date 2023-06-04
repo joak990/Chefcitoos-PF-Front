@@ -24,6 +24,7 @@ const initialState = {
     creationDetail: {},
     isAuthenticated: false,
     components: [],
+    yourCreationsprice: []
     
 }
 
@@ -83,25 +84,67 @@ const rootReducer = (state = initialState, {type,payload}) => {
                     components: [...payload],
                 };
             case GET_CREATION_FILTERS:
+                
                 return {
                     ...state,
-                    yourCreations: payload
+                    yourCreations: payload,
+                    yourCreationsprice: payload
                 }
-            case GET_CREATION_FILTERS_PRICE:
-                return {
-                    ...state,
-                    yourCreations:payload
-                }
+            
+                case GET_CREATION_FILTERS_PRICE:
+                    let sorteCreation2 = payload === "desc" ? 
+                    state.yourCreations.sort(function (a,b) {
+                        if(a.price > b.price) {
+                            return 1;
+                        }
+                        if (b.price > a.price) {
+                            return -1;
+                        }
+                        return 0
+                    }) : 
+                    state.yourCreations.sort(function (a,b) {
+                        if(a.price > b.price) {
+                            return -1;
+                        }
+                        if (b.price > a.price) {
+                            return 1;
+                        }
+                        return 0
+                    })
+                    return {
+                      ...state,
+                      yourCreations: [...sorteCreation2],
+                    };
+                    
             case GET_PUBLICATION_FILTERS:
                 return {
                     ...state,
-                    allCreations:payload
+                    allCreations: payload
                     
                 }
             case GET_PUBLICATION_FILTERS_PRICE:
+                let sortePubli = payload === "desc" ? 
+                state.allCreations.sort(function (a,b) {
+                    if(a.price > b.price) {
+                        return 1;
+                    }
+                    if (b.price > a.price) {
+                        return -1;
+                    }
+                    return 0
+                }) : 
+                state.allCreations.sort(function (a,b) {
+                    if(a.price > b.price) {
+                        return -1;
+                    }
+                    if (b.price > a.price) {
+                        return 1;
+                    }
+                    return 0
+                })
                 return {
                     ...state,
-                    allCreations:payload
+                    allCreations:[...sortePubli]
                 }
                 case CLEAN_DETAIL:
                     return{
