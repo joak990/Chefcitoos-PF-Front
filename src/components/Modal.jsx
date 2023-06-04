@@ -9,14 +9,17 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Modal = ({ productSelected, onClose }) => {
-  console.log('___productSelected___', productSelected);
+  console.log("___productSelected___", productSelected);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const components = useSelector((state) => state.components);
   const [selectedComponents, setSelectedComponents] = useState([]);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [isPostable, setIsPostable] = useState(true);
-  const userId = localStorage.getItem('id')
+  const userId = localStorage.getItem("id");
+  const [errorName, setErrorName] = useState("");
+  const [errorSelectedComponents, setErrorSelectedComponents] = useState("");
+
   const components_product = [
     {
       id: 1,
@@ -39,12 +42,17 @@ const Modal = ({ productSelected, onClose }) => {
   }, []);
 
   const handleNameChange = (event) => {
+    if (event.target.value === "") {
+      setErrorName("El nombre de la creación es requerido.");
+    } else {
+      setErrorName("");
+    }
     setName(event.target.value);
-  }
+  };
 
   const onChangeCheckIsPostable = () => {
     setIsPostable(!isPostable);
-  }
+  };
 
   const IsComponentSelected = (component) => {
     return selectedComponents.some(
@@ -53,14 +61,16 @@ const Modal = ({ productSelected, onClose }) => {
   };
 
   const handlerSelectComponent = (component) => {
-    if (IsComponentSelected(component)) { // unselect
+    if (IsComponentSelected(component)) {
+      // unselect
       setSelectedComponents((selectedComponentsOld) => [
         ...selectedComponentsOld.filter(
           (component_current) => component_current.id !== component.id
         ),
       ]);
     } else {
-      if (isAllowedToAddComponent(component)) //select
+      if (isAllowedToAddComponent(component))
+        //select
         setSelectedComponents((selectedComponentsOld) => [
           ...selectedComponentsOld,
           component,
@@ -92,28 +102,43 @@ const Modal = ({ productSelected, onClose }) => {
   };
 
   const onSaveCreation = () => {
-    const components = selectedComponents.map(component => component.id)
+    if(!name) {
+      setErrorName("El nombre de la creación es requerido.")
+    } else {
+      setErrorName("")
+    }
+
+    if(selectedComponents.length === 0) {
+      setErrorSelectedComponents("Los ingredientes son requeridos.")
+    } else {
+      setErrorSelectedComponents("")
+    }
+
+    if( selectedComponents.length > 0 && name) {
+    const components = selectedComponents.map((component) => component.id);
     const body = {
       product_id: productSelected.id,
       users_id: userId,
       components,
       name,
-      image: productSelected.image, 
+      image: productSelected.image,
       price: productSelected.price,
       isPosted: isPostable,
       purchased_amount: 1,
       isDeleted: false,
-    }
+    };
     console.log(body);
     axios
-        .post('http://localhost:3001/creations', body)
-        .then((response) => {
-          navigate("/creaciones");
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-  }
+      .post("http://localhost:3001/creations", body)
+      .then((response) => {
+        navigate("/creaciones");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
+
+  };
 
   return ReactDOM.createPortal(
     <div
@@ -161,7 +186,10 @@ const Modal = ({ productSelected, onClose }) => {
                   </div>
                   <div className="flex flex-col px-3 ml-4 lg:w-1/2 sm:w-1/2 md:w-1/2 h-[450px] overflow-y-scroll">
                     <p className="text-xs">{productSelected.description}</p>
-                    <div className="flex flex-col mb-1 items-start mt-4">
+                    <div className="flex flex-col mb-1 items-start mt-5">
+                      {errorName && (
+                        <p className="text-red-600 text-sm">{errorName}</p>
+                      )}
                       <input
                         type="text"
                         id="name"
@@ -172,19 +200,24 @@ const Modal = ({ productSelected, onClose }) => {
                       />
                       <label
                         htmlFor="name"
-                        className="block mb-2 text-sm font-medium text-gray-900"
+                        className="block text-sm font-medium text-gray-900"
                       >
                         Nombre
                       </label>
                     </div>
-                    <form className="">
+                    <form className="mt-3">
+                    {errorSelectedComponents && (
+                        <p className="text-red-600 text-sm">{errorSelectedComponents}</p>
+                      )}
                       {components_product.map((component_produc) => (
-                        <div className="mt-4" key={component_produc.id}>
+                        <div className="mt-1" key={component_produc.id}>
                           <div className="flex justify-between">
                             <h5 className="text-md font-bold">
-                              {component_produc.component_categ.name}
-                              {' '}
-                              ({ numberOfComponentsSelectedByCateg(component_produc.component_categ_id) } / {component_produc.amount})
+                              {component_produc.component_categ.name} (
+                              {numberOfComponentsSelectedByCateg(
+                                component_produc.component_categ_id
+                              )}{" "}
+                              / {component_produc.amount})
                             </h5>
                             <span className="text-xs font-bold bg-orange-600 text-white rounded-lg self-center px-1 py-0.5">
                               Requerido
