@@ -37,8 +37,8 @@ export const getProducts = () => {
 export const getCreations = () => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/creations/posts`);
-      // console.log("::json.data:::", json.data);
+      const json = await axios.get(`http://localhost:3001/creations/posts?filterName=isPosted`);
+      
       return dispatch({
         type: GET_CREATIONS,
         payload: json.data,
@@ -207,8 +207,8 @@ export const getComponents = () => {
 };
 //creaciones propias por id 
  export const getCreationFilters = (TypeProducts,id) => {
-  console.log('id',id);
-  console.log('typeProducts', TypeProducts);
+  //console.log('id',id);
+  //console.log('typeProducts', TypeProducts);
   return async function (dispatch){
     try {
       const json = await axios.get(`http://localhost:3001/creations/myCreations/${id}?type=user&filterName=typeProduct${TypeProducts}`)
@@ -235,37 +235,42 @@ export const getComponents = () => {
     }
   }
  }
- export const getCreationFilterPrice = (TypePrice,id) => {
-  return async function (dispatch){
-    try {
-      const json = await axios.get(`http://localhost:3001/creations/${id}?type=user${TypePrice}`)
-      return dispatch ({
-        type : GET_CREATION_FILTERS_PRICE,
-        payload : json.data,
-      })
-    } catch (error) {
-      alert((`Message ${GET_CREATION_FILTERS_PRICE}:`, error))
-    }
+
+ export const getCreationFilterPrice = (payload) => {
+ // console.log('value', payload );
+  return  {
+    type:GET_CREATION_FILTERS_PRICE,
+     payload: payload,  
   }
- }
+}
+
+export const getPublicacionesFilterPrice = (payload) => {
+  //console.log('value', payload );
+  return  {
+    type:GET_PUBLICATION_FILTERS_PRICE,
+     payload: payload,  
+  }
+}
  
 
- export const getPublicacionesFilterPrice = (TypePrice) => {
-  return async function (dispatch){
-    try {
-      const json = await axios.get(`http://localhost:3001/creations/?filterName=${TypePrice}`)
-      return dispatch ({
-        type : GET_PUBLICATION_FILTERS_PRICE,
-        payload : json.data,
-      })
-    } catch (error) {
-      alert((`Message ${GET_PUBLICATION_FILTERS_PRICE}:`, error))
-    }
-  }
- }
+//  export const getPublicacionesFilterPrice = (TypePrice) => {
+//   return async function (dispatch){
+//     try {
+//       const json = await axios.get(`http://localhost:3001/creations/?filterName=${TypePrice}`)
+//       return dispatch ({
+//         type : GET_PUBLICATION_FILTERS_PRICE,
+//         payload : json.data,
+//       })
+//     } catch (error) {
+//       alert((`Message ${GET_PUBLICATION_FILTERS_PRICE}:`, error))
+//     }
+//   }
+//  }
+ 
 
  export function cleanDetail(){
   return {
     type: CLEAN_DETAIL,
   }
 }
+

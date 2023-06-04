@@ -13,7 +13,7 @@ function Creaciones() {
   const dispatch = useDispatch();
 
    let creation = useSelector((state) => state.yourCreations);
-   console.log('creation', creation);
+   console.log('::::creation::::', creation);
 
  useEffect(() => {
   dispatch(getCreationDetailByUser(userId))
@@ -47,17 +47,17 @@ function Creaciones() {
       <button value="Burrito"  onClick={HandleButton}className="bg-gray-300 w-36 h-12 text-black rounded-xl font-bold  mt-6">Burrito</button>
       <select onChange={HandlePrice} defaultValue={"DEFAULT"} className="bg-gray-300 mr-3 w-36 h-12 text-black rounded-xl font-bold  mt-6"> Precio
         <option value="DEFAULT" disabled className="text-center">Precio</option>
-        <option value="priceDesc">Menor Pecio</option>
-        <option value="priceAsc">Mayor Precio</option>
+        <option value="desc">Menor Pecio</option>
+        <option value="asc">Mayor Precio</option>
       </select>
       </div>
       <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6 mt-5'>
       {creation &&
-       creation.map((elem)=>{
-        console.log('creacionesssss',elem)
+       creation.map((elem,index)=>{
+        // console.log('creacionesssss',elem)
           return (
           <CardCreations
-            key={elem.product_id}
+            key={index}
             id={elem.id}
             product={elem.product.name}
                image={elem.image}
