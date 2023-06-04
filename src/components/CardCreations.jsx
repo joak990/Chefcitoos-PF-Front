@@ -37,7 +37,7 @@ const CardCreations =({image,name,user,price,id}) => {
       <button className="cursor-pointer font-bold text-sm text-center text-orange-600">
         Ver más
       </button>
-    </Link>
+    </Link> 
   </div>
           
         
