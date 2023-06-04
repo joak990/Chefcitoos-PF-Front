@@ -13,7 +13,8 @@ import {
   GET_CREATION_FILTERS,
   GET_CREATION_FILTERS_PRICE,
   GET_PUBLICATION_FILTERS,
-  GET_PUBLICATION_FILTERS_PRICE
+  GET_PUBLICATION_FILTERS_PRICE,
+  CLEAN_DETAIL
 } from "./typeAction";
 
 import axios from "axios";
@@ -254,3 +255,9 @@ export const getComponents = () => {
     }
   }
  }
+
+ export function cleanDetail(){
+  return {
+    type: CLEAN_DETAIL,
+  }
+}

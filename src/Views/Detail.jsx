@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import logochefcito from "../img/hamburguesafinal.png"
 import { useDispatch, useSelector } from 'react-redux';
-import { getCreationDetail } from '../Redux/actions';
+import { cleanDetail, getCreationDetail } from '../Redux/actions';
 import { useParams } from 'react-router-dom';
 
 
@@ -15,6 +15,9 @@ export default function Detail() {
 
  useEffect(() => {
   dispatch(getCreationDetail(id))
+  return ()=>{
+    dispatch(cleanDetail())
+}
 }, [dispatch]);
 console.log(creation);
     
