@@ -37,7 +37,7 @@ export const getProducts = () => {
 export const getCreations = () => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/creations`);
+      const json = await axios.get(`http://localhost:3001/creations/posts`);
       // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_CREATIONS,
@@ -63,10 +63,12 @@ export const getCreationDetail = (id) => {
     }
   };
 };
+//todas las creaciones del usuario
 export const getCreationDetailByUser = (id) => {
+  console.log('id',id);
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/creations/${id}?type=user`);
+      const json = await axios.get(`http://localhost:3001/creations/myCreations/${id}?type=user`);
       console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_CREATIONS_BY_USER,
@@ -199,11 +201,13 @@ export const getComponents = () => {
     }
   };
 };
-//http://localhost:3001/creations/?filterName=typeProduct(nombreDelProducto)
- export const getCreationFilters = (TypeProducts) => {
+//creaciones propias por id 
+ export const getCreationFilters = (TypeProducts,id) => {
+  console.log('id',id);
+  console.log('typeProducts', TypeProducts);
   return async function (dispatch){
     try {
-      const json = await axios.get(`http://localhost:3001/creations/?filterName=typeProduct${TypeProducts}`)
+      const json = await axios.get(`http://localhost:3001/creations/myCreations/${id}?type=user&filterName=typeProduct${TypeProducts}`)
       return dispatch ({
         type : GET_CREATION_FILTERS,
         payload : json.data,
@@ -214,10 +218,10 @@ export const getComponents = () => {
   }
  }
 
- export const getCreationFilterPrice = (TypePrice) => {
+ export const getCreationFilterPrice = (TypePrice,id) => {
   return async function (dispatch){
     try {
-      const json = await axios.get(`http://localhost:3001/creations/?filterName=${TypePrice}`)
+      const json = await axios.get(`http://localhost:3001/creations/${id}?type=user${TypePrice}`)
       return dispatch ({
         type : GET_CREATION_FILTERS_PRICE,
         payload : json.data,
@@ -231,7 +235,7 @@ export const getComponents = () => {
  export const getPublicacionesFilters = (TypeProducts) => {
   return async function (dispatch){
     try {
-      const json = await axios.get(`http://localhost:3001/creations/?filterName=typeProduct${TypeProducts}`)
+      const json = await axios.get(`http://localhost:3001/creations/posts?filterName=typeProduct${TypeProducts}`)
       return dispatch ({
         type : GET_PUBLICATION_FILTERS,
         payload : json.data,
