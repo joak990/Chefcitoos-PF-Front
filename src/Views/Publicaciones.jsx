@@ -9,23 +9,25 @@ import { getCreations, getPublicacionesFilters , getPublicacionesFilterPrice } f
 export default function Publicaciones() {
   const userstorage = useUser(); 
   const allCreations = useSelector((state) => state.allCreations);
- 
- 
-  const dispatch = useDispatch();
+const dispatch = useDispatch();
 
-  useEffect(()=>{
-      dispatch(getCreations())
-  }, [dispatch])
+useEffect(()=>{
+    
+  dispatch(getCreations())
+  }, [dispatch,])
 
   const HandleButton = (event) => {
     const value = event.target.value;
-    console.log(value);
-    dispatch(getPublicacionesFilters(value))
+   
+    dispatch(getPublicacionesFilters(value)
+    )
+  
   }
 
   const HandlePrice = (event)=>{
     const value = event.target.value
     dispatch(getPublicacionesFilterPrice(value))
+
   }
   
   return (
@@ -47,7 +49,8 @@ export default function Publicaciones() {
     </select>
     </div>
     <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6'>
-        {allCreations&&
+        {
+        allCreations&&
         allCreations.map((elem)=>{
           return (
           <CardCreations

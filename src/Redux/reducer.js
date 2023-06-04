@@ -23,9 +23,11 @@ const initialState = {
     creationDetail: {},
     isAuthenticated: false,
     components: [],
+    
 }
 
 const rootReducer = (state = initialState, {type,payload}) => {
+   
     switch (type) {
         case GET_PRODUCTS:
             return {
@@ -55,7 +57,8 @@ const rootReducer = (state = initialState, {type,payload}) => {
             case GET_CREATIONS:
                 return {
                     ...state,
-                    allCreations : [...payload],
+                    allCreations :payload,
+
                 }
             case GET_CREATIONS_BY_ID:
                 return{
@@ -69,6 +72,7 @@ const rootReducer = (state = initialState, {type,payload}) => {
                 }
             case LOGIN_SUCCESS:
                 return {
+                    
                     ...state,
                     isAuthenticated: true,
                 };
@@ -80,22 +84,23 @@ const rootReducer = (state = initialState, {type,payload}) => {
             case GET_CREATION_FILTERS:
                 return {
                     ...state,
-                    yourCreations: [...payload]
+                    yourCreations: payload
                 }
             case GET_CREATION_FILTERS_PRICE:
                 return {
                     ...state,
-                    yourCreations: [...payload]
+                    yourCreations:payload
                 }
             case GET_PUBLICATION_FILTERS:
                 return {
                     ...state,
-                    allCreations: [...payload]
+                    allCreations:payload
+                    
                 }
             case GET_PUBLICATION_FILTERS_PRICE:
                 return {
                     ...state,
-                    allCreations: [...payload]
+                    allCreations:[...payload]
                 }
         default:
             return {...state}
