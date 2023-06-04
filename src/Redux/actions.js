@@ -52,7 +52,7 @@ export const getCreations = () => {
 export const getCreationDetail = (id) => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/creations/${id}?type=creation`);
+      const json = await axios.get(`http://localhost:3001/creations/myCreations/${id}?type=creation`);
       console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_CREATIONS_BY_ID,
