@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 
 
-const CardCreations =({image,name,user,price}) => {
+const CardCreations =({image,name,user,price,id}) => {
     
 
   return (
@@ -33,7 +33,7 @@ const CardCreations =({image,name,user,price}) => {
           </button>
         </div>
         <div className="flex flex-row justify-center mt-4">
-    <Link to={`/detail/${props.id}`}>
+    <Link to={`/detail/${id}`}>
       <button className="cursor-pointer font-bold text-sm text-center text-orange-600">
         Ver más
       </button>
