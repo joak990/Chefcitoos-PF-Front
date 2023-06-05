@@ -40,7 +40,7 @@ function Creaciones() {
     <div className='flex flex-col items-center justify-start w-full md:px-20'>
       <h3 className='text-gray-900 font-bold text-5xl mt-6 mb-6'>Tus Creaciones</h3>
       <div className='flex flex-row flex-wrap p-5'>
-      <SeacrhBar></SeacrhBar>
+      <SeacrhBar type="creations"></SeacrhBar>
       </div>
       <div class="space-x-4">
       <button value="Todas" onClick={HandleButton} className="bg-orange-600 w-36 h-12 text-white rounded-xl font-bold mt-6 ">Todas</button>

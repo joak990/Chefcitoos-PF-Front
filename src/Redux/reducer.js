@@ -160,6 +160,12 @@ const rootReducer = (state = initialState, {type,payload}) => {
                         yourCreations: payload,
                     }
 
+                    case GET_PUBLICATION_BY_NAME:
+                        return{
+                            ...state,
+                            allCreations: payload,
+                        }
+
                    
         default:
             return {...state}
