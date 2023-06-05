@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '../useUser';
 import { useDispatch, useSelector } from 'react-redux';
 import CardCreations from '../components/CardCreations';
 import { getCreations, getPublicacionesFilters, getPublicacionesFilterPrice } from '../Redux/actions';
 import SeacrhBar from '../components/SeacrhBar';
+import { Pagination } from '../components/Pagination';
 
 
 
@@ -15,6 +16,10 @@ function Publicaciones() {
 
    let allCreations = useSelector((state) => state.allCreations);
    console.log('::::AllPublications:::', allCreations);
+
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(9);
+  const maxPage =  Math.ceil (allCreations.length / perPage);
 
  useEffect(() => {
   if(allCreations.length <= 0){
@@ -62,7 +67,10 @@ function Publicaciones() {
     <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6'>
         {
         allCreations&&
-        allCreations.map((elem,index)=>{
+        allCreations.slice(
+          (page - 1) * perPage,
+          (page - 1) * perPage + perPage
+        ).map((elem,index)=>{
           return (
           <CardCreations
             key={index}
@@ -73,17 +81,10 @@ function Publicaciones() {
                user={elem.Users.name}
                price={elem.price}
              />)
-
         }
-
-
-
          )}
-
-
       </div>
-
-
+      {allCreations.length > 0 && <Pagination page={page} setPage={setPage} maxPage={maxPage} />}
   </div>
   )
 }
