@@ -1,24 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SeacrhBar from '../components/SeacrhBar'
 import Card from '../components/Card'
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCreationDetailByUser , getCreationFilters , getCreationFilterPrice} from '../Redux/actions';
+import { getCreationDetailByUser , getCreationFilters , getCreationFilterPrice, pageCreations} from '../Redux/actions';
 import CardCreations from '../components/CardCreations';
+import { Pagination } from '../components/Pagination';
 
 function Creaciones() {
   
   const {id} = useParams();
   const userId = localStorage.getItem('id')
   const dispatch = useDispatch();
+  let creation = useSelector((state) => state.yourCreations);
+  let page = useSelector((state) => state.numPageCreations);
 
-   let creation = useSelector((state) => state.yourCreations);
+  // const [page, setPage] = useState(1);
+
+  const [perPage, setPerPage] = useState(9);
+  const maxPage =  Math.ceil (creation.length / perPage);
+
    console.log('::::creation::::', creation);
 
  useEffect(() => {
-  if(creation.length <=0){
     dispatch(getCreationDetailByUser(userId))
-  }
 
 }, [dispatch]);
 
@@ -56,8 +61,10 @@ function Creaciones() {
       </div>
       <div  className='flex flex-row flex-wrap justify-center gap-8 pb-6 mt-5'>
       {creation &&
-       creation.map((elem,index)=>{
-        // console.log('creacionesssss',elem)
+       creation.slice(
+        (page - 1) * perPage,
+        (page - 1) * perPage + perPage
+      ).map((elem,index)=>{
           return (
           <CardCreations
             key={index}
@@ -69,14 +76,10 @@ function Creaciones() {
                price={elem.price}
              />)
           
-        }
-         
-          
-         
-         )}
-       
-      
+        }       
+         )} 
       </div>
+      {creation.length > 0 && <Pagination action={pageCreations} page={page} maxPage={maxPage} />}
 </div>
    
     

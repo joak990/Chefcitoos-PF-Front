@@ -181,7 +181,7 @@ const Modal = ({ productSelected, onClose }) => {
                       alt=""
                     />
                     <h5 className="text-xl font-bold leading-6 text-orange-600 py-4 text-center">
-                      $20000
+                      ${productSelected.price}
                     </h5>
                   </div>
                   <div className="flex flex-col px-3 ml-4 lg:w-1/2 sm:w-1/2 md:w-1/2 h-[450px] overflow-y-scroll">

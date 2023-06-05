@@ -16,7 +16,11 @@ import {
   GET_PUBLICATION_FILTERS_PRICE,
   CLEAN_DETAIL,
   GET_CREATION_BY_NAME,
-  GET_PUBLICATION_BY_NAME
+  GET_PUBLICATION_BY_NAME,
+  NUM_PAGE_CREATION,
+  NUM_PAGE_PUBLICATION,
+  CLEAN_YOUR_CREATIONS,
+  CLEAN_PUBLICATIONS
 } from "./typeAction";
 
 import axios from "axios";
@@ -305,3 +309,28 @@ export const getPublicationName = (name) => {
     }
   };
 };
+
+export const pageCreations = (value) => {
+  return {
+    type : NUM_PAGE_CREATION, 
+    payload : value,
+  }
+}
+
+export const pagePublications = (value) => {
+  return {
+    type : NUM_PAGE_PUBLICATION,
+    payload : value
+  }
+}
+
+export function cleanYourCreations(){
+  return {
+    type: CLEAN_YOUR_CREATIONS,
+  }
+}
+export function cleanPublications(){
+  return {
+    type: CLEAN_PUBLICATIONS,
+  }
+}

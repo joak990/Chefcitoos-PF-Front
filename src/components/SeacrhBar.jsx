@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getCreationByName, getPublicationName } from '../Redux/actions';
+import { cleanPublications, cleanYourCreations, getCreationByName, getCreationDetailByUser, getPublicationName, pageCreations, pagePublications } from '../Redux/actions';
 
 export default function SeacrhBar({type}) {
 
@@ -13,21 +13,28 @@ export default function SeacrhBar({type}) {
 }
 function handleSearch(){
   if (type == 'creations') {
-    dispatch(getCreationByName(userId, name))
+    dispatch(cleanYourCreations());
+    dispatch(getCreationByName(userId, name));
+    dispatch(pageCreations(1));
   }
  else {
-  dispatch(getPublicationName(name))
+  dispatch(cleanPublications());
+  dispatch(getPublicationName(name));
+  dispatch(pagePublications(1));
 
  }
 }
 const handleKeyUp = (event) => {
   if ( event.keyCode === 13 || event.charCode === 13 ) {
     if (type == 'creations') {
+      dispatch(cleanYourCreations());
       dispatch(getCreationByName(userId, name))
+      dispatch(pageCreations(1));
     }
    else {
-    dispatch(getPublicationName(name))
-  
+    dispatch(cleanPublications());
+    dispatch(getPublicationName(name));
+    dispatch(pagePublications(1));
    }
    
   }
@@ -38,7 +45,7 @@ const handleKeyUp = (event) => {
 
   return (
     <div class="space-x-4">
-      <input  type="text" placeholder="Encuentra tu plato" class="border border-gray-300 px-4 py-2"  onKeyUp={handleKeyUp}onChange={(e)=>handleInputChange(e)}></input>
+      <input  type="text" placeholder="Encuentra tu plato" className="border border-gray-300 px-4 py-2"  onKeyUp={handleKeyUp}onChange={(e)=>handleInputChange(e)}></input>
       <button type="submit" className="bg-orange-600 w-20 h-10 text-white rounded-xl font-bold mt-6" onClick = {handleSearch}>Buscar</button>
     </div>
   )
