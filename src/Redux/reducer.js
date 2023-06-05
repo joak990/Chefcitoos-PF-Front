@@ -12,7 +12,9 @@ import { DELETE_PRODUCTS,
         GET_CREATION_FILTERS_PRICE,
         GET_PUBLICATION_FILTERS,
         GET_PUBLICATION_FILTERS_PRICE,
-        CLEAN_DETAIL
+        CLEAN_DETAIL,
+        GET_CREATION_BY_NAME,
+        GET_PUBLICATION_BY_NAME
     } from "./typeAction";
 
 const initialState = {
@@ -152,6 +154,13 @@ const rootReducer = (state = initialState, {type,payload}) => {
                       creationDetail: {}
           
                     };
+                case GET_CREATION_BY_NAME:
+                    return{
+                        ...state,
+                        yourCreations: payload,
+                    }
+
+                   
         default:
             return {...state}
     }

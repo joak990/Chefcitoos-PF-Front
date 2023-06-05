@@ -16,7 +16,7 @@ function Creaciones() {
    console.log('::::creation::::', creation);
 
  useEffect(() => {
-  if(creation.length <0){
+  if(creation.length <=0){
     dispatch(getCreationDetailByUser(userId))
   }
 

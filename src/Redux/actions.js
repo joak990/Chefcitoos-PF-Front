@@ -14,7 +14,9 @@ import {
   GET_CREATION_FILTERS_PRICE,
   GET_PUBLICATION_FILTERS,
   GET_PUBLICATION_FILTERS_PRICE,
-  CLEAN_DETAIL
+  CLEAN_DETAIL,
+  GET_CREATION_BY_NAME,
+  GET_PUBLICATION_BY_NAME
 } from "./typeAction";
 
 import axios from "axios";
@@ -273,4 +275,25 @@ export const getPublicacionesFilterPrice = (payload) => {
     type: CLEAN_DETAIL,
   }
 }
+
+export const getCreationByName = (id, name )=> {
+  console.log("---------->>", id, name);
+  return async function(dispatch){
+    try {
+      const json = await axios.get(`http://localhost:3001/searchBar/${id}?productName=${name}`)
+     return dispatch({
+        type: GET_CREATION_BY_NAME,
+        payload: json.data
+      })
+      
+    } catch (error) {
+      alert(`Message ${GET_CREATION_BY_NAME}:`, error);
+      
+    }
+     
+    }
+  }
+
+
+  
 
