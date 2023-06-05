@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useUser } from '../useUser';
 import { useDispatch, useSelector } from 'react-redux';
 import CardCreations from '../components/CardCreations';
-import { getCreations, getPublicacionesFilters, getPublicacionesFilterPrice } from '../Redux/actions';
+import { getCreations, getPublicacionesFilters, getPublicacionesFilterPrice, pagePublications } from '../Redux/actions';
 import SeacrhBar from '../components/SeacrhBar';
 import { Pagination } from '../components/Pagination';
 
@@ -15,9 +15,9 @@ function Publicaciones() {
   const dispatch = useDispatch();
 
    let allCreations = useSelector((state) => state.allCreations);
+   let page = useSelector((state) => state.numPagePublications);
    console.log('::::AllPublications:::', allCreations);
 
-  const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(9);
   const maxPage =  Math.ceil (allCreations.length / perPage);
 
@@ -84,7 +84,7 @@ function Publicaciones() {
         }
          )}
       </div>
-      {allCreations.length > 0 && <Pagination page={page} setPage={setPage} maxPage={maxPage} />}
+      {allCreations.length > 0 && <Pagination action={pagePublications} page={page} maxPage={maxPage} />}
   </div>
   )
 }

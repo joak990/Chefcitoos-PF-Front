@@ -3,7 +3,7 @@ import SeacrhBar from '../components/SeacrhBar'
 import Card from '../components/Card'
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCreationDetailByUser , getCreationFilters , getCreationFilterPrice} from '../Redux/actions';
+import { getCreationDetailByUser , getCreationFilters , getCreationFilterPrice, pageCreations} from '../Redux/actions';
 import CardCreations from '../components/CardCreations';
 import { Pagination } from '../components/Pagination';
 
@@ -13,8 +13,10 @@ function Creaciones() {
   const userId = localStorage.getItem('id')
   const dispatch = useDispatch();
   let creation = useSelector((state) => state.yourCreations);
+  let page = useSelector((state) => state.numPageCreations);
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
+
   const [perPage, setPerPage] = useState(9);
   const maxPage =  Math.ceil (creation.length / perPage);
 
@@ -77,7 +79,7 @@ function Creaciones() {
         }       
          )} 
       </div>
-      {creation.length > 0 && <Pagination page={page} setPage={setPage} maxPage={maxPage} />}
+      {creation.length > 0 && <Pagination action={pageCreations} page={page} maxPage={maxPage} />}
 </div>
    
     
