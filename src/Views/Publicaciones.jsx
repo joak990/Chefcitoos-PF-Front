@@ -3,6 +3,7 @@ import { useUser } from '../useUser';
 import { useDispatch, useSelector } from 'react-redux';
 import CardCreations from '../components/CardCreations';
 import { getCreations, getPublicacionesFilters, getPublicacionesFilterPrice } from '../Redux/actions';
+import SeacrhBar from '../components/SeacrhBar';
 
 
 
@@ -40,6 +41,7 @@ function Publicaciones() {
     <div className='flex flex-col items-center justify-start w-full md:px-20'>
 
     <h3 className='text-gray-900 font-bold text-4xl mt-6 mb-6'>Explora y conoce nuestra comunidad</h3>
+    
     <div className='flex flex-row flex-wrap p-5'>
     </div>
     <div class="space-x-4">
