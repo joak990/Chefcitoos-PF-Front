@@ -276,24 +276,32 @@ export const getPublicacionesFilterPrice = (payload) => {
   }
 }
 
-export const getCreationByName = (id, name )=> {
-  console.log("---------->>", id, name);
-  return async function(dispatch){
+export const getCreationByName = (id, name) => {
+  return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/searchBar/${id}?productName=${name}`)
-     return dispatch({
+      const json = await axios.get(`http://localhost:3001/searchBar/${id}?productName=${name}`);
+      console.log("::json.data:::", json.data);
+      return dispatch({
         type: GET_CREATION_BY_NAME,
-        payload: json.data
-      })
-      
+        payload: json.data,
+      });
     } catch (error) {
       alert(`Message ${GET_CREATION_BY_NAME}:`, error);
-      
     }
-     
+  };
+};
+
+export const getPublicationName = (name) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`http://localhost:3001/searchBar/?productName=${name}`);
+      console.log("::json.data:::", json.data);
+      return dispatch({
+        type: GET_PUBLICATION_BY_NAME,
+        payload: json.data,
+      });
+    } catch (error) {
+      alert(`Message ${GET_PUBLICATION_BY_NAME}:`, error);
     }
-  }
-
-
-  
-
+  };
+};

@@ -39,6 +39,9 @@ function Publicaciones() {
   
   return (
     <div className='flex flex-col items-center justify-start w-full md:px-20'>
+      <div className='flex flex-row flex-wrap p-5'>
+      <SeacrhBar type= "posts"></SeacrhBar>
+      </div>
 
     <h3 className='text-gray-900 font-bold text-4xl mt-6 mb-6'>Explora y conoce nuestra comunidad</h3>
     
