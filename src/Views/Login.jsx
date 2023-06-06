@@ -116,13 +116,16 @@ useEffect(() => {
   const handleLogin = async () => {
     await setPersistence(firebaseAuth, browserSessionPersistence);
     const response = await signInWithPopup(firebaseAuth, provider);
+    
     const datauser = {
       name: response.user.displayName,
       email: response.user.email,
       uid: response.user.uid,
       type: "user",
     };
+ 
     dispatch(postRegisterUser(datauser));
+    
   };
 
   return (
@@ -141,6 +144,18 @@ useEffect(() => {
             <div className=" flex items-center justify-center items-center"></div>
             Sign in with Google
           </button>
+        </div>
+    
+        <div className="mb-6 lg:ml-4">
+        <Link to="/home">
+          <button
+            
+            className="bg-gray-400 w-56 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          >
+            <div className=" flex items-center justify-center items-center"></div>
+            Ingresa como invitado
+          </button>
+          </Link>
         </div>
         <p className="text-center">ingresa con email</p>
         <div className="flex flex-col mb-6">
