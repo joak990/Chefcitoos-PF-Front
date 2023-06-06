@@ -14,20 +14,24 @@ const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userorigin, setUserOrigin] = useState(null);
   const [name, setName] = useState('');
-  
+  const [storedEmail, setStoredEmail] = useState('');
   useEffect(() => {
-    const storedName = localStorage.getItem('name');
+    const storedName = localStorage.getItem("name");
     setName(storedName);
+    const storedEmail = localStorage.getItem("email");
+    setStoredEmail(storedEmail);
   }, []);
-  // Estado del usuario
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
+  console.log(storedEmail);
+ const isIdInLocalStorage = localStorage.getItem("id");
   const navigate = useNavigate();
   const firebaseAuth = getAuth(app);
   const user = firebaseAuth.currentUser;
-
+console.log(isIdInLocalStorage );
+ 
   const handleLogout = async () => {
     try {
       await signOut(firebaseAuth);
@@ -40,7 +44,10 @@ const Nav = () => {
       console.log("Error al hacer logout:", error);
     }
   };
-  // const userstorage = useUser();
+
+  const handleregister =()=>{
+navigate("/register")
+  }
 
   return (
     
@@ -103,6 +110,7 @@ const Nav = () => {
           >
             Menú
           </Link>
+          {(user || isIdInLocalStorage) && (
           <Link
             to="/creaciones"
             className={`text-md font-semibold leading-6 text-gray-900 hover:text-orange-600 hover:border-b-2 border-orange-600 ${
@@ -113,6 +121,7 @@ const Nav = () => {
           >
             Creaciones
           </Link>
+          )}
           <Link
             to="/publicaciones"
             className={`text-md font-semibold leading-6 text-gray-900 hover:text-orange-600 hover:border-b-2 border-orange-600 ${
@@ -135,28 +144,39 @@ const Nav = () => {
             Nosotros
           </Link>
         </div>
-
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <div className="bg-white rounded-full flex justify-center items-center mr-4 w-12">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </div>
-          <button
-            onClick={handleLogout}
-            className="bg-orange-600 w-28 h-12 text-white rounded-xl font-bold mr-4"
-          >
-            Logout
-          </button>
           
-          <div className="bg-gray-200 rounded-full flex justify-center items-center w-12">
-            {
-              user ?  <img
-              className="rounded-full"
-              src={user && user.photoURL}
-              alt=""
-            />: <FontAwesomeIcon icon={faUser} />
-            }
-           
-          </div>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          {user || isIdInLocalStorage ? (
+            <>
+              <div className="bg-white rounded-full flex justify-center items-center mr-4 w-12">
+                <FontAwesomeIcon icon={faShoppingCart} />
+              </div>
+              <button
+                onClick={handleLogout}
+                className="bg-orange-600 w-28 h-12 text-white rounded-xl font-bold mr-4"
+              >
+                Logout
+              </button>
+              <div className="bg-gray-200 rounded-full flex justify-center items-center w-12">
+                {user ? (
+                  <img
+                    className="rounded-full"
+                    src={user && user.photoURL}
+                    alt=""
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faUser} />
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <button onClick={handleregister} className="bg-orange-600 w-28 h-12 text-white rounded-xl font-bold mr-4">
+                Registrarse
+              </button>
+             
+            </>
+          )}
         </div>
       </nav>
       {/* Mobile menu */}
@@ -215,12 +235,15 @@ const Nav = () => {
                   >
                     Menú
                   </a>
-                  <a
-                    href="/creaciones"
-                    className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
-                  >
-                    Creaciones
-                  </a>
+                  
+                  {user || isIdInLocalStorage ? (
+                    <a
+                      href="/creaciones"
+                      className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
+                    >
+                      Creaciones
+                    </a>
+                  ) : null}
                   <a
                     href="/publicaciones"
                     className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
@@ -233,12 +256,19 @@ const Nav = () => {
                   >
                     Nosotros
                   </a>
-                  <a
-                href="/"
-                className="-mx-3 block rounded-lg px-3 py-2.5 text-base ml-3 font-semibold leading-7 text-gray-900 hover:bg-red-400"
-              >
-                Logout
-              </a>
+                  {user || isIdInLocalStorage ? (
+                    <a
+                      href="/creaciones"
+                      className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
+                    >
+                      Creaciones
+                    </a>
+                  ) :  <a
+                  href="/register"
+                  className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
+                >
+                  Registrarse
+                </a>}
             
                 </div>
               </div>

@@ -154,6 +154,7 @@ export const postRegisterUser = (payload) => {
       localStorage.setItem("email", post.data.email);
       localStorage.setItem("id", post.data.id);
       localStorage.setItem("name", post.data.name);
+      console.log(post.data.email);
       return post.data;
      }     
     } catch (error) {

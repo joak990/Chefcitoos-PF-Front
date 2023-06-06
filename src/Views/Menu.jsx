@@ -40,9 +40,10 @@ function Menu() {
                       key={product.id}
                       product={product}
                       onOrderProduct={ () => setProductSelected(product)}
+              
                     />
                   );
-              })}
+              })}   
           </div>
         </div>
         <div>
@@ -58,9 +59,10 @@ function Menu() {
                       key={product.id}
                       product={product}
                       onOrderProduct={ () => setProductSelected(product)}
+                     
                     />
                   );
-              })}
+              })} 
           </div>
         </div>
         <div>
@@ -76,6 +78,7 @@ function Menu() {
                       key={product.id}
                       product={product}
                       onOrderProduct={ () => setProductSelected(product)}
+                    
                     />
                   );
               })}
@@ -94,10 +97,11 @@ function Menu() {
                       key={product.id}
                       product={product}
                       onOrderProduct={ () => setProductSelected(product)}
+                     
                     />
                   );
               })}
-          </div>
+             </div>
         </div>
         <div>
           <h1 className="text-start font-bold text-orange-600 text-xl">
