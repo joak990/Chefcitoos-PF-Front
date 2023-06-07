@@ -75,7 +75,7 @@ function Login() {
           localStorage.setItem("user", JSON.stringify(response.user));
           // Si la respuesta es true, el inicio de sesión fue exitoso
           // Redireccionar al Home
-          navigate("/home");
+          navigate("/");
         } else {
           alert("los datos son incorrectos")
         }
@@ -90,7 +90,7 @@ function Login() {
 useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
-        navigate("/home");
+        navigate("/");
       }else{
         const email = localStorage.getItem("email");
         const id = localStorage.getItem("id");
@@ -99,7 +99,7 @@ useEffect(() => {
 
         if (email && id) {
           // Redireccionar automáticamente al Home
-          navigate("/home");
+          navigate("/");
         }
       }
      
@@ -144,18 +144,6 @@ useEffect(() => {
             <div className=" flex items-center justify-center items-center"></div>
             Sign in with Google
           </button>
-        </div>
-    
-        <div className="mb-6 lg:ml-4">
-        <Link to="/home">
-          <button
-            
-            className="bg-gray-400 w-56 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          >
-            <div className=" flex items-center justify-center items-center"></div>
-            Ingresa como invitado
-          </button>
-          </Link>
         </div>
         <p className="text-center">ingresa con email</p>
         <div className="flex flex-col mb-6">

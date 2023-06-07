@@ -3,16 +3,28 @@ import { Link, useNavigate } from "react-router-dom";
 import logochefcito from "../img/hamburguesafinal.png";
 import { postRegisterUser } from "../Redux/actions";
 import {useDispatch} from "react-redux"
+import ReCAPTCHA from "react-google-recaptcha";
 function Register() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [errors, setErrors] = useState({});
+  const [isRecaptchaValid, setRecaptchaValid] = useState(false);
+  const [isFormSubmitted, setFormSubmitted] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
     type:"user",
   });
+
+  const handleRecaptchaChange = (value) => {
+    // Verificar si el valor del CAPTCHA es válido
+    if (value) {
+      setRecaptchaValid(true);
+    } else {
+      setRecaptchaValid(false);
+    }
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -22,8 +34,10 @@ function Register() {
     });
   };
 
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    setFormSubmitted(true);
     const newErrors = {};
 
     // Validar campo de nombre
@@ -55,17 +69,25 @@ function Register() {
 
     // Si no hay errores, enviar el formulario
     if (Object.keys(newErrors).length === 0) {
+      if (!isRecaptchaValid) {
+        // Mostrar un mensaje de error o tomar alguna acción adicional
+        return;
+      }
+      dispatch(postRegisterUser(form))
       setForm({
         name: "",
         email: "",
         password: "",
       });
-      dispatch(postRegisterUser(form))
- 
+    
+      
+      
       
     }
   };
 
+
+  
   return (
     <div className="flex min-h-screen w-screen  flex-col lg:flex-row justify-center items-center">
       <img className="w-35 h-36 lg:h-96 lg:mb-4 " src={logochefcito} alt="" />
@@ -125,14 +147,21 @@ function Register() {
             <p className="text-red-500 text-sm mt-1">{errors.password}</p>
           )}
         </div>
+        <div className="captcha-container mr-48"> 
+           <ReCAPTCHA className="transform scale-75" onChange={handleRecaptchaChange} sitekey="6LfVmHgmAAAAACsWkbsl8bQx_9ZYBeStY1MQx7Y2" />
+         
+        </div>
+        {isFormSubmitted && !isRecaptchaValid && (
+          <p className="text-red-600">Por favor, completa el CAPTCHA.</p>
+        )}
         <button
           type="submit"
-          className="flex items-center text-center justify-center w-56 text-white bg-orange-500 rounded-2xl lg:ml-3"
+          className="flex mt-4 items-center text-center justify-center w-56 text-white bg-orange-500 rounded-2xl lg:ml-3"
         >
           Register
         </button>
         <hr />
-        <Link to={"/"}>
+        <Link to={"/login"}>
           <p className="font-extralight text-gray-500 text-center">
             Ya tienes cuenta? Ingresa aqui
           </p>
