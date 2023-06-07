@@ -11,6 +11,7 @@ export default function Detail() {
   const dispatch = useDispatch();
   const creation = useSelector((state) => state.creationDetail);
   const allComments = useSelector((state) => state.AllComments);
+  const isIdInLocalStorage = localStorage.getItem("id");
   const [showComments, setShowComments] = useState(false);
   const [form, setForm] = useState({
     creation_id: "",
@@ -22,8 +23,8 @@ export default function Detail() {
 
   const firebaseAuth = getAuth(app);
   const user = firebaseAuth.currentUser;
-  console.log(user.photoURL);
-  const img = user.photoURL
+ 
+  const img = user?.photoURL
 
   useEffect(() => {
     dispatch(getCreationDetail(id));
@@ -119,7 +120,7 @@ export default function Detail() {
                 return (
                   <div key={elem.id} className="mb-4">
                     <div className="flex items-center">
-                      <img  className="w-8 h-8 rounded-full mr-2" src={elem.img}  />
+                    <img  className="w-8 h-8 rounded-full mr-2" src={elem.img}  />
                       <h4 className="text-gray-900 font-bold">
                         {elem.userName}
                       </h4>
@@ -133,8 +134,7 @@ export default function Detail() {
               })}
           </div>
         )}
-
-        <form onSubmit={handleSubmit} className="w-1/2">
+              {isIdInLocalStorage ?(<form onSubmit={handleSubmit} className="w-1/2">
           <div className="mt-4">
             <label htmlFor="content" className="text-gray-900 font-semibold">
               Deja un comentario:
@@ -155,7 +155,8 @@ export default function Detail() {
               Enviar comentario
             </button>
           </div>
-        </form>
+        </form>): "" }
+        
       </div>
     </>
   );
