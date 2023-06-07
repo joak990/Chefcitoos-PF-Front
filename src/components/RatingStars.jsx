@@ -1,18 +1,17 @@
 import React from "react";
 import ReactStars from "react-stars";
 
-const RatingStars = ({ value }) => {
-  const ratingChanged = (newRating) => {
-    console.log(newRating);
-  };
+const RatingStars = ({ value, handleRatingChange,disabled = false }) => {
 
   return (
     <ReactStars
       count={5}
       value={value}
-      onChange={ratingChanged}
+      onChange={handleRatingChange}
       size={24}
-      color2={"#EA580C"}
+      
+      color2={disabled ? "#EA580C" : "#EA580C"}
+      edit={!disabled}
     />
   );
 };
