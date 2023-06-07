@@ -7,6 +7,8 @@ import { getAuth } from "firebase/auth";
 import { app } from "../Firebase.config";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import RatingStars from "../components/RatingStars";
+
 export default function Detail() {
   const { id } = useParams();
   const userId = localStorage.getItem("id");
@@ -19,14 +21,15 @@ export default function Detail() {
     creation_id: "",
     user_id: parseInt(userId),
     content: "",
-    vote: 5,
+    vote: "",
     img: ""
   });
 
+  const [errors, setErrors] = useState({});
+
   const firebaseAuth = getAuth(app);
   const user = firebaseAuth.currentUser;
- 
-  const img = user?.photoURL
+  const img = user?.photoURL;
 
   useEffect(() => {
     dispatch(getCreationDetail(id));
@@ -35,21 +38,46 @@ export default function Detail() {
     };
   }, [dispatch]);
 
+  const handleRatingChange = (value) => {
+    console.log("_::::::.", value);
+    setForm({
+      ...form,
+      vote: value.toString()
+    });
+  };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setForm({
       ...form,
       creation_id: creation.id,
       [name]: value,
-      img: img ? img :""
+      img: img ? img : ""
     });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(postAssessment(form));
-    alert("Comentario agregado");
-    window.location.reload()
+    const newErrors = {};
+    if (!form.content.trim()) {
+      newErrors.content = "El nombre es requerido";
+    } else if (form.content.length > 50) {
+      newErrors.content = "El nombre debe tener como máximo 50 caracteres";
+    }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      dispatch(postAssessment(form));
+      alert("Comentario agregado");
+      window.location.reload();
+
+      setForm({
+        creation_id: "",
+        user_id: "",
+        content: "",
+        vote: "",
+        img: ""
+      });
+    }
   };
 
   const handleShowComments = () => {
@@ -106,7 +134,7 @@ export default function Detail() {
         <h2 className="text-orange-600 font-bold text-3xl mt-6 mb-6">
           Comentarios
         </h2>
-            
+
         <div className="flex justify-center mb-4">
           <button
             onClick={handleShowComments}
@@ -123,14 +151,28 @@ export default function Detail() {
                 return (
                   <div key={elem.id} className="mb-4">
                     <div className="flex items-center">
-                      {elem.img ? (<img  className="w-8 h-8 rounded-full mr-2" src={elem.img }  />): 
-                      <FontAwesomeIcon className="h-5  ml-2 mr-2" icon={faUser} />}
-                    
+                      {elem.img ? (
+                        <img
+                          className="w-8 h-8 rounded-full mr-2"
+                          src={elem.img}
+                          alt="User Avatar"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          className="h-5 ml-2 mr-2"
+                          icon={faUser}
+                        />
+                      )}
+
                       <h4 className="text-gray-900 font-bold">
                         {elem.userName}
                       </h4>
+                      <div className="ml-4">
+                      <RatingStars   disabled={showComments} value={parseInt(elem.vote)} />
+                      </div>
+                    
                     </div>
-                    <p className="bg-gray-200 w-44 p-2 text-gray-700 rounded-md">
+                    <p className="w-44 p-2 text-gray-700 rounded-md">
                       {elem.content}
                     </p>
                     <div className="flex items-center mt-2"></div>
@@ -139,29 +181,40 @@ export default function Detail() {
               })}
           </div>
         )}
-              {isIdInLocalStorage ?(<form onSubmit={handleSubmit} className="w-1/2">
-          <div className="mt-4">
-            <label htmlFor="content" className="text-gray-900 font-semibold">
-              Deja un comentario:
-            </label>
-            <textarea
-              name="content"
-              id="content"
-              className="border border-gray-300 rounded-md p-2 mt-2 w-full"
-              value={form.content}
-              onChange={handleChange}
-            ></textarea>
-          </div>
-          <div className="mt-4">
-            <button
-              type="submit"
-              className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded"
-            >
-              Enviar comentario
-            </button>
-          </div>
-        </form>): "" }
-        
+
+        {isIdInLocalStorage ? (
+          <form onSubmit={handleSubmit} className="w-1/2">
+            <div className="mt-4">
+              <RatingStars
+                value={parseFloat(form.vote)}
+                handleRatingChange={handleRatingChange}
+              />
+              <label htmlFor="content" className="text-gray-900 font-semibold">
+                Deja un comentario:
+              </label>
+              <textarea
+                name="content"
+                id="content"
+                className="border border-gray-300 rounded-md p-2 mt-2 w-full"
+                value={form.content}
+                onChange={handleChange}
+              ></textarea>
+              {errors.content && (
+                <p className="text-red-500 text-sm mt-1">{errors.content}</p>
+              )}
+            </div>
+            <div className="mt-4">
+              <button
+                type="submit"
+                className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded"
+              >
+                Enviar comentario
+              </button>
+            </div>
+          </form>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );
