@@ -4,7 +4,10 @@ import logochefcito from "../img/hamburguesafinal.png";
 import { postRegisterUser } from "../Redux/actions";
 import {useDispatch} from "react-redux"
 import ReCAPTCHA from "react-google-recaptcha";
+
+
 function Register() {
+  const siteKey = process.env.REACT_APP_CAPTCHA_SITEKEY;
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [errors, setErrors] = useState({});

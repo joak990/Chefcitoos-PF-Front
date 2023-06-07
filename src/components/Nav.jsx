@@ -55,7 +55,7 @@ console.log(isIdInLocalStorage );
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <Link to="/home" className="-m-1.5 p-1.5">
+          <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Chefcitoos</span>
             <img
               className="h-16 w-auto rounded-full"
@@ -227,7 +227,8 @@ console.log(isIdInLocalStorage );
             <div className="space-y-2 py-6">
               <div className="-mx-3">
                 <div className="mt-2 space-y-2" id="disclosure-1">
-                  <p className="text-gray-400"> Bienvenido! {name}</p>
+                  {isIdInLocalStorage ? (<p className="text-gray-400"> Bienvenido! {name}</p>) :""}
+                  
                   <a
                     href="/home"
                     className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
@@ -268,12 +269,16 @@ console.log(isIdInLocalStorage );
                     >
                       Creaciones
                     </a>
-                  ) :  <a
+                  ) :  <div><a
+                  href="/login"
+                  className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
+                >Ingresar</a> 
+                <a
                   href="/register"
                   className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
-                >
-                  Registrarse
-                </a>}
+                >Registrarse</a></div> 
+                }
+                
             
                 </div>
               </div>

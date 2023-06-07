@@ -12,6 +12,7 @@ import {
 import { app, auth } from "../Firebase.config";
 import { useDispatch } from "react-redux";
 import { postLoginUser, postRegisterUser } from "../Redux/actions";
+import { FcGoogle } from "react-icons/fc";
 const validation = (form)=>{
   const newErrors = {};
 
@@ -137,14 +138,14 @@ useEffect(() => {
       >
         <h1 className="text-3xl font-bold mb-8 text-center">Ingresar</h1>
         <div className="mb-6 lg:ml-4">
-          <button
-            onClick={handleLogin}
-            className="bg-blue-500 w-56 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            <div className=" flex items-center justify-center items-center"></div>
-            Sign in with Google
-          </button>
-        </div>
+      <button
+        onClick={handleLogin}
+        className="bg-blue-500 w-56 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
+      >
+        <FcGoogle className="text-2xl mr-2" />
+        <span>Sign in with Google</span>
+      </button>
+    </div>
         <p className="text-center">ingresa con email</p>
         <div className="flex flex-col mb-6">
           <label htmlFor="email" className="mb-2 flex items-center">

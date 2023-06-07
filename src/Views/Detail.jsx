@@ -5,6 +5,8 @@ import { cleanDetail, getCreationDetail, postAssessment, getAssessmentValidate }
 import { comments } from "../Redux/actions";
 import { getAuth } from "firebase/auth";
 import { app } from "../Firebase.config";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Detail() {
   const { id } = useParams();
   const userId = localStorage.getItem("id");
@@ -39,7 +41,7 @@ export default function Detail() {
       ...form,
       creation_id: creation.id,
       [name]: value,
-      img: img
+      img: img ? img :""
     });
   };
 
@@ -47,6 +49,7 @@ export default function Detail() {
     event.preventDefault();
     dispatch(postAssessment(form));
     alert("Comentario agregado");
+    window.location.reload()
   };
 
   const handleShowComments = () => {
@@ -120,7 +123,9 @@ export default function Detail() {
                 return (
                   <div key={elem.id} className="mb-4">
                     <div className="flex items-center">
-                    <img  className="w-8 h-8 rounded-full mr-2" src={elem.img}  />
+                      {elem.img ? (<img  className="w-8 h-8 rounded-full mr-2" src={elem.img }  />): 
+                      <FontAwesomeIcon className="h-5  ml-2 mr-2" icon={faUser} />}
+                    
                       <h4 className="text-gray-900 font-bold">
                         {elem.userName}
                       </h4>
