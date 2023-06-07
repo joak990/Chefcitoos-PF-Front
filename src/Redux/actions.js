@@ -20,7 +20,9 @@ import {
   NUM_PAGE_CREATION,
   NUM_PAGE_PUBLICATION,
   CLEAN_YOUR_CREATIONS,
-  CLEAN_PUBLICATIONS
+  CLEAN_PUBLICATIONS,
+  GET_ASSESSMENT_VALIDATE,
+  GET_ALL_COMMENTS
 } from "./typeAction";
 
 import axios from "axios";
@@ -29,7 +31,7 @@ export const getProducts = () => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/products`);
-      console.log("::json.data:::", json.data);
+      // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_PRODUCTS,
         payload: json.data,
@@ -57,10 +59,11 @@ export const getCreations = () => {
 
 
 export const  getCreationDetail = (id) => {
+
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/creations/myCreations/${id}?type=creation`);
-      console.log("::json.data:::", json.data);
+      // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_CREATIONS_BY_ID,
         payload: json.data,
@@ -78,7 +81,7 @@ export const getCreationDetailByUser = (id) => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/creations/myCreations/${id}?type=user`);
-      console.log("::json.data:::", json.data);
+      // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_CREATIONS_BY_USER,
         payload: json.data,
@@ -201,7 +204,7 @@ export const getComponents = () => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/components`);
-      console.log("::json.data:::", json.data);
+      // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_COMPONENTS,
         payload: json.data,
@@ -334,3 +337,52 @@ export function cleanPublications(){
     type: CLEAN_PUBLICATIONS,
   }
 }
+
+
+export const postAssessment = (payload) => {
+  console.log('payload', payload);
+  return async function (dispatch) {
+    try {
+      const json = await axios.post(`http://localhost:3001/assessments`, payload);
+      // console.log("::json.data:::", json.data);
+      return json.data;
+    } catch (error) {
+      alert(`Message POST_ASSESSMENT:`, error);
+    }
+  };
+};
+
+
+export const comments = (id) => {
+  console.log('id',id);
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`http://localhost:3001/assessments/comments/${id}`);
+      console.log("::jsonDdata:::", json.data);
+      return dispatch({
+        type : GET_ALL_COMMENTS ,
+        payload:json.data
+      })
+    } catch (error) {
+      alert(`Message AssesmentValidate:`, error);
+    }
+  };
+}
+
+
+export const getAssessmentValidate = () => {
+  
+  return async function (dispatch) {
+    try {
+      const obj = {creation_id:1,user_id:100}
+      const json = await axios.get(`http://localhost:3001/assessments/validateAssessment`, obj);
+      console.log("::jsonDdatagetAssessmentValidate:::", json.data);
+      return json.data;
+    } catch (error) {
+      alert(`Message AssesmentValidate:`, error);
+    }
+  };
+};
+
+
+

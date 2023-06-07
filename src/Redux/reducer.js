@@ -20,6 +20,7 @@ import {
   NUM_PAGE_PUBLICATION,
   CLEAN_YOUR_CREATIONS,
   CLEAN_PUBLICATIONS,
+  GET_ALL_COMMENTS
 } from "./typeAction";
 
 const initialState = {
@@ -32,6 +33,7 @@ const initialState = {
   isAuthenticated: false,
   components: [],
   yourCreationsprice: [],
+  AllComments:[],
   numPageCreations: 1,
   numPagePublications: 1,
 };
@@ -190,6 +192,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         numPagePublications: payload,
+      };
+      case GET_ALL_COMMENTS:
+      return {
+        ...state,
+        AllComments: payload,
       };
 
     default:
