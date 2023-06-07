@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../Firebase.config";
 // import { useUser } from "../useUser";
-
+import { FaSignInAlt } from 'react-icons/fa';
 const Nav = () => {
   const location = useLocation();
 
@@ -45,9 +45,7 @@ console.log(isIdInLocalStorage );
     }
   };
 
-  const handleregister =()=>{
-navigate("/register")
-  }
+
 
   return (
     
@@ -170,12 +168,19 @@ navigate("/register")
               </div>
             </>
           ) : (
-            <>
-              <button onClick={handleregister} className="bg-orange-600 w-28 h-12 text-white rounded-xl font-bold mr-4">
-                Registrarse
-              </button>
-             
+            <><div className="flex items-center"> 
+              <div className="mt-1">
+                <Link to="/login">
+              <FaSignInAlt className="ml-4 text-2xl hover:bg-orange-200" />
+              </Link>
+              </div>
+              
+              <div className=" ml-4 mt-1">
+              <p  >ingresar</p>
+              </div> 
+              </div>
             </>
+            
           )}
         </div>
       </nav>

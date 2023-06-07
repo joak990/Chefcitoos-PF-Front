@@ -15,17 +15,17 @@ function App() {
   const location = useLocation();
   return (
     <>
-      {location.pathname !== "/register" && location.pathname !== "/" && (
+      {location.pathname !== "/register" && location.pathname !== "/login" && (
         <Nav />
       )}
 
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/create" element={<FormCreate />} />
 
         <Route path="/about" element={<About />} />
 
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/creaciones" element={<Creaciones />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="*" element={<NotFound />} />
