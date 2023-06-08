@@ -56,7 +56,7 @@ function LoginAdmin() {
     dispatch(LoginAdminValidate(form))
       .then((response) => {
      console.log("_____",response);
-        if (response.success === true) {
+        if (response.validate === true) {
           localStorage.setItem("user", JSON.stringify(response.user));
          
           navigate("/admin/account");

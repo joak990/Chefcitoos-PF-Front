@@ -55,8 +55,8 @@ function Register() {
       newErrors.email = "El email es requerido";
     } else if (!/\S+@\S+\.\S+/.test(form.email.trim())) {
       newErrors.email = "El email no es válido";
-    } else if (form.email.length > 20) {
-      newErrors.email = "El email debe tener como máximo 20 caracteres";
+    } else if (form.email.length > 30) {
+      newErrors.email = "El email debe tener como máximo 30 caracteres";
     }
 
     // Validar campo de contraseña

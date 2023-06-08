@@ -15,6 +15,7 @@ import LoginAdmin from "./Views/LoginAdmin";
 import Dashboard from "./Views/Dashboard";
 function App() {
   const location = useLocation();
+    const hasId = localStorage.getItem("id");
   return (
     <>
       {location.pathname !== "/register" && location.pathname !== "/login"&& location.pathname !== "/admin" && location.pathname !== "/admin/account"  && (
@@ -24,7 +25,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<FormCreate />} />
-        <Route path="/admin/account" element={<Dashboard />} />
+        {hasId && <Route path="/admin/account" element={<Dashboard />} />}
         <Route path="/about" element={<About />} />
         <Route path="/admin" element={<LoginAdmin />} />
         <Route path="/login" element={<Login />} />

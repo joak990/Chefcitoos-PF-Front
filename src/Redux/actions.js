@@ -393,12 +393,14 @@ export const LoginAdminValidate = (payload) => {
         "http://localhost:3001/users/validate",
         payload
       );
-     console.log();
-      if (response.data === true) {
-      
+     console.log("date",response.data);
+      if (response.data.validate === true) {
+      if(response.data.id){
+        localStorage.setItem("id", response.data.id);
+      }
         // y redireccionar al usuario al home
         dispatch({ type: LOGIN_SUCCESS });
-        return { success: true };
+        return { validate: true };
       } else {
         // Autenticación fallida
         const errorMessage = response.data.message || "Error de autenticación";
