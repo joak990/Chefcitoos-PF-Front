@@ -13,6 +13,7 @@ function Products() {
 
   const products = useSelector((state) => state.Products);
 const prueba  = (id)=>{ 
+  alert("¿Estas seguro que quieres modificar el producto?")
   dispatch(putProductsbyid(id))
   alert("El producto ha sido Modificado")
   window.location.reload()
