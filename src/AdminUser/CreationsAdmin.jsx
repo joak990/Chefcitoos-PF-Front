@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteUser, GetAllUsers, getProducts, putProductsbyid } from '../Redux/actions';
+import { DeleteUser, getCreations, } from '../Redux/actions';
 import NavAdmin from './NavAdmin';
 import { Card } from '@tremor/react';
 
-function Users() {
+function CreationsAdmin() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(GetAllUsers());
+    dispatch(getCreations());
 
     const interval = setInterval(() => {
       window.location.reload();
@@ -17,7 +17,7 @@ function Users() {
     return () => clearInterval(interval); // Limpiar el intervalo al desmontar el componente
   }, [dispatch]);
 
-  const users = useSelector((state) => state.AllUsers);
+  const Creations = useSelector((state) => state.allCreations);
 
   const handleDeleteUser = (id) => {
     alert('¿Estás seguro que quieres eliminar este usuario?');
@@ -33,16 +33,16 @@ function Users() {
         <div className='lg:w-3/4'>
           <div className='mt-5'>
             <Card className='p-4 bg-white'>
-              <h1 className='text-2xl font-bold'>Usuarios</h1>
+              <h1 className='text-2xl font-bold'>Creaciones Publicadas</h1>
               <div className='overflow-x-hidden'>
                 <table className='w-full mt-2'>
                   <thead>
                     <tr>
                       <th className='py-2 pr-8 text-left border-b border-gray-300 border-r border-gray-300'>
-                        ID
+                        Id de creacion
                       </th>
                       <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r border-gray-300'>
-                        Nombre
+                        id usuario
                       </th>
                       <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r border-gray-300'>
                         Email
@@ -56,22 +56,22 @@ function Users() {
                     </tr>
                   </thead>
                   <tbody>
-                    {users?.map((user, index) => (
+                    {Creations?.map((user, index) => (
                       <tr key={index}>
-                        <td className={`py-2 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                        <td className={`py-2 pr-8 ${index !== Creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
                           {user.id}
                         </td>
-                        <td className={`py-2 pl-8 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                        <td className={`py-2 pl-8 pr-8 ${index !== Creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
                           {user.name}
                         </td>
-                        <td className={`py-2 pl-8 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                        <td className={`py-2 pl-8 pr-8 ${index !== Creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
                           {user.email}
                         </td>
-                        <td className={`py-2 pl-4 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                        <td className={`py-2 pl-4 pr-8 ${index !== Creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
                          {user.type === "user" ? (<button className='bg-yellow-200 rounded-2xl w-48'>User</button>): <button className='bg-green-400 rounded-2xl w-48'>Admin</button>} 
                           
                         </td>
-                        <td className={`py-2 pl-1 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} text-center`}>
+                        <td className={`py-2 pl-1 pr-8 ${index !== Creations.length - 1 ? 'border-b border-gray-300' : ''} text-center`}>
                           <button onClick={() => handleDeleteUser(user.id)} className='bg-red-200 rounded-2xl w-48'>
                             Eliminar Usuario
                           </button>
@@ -89,4 +89,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default CreationsAdmin;
