@@ -20,7 +20,8 @@ import {
   NUM_PAGE_PUBLICATION,
   CLEAN_YOUR_CREATIONS,
   CLEAN_PUBLICATIONS,
-  GET_ALL_COMMENTS
+  GET_ALL_COMMENTS,
+  PUT_PRODUCTS_BY_ID
 } from "./typeAction";
 
 const initialState = {
@@ -198,7 +199,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         AllComments: payload,
       };
-
     default:
       return { ...state };
   }
