@@ -13,9 +13,26 @@ function Products() {
 
   const products = useSelector((state) => state.Products);
 const prueba  = (id)=>{ 
-  alert("¿Estas seguro que quieres modificar el producto?")
+  Swal.fire({
+    title: '¿Estas seguro que quieres modificar el producto?',
+    icon: 'warning',
+    buttonsStyling: false,
+    customClass: {
+      confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+    }
+  })
+  //alert("¿Estas seguro que quieres modificar el producto?")
   dispatch(putProductsbyid(id))
-  alert("El producto ha sido Modificado")
+  Swal.fire({
+    title: 'El producto ha sido Modificado',
+    icon: 'success',
+    buttonsStyling: false,
+    customClass: {
+      confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+    }
+  })
+  
+  //alert("El producto ha sido Modificado")
   window.location.reload()
 }
 

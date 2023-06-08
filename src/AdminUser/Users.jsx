@@ -19,8 +19,16 @@ function Users() {
 
   const users = useSelector((state) => state.AllUsers);
 
-  const handleDeleteUser = (id) => {
-    alert('¿Estás seguro que quieres eliminar este usuario?');
+  const handleDeleteUser = async(id) => {
+    await Swal.fire({
+      title: '¿Estas seguro que quieres eliminar este usuario?',
+      icon: 'warning',
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+      }
+    })
+    //alert('¿Estás seguro que quieres eliminar este usuario?');
     dispatch(DeleteUser(id));
     window.location.reload();
   };
