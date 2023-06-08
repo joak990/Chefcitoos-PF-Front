@@ -27,6 +27,7 @@ import {
 } from "./typeAction";
 
 import axios from "axios";
+import Swal from 'sweetalert2'
 
 export const getProducts = () => {
   return async function (dispatch) {
@@ -103,7 +104,8 @@ export const deleteProducts = (id) => {
         payload: json.data,
       });
     } catch (error) {
-      alert(`Message ${DELETE_PRODUCTS}:`, error);
+      
+      alert(`Message ${DELETE_PRODUCTS}:`, error); 
     }
   };
 };
@@ -150,9 +152,21 @@ export const postRegisterUser = (payload) => {
       
      if(post.data.root === "register"){
       if(post.data.duplicated === true){
-        alert("el usuario ya esta registrado")
+        Swal.fire({
+          title: 'El usuario ya esta registrado',
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          }
+        });
       }else{
-        alert("el usuario se creo correctamente")
+        Swal.fire({
+          title: 'El usuario se creo correctamente',
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          }
+        });
       }
      }else{
       localStorage.setItem("email", post.data.email);

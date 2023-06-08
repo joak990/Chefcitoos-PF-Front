@@ -8,6 +8,7 @@ import { app } from "../Firebase.config";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RatingStars from "../components/RatingStars";
+import Swal from 'sweetalert2'
 
 export default function Detail() {
   const { id } = useParams();
@@ -25,7 +26,7 @@ export default function Detail() {
     img: ""
   });
 
-console.log('Ingredientes', creation.components?.Salsas[2]);
+
 
   const [errors, setErrors] = useState({});
 
@@ -69,7 +70,15 @@ console.log('Ingredientes', creation.components?.Salsas[2]);
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       dispatch(postAssessment(form));
-      alert("Comentario agregado");
+      Swal.fire({
+        title: 'Comentario enviado',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      });
+      
+      
       window.location.reload();
 
       setForm({
