@@ -19,7 +19,10 @@ const NavAdmin = () => {
               <button className="mr-4 text-white hover:text-gray-300">Administrar comentarios</button>
             </Link>
             <Link to="/admin/products">
-              <button className="mr-4 text-white hover:text-gray-300">Publicar productos</button>
+              <button className="mr-4 text-white hover:text-gray-300">Gestionar productos</button>
+            </Link>
+            <Link to="/admin/products">
+              <button className="mr-4 text-white hover:text-gray-300">Añadir  Productos</button>
             </Link>
           </div>
         </div>
