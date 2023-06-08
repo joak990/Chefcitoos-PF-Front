@@ -120,29 +120,53 @@ console.log('Ingredientes', creation.components?.Salsas[2]);
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-orange-600 font-semibold">Ingredientes:</span>
-              <h3 className="capitalize">
-                {creation &&
-                  creation.components?.Ingredientes.map((elem) => {
-                    return (elem + ', ')
-                  })}
-              </h3>
+            <span className="text-orange-600 font-semibold">Ingredientes:</span>
+<h3 className="capitalize">
+  {creation &&
+    creation.components?.Ingredientes ? (
+      creation.components.Ingredientes.map((elem, index) => {
+        return index === creation.components.Ingredientes.length - 1 ? (
+          elem
+        ) : (
+          elem + ", "
+        );
+      })
+    ) : (
+      "No hay Ingredientes"
+    )}
+</h3>
               <br></br>
               <span className="text-orange-600 font-semibold">Salsas:</span>
-              <h3 className="capitalize">
-                {creation &&
-                  creation.components?.Salsas.map((elem) => {
-                    return (elem + ', ')
-                  })}
-              </h3>
+<h3 className="capitalize">
+  {creation &&
+    creation.components?.Salsas ? (
+      creation.components.Salsas.map((elem, index) => {
+        return index === creation.components.Salsas.length - 1 ? (
+          elem
+        ) : (
+          elem + ", "
+        );
+      })
+    ) : (
+      "No hay Salsas"
+    )}
+</h3>
               <br></br>
               <span className="text-orange-600 font-semibold">Adiciones:</span>
-              <h3 className="capitalize">
-                {creation &&
-                  creation.components?.Adiciones.map((elem) => {
-                    return (elem + ', ')
-                  })}
-                  </h3>
+<h3 className="capitalize">
+  {creation &&
+    creation.components?.Adiciones ? (
+      creation.components.Adiciones.map((elem, index) => {
+        return index === creation.components.Adiciones.length - 1 ? (
+          elem
+        ) : (
+          elem + ", "
+        );
+      })
+    ) : (
+      "No hay adiciones"
+    )}
+</h3>
             </div>
           </div>
         </div>
