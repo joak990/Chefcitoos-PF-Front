@@ -171,7 +171,7 @@ export const postRegisterUser = (payload) => {
 
 //LOGIN REGISTER
 export const postLoginUser = (payload) => {
-  console.log('payload', payload);
+
   return async function (dispatch) {
     try {
       const response = await axios.post(
@@ -288,7 +288,7 @@ export const getCreationByName = (id, name) => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/searchBar/${id}?productName=${name}`);
-      console.log("::json.data:::", json.data);
+     
       return dispatch({
         type: GET_CREATION_BY_NAME,
         payload: json.data,
@@ -303,7 +303,7 @@ export const getPublicationName = (name) => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`http://localhost:3001/searchBar/?productName=${name}`);
-      console.log("::json.data:::", json.data);
+    
       return dispatch({
         type: GET_PUBLICATION_BY_NAME,
         payload: json.data,
@@ -341,7 +341,7 @@ export function cleanPublications(){
 
 
 export const postAssessment = (payload) => {
-  console.log('payload', payload);
+  
   return async function (dispatch) {
     try {
       const json = await axios.post(`http://localhost:3001/assessments`, payload);
@@ -377,10 +377,37 @@ export const getAssessmentValidate = () => {
     try {
       const obj = {creation_id:1,user_id:100}
       const json = await axios.get(`http://localhost:3001/assessments/validateAssessment`, obj);
-      console.log("::jsonDdatagetAssessmentValidate:::", json.data);
       return json.data;
     } catch (error) {
       alert(`Message AssesmentValidate:`, error);
+    }
+  };
+};
+
+
+export const LoginAdminValidate = (payload) => {
+  console.log('payloadkkkkkkkkkkkkkkkkkkkkkkkk', payload);
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/users/validate",
+        payload
+      );
+     console.log();
+      if (response.data === true) {
+      
+        // y redireccionar al usuario al home
+        dispatch({ type: LOGIN_SUCCESS });
+        return { success: true };
+      } else {
+        // Autenticación fallida
+        const errorMessage = response.data.message || "Error de autenticación";
+        return { success: false, message: errorMessage };
+      }
+    } catch (error) {
+      // Error en la petición
+      console.error(error);
+      return { success: false, message: "Error de autenticación" };
     }
   };
 };
