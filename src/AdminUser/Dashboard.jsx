@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Card, TabList, Tab, DonutChart } from '@tremor/react';
-import NavAdmin from '../components/NavAdmin';
-import CardGridMap from '../components/CardGridMap';
-import Chardonut from '../components/Chardonut';
+import NavAdmin from './NavAdmin';
+import CardGridMap from './CardGridMap';
+import Chardonut from './Chardonut';
 
 function Dashboard() {
   const [selectedView, setSelectedView] = useState(1);

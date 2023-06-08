@@ -11,8 +11,8 @@ import About from "./Views/About";
 import FormCreate from "./Views/FormCreate";
 import Publicaciones from "./Views/Publicaciones";
 import Detail from "./Views/Detail";
-import LoginAdmin from "./Views/LoginAdmin";
-import Dashboard from "./Views/Dashboard";
+import LoginAdmin from "./AdminUser/LoginAdmin";
+import Dashboard from "./AdminUser/Dashboard";
 function App() {
   const location = useLocation();
     const hasId = localStorage.getItem("id");
