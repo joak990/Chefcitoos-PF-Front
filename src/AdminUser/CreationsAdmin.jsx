@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteUser, getCreations, } from '../Redux/actions';
+import { DeleteUser, getCreations } from '../Redux/actions';
 import NavAdmin from './NavAdmin';
 import { Card } from '@tremor/react';
 
@@ -17,12 +17,50 @@ function CreationsAdmin() {
     return () => clearInterval(interval); // Limpiar el intervalo al desmontar el componente
   }, [dispatch]);
 
-  const Creations = useSelector((state) => state.allCreations);
+  const creations = useSelector((state) => state.allCreations);
 
-  const handleDeleteUser = (id) => {
-    alert('¿Estás seguro que quieres eliminar este usuario?');
+  const handleDeleteCreation = (id) => {
+    alert('¿Estás seguro que quieres eliminar esta creación?');
     dispatch(DeleteUser(id));
     window.location.reload();
+  };
+
+  const renderProductButton = (product_id) => {
+    switch (product_id) {
+      case  1 :
+      case  2:
+      case  3:
+      case  4:
+        return <button className='bg-indigo-200 rounded-2xl w-48'>Hamburguesas</button>;
+      case  5:
+      case  6:
+      case  7:
+      case  8:
+        return <button className='bg-green-200 rounded-2xl w-48'>Perros</button>;
+      case  9:
+      case  10:
+      case  11:
+        return <button className='bg-yellow-200 rounded-2xl w-48'>Burritos</button>;
+      case  12:
+      case  13:
+      case  14:
+      case  15:
+        return <button className='bg-yellow-200 rounded-2xl w-48'>Sandwiches</button>;
+      case  16:
+      case  17:
+      case  18:
+      case  19:
+      case  20:
+      case  21:
+      case  22:
+      case  23:
+      case  24:
+      case  25:
+      case  26:
+        return <button className='bg-yellow-200 rounded-2xl w-48'>Otros Platos</button>;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -45,35 +83,34 @@ function CreationsAdmin() {
                         id usuario
                       </th>
                       <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r border-gray-300'>
-                        Email
+                        Nombre de creación
                       </th>
                       <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r border-gray-300'>
-                        Cambiar Rol
+                        Tipo de producto
                       </th>
                       <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-gray-300'>
-                        Eliminar
+                        Comentarios
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {Creations?.map((user, index) => (
+                    {creations?.map((creation, index) => (
                       <tr key={index}>
-                        <td className={`py-2 pr-8 ${index !== Creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
-                          {user.id}
+                        <td className={`py-2 pr-8 ${index !== creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                          {creation.id}
                         </td>
-                        <td className={`py-2 pl-8 pr-8 ${index !== Creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
-                          {user.name}
+                        <td className={`py-2 pl-8 pr-8 ${index !== creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                          {creation.users_id}
                         </td>
-                        <td className={`py-2 pl-8 pr-8 ${index !== Creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
-                          {user.email}
+                        <td className={`py-2 pl-8 pr-8 ${index !== creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                          {creation.name}
                         </td>
-                        <td className={`py-2 pl-4 pr-8 ${index !== Creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
-                         {user.type === "user" ? (<button className='bg-yellow-200 rounded-2xl w-48'>User</button>): <button className='bg-green-400 rounded-2xl w-48'>Admin</button>} 
-                          
+                        <td className={`py-2 pl-4 pr-8 ${index !== creations.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                          {renderProductButton(creation.product_id)}
                         </td>
-                        <td className={`py-2 pl-1 pr-8 ${index !== Creations.length - 1 ? 'border-b border-gray-300' : ''} text-center`}>
-                          <button onClick={() => handleDeleteUser(user.id)} className='bg-red-200 rounded-2xl w-48'>
-                            Eliminar Usuario
+                        <td className={`py-2 pl-1 pr-8 ${index !== creations.length - 1 ? 'border-b border-gray-300' : ''} text-center`}>
+                          <button onClick={() => handleDeleteCreation(creation.id)} className='bg-blue-200 rounded-2xl font-semibold w-48'>
+                           Ver Comentarios
                           </button>
                         </td>
                       </tr>
