@@ -157,7 +157,6 @@ export const postRegisterUser = (payload) => {
       localStorage.setItem("email", post.data.email);
       localStorage.setItem("id", post.data.id);
       localStorage.setItem("name", post.data.name);
-      console.log(post.data.email);
       return post.data;
      }     
     } catch (error) {
@@ -372,7 +371,6 @@ export const comments = (id) => {
 
 
 export const getAssessmentValidate = () => {
-  
   return async function (dispatch) {
     try {
       const obj = {creation_id:1,user_id:100}
