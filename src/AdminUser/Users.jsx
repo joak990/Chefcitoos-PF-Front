@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DeleteUser, GetAllUsers, getProducts, putProductsbyid } from '../Redux/actions';
 import NavAdmin from './NavAdmin';
 import { Card } from '@tremor/react';
+import Swal from 'sweetalert2'
 
 function Users() {
   const dispatch = useDispatch();
