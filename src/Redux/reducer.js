@@ -21,7 +21,8 @@ import {
   CLEAN_YOUR_CREATIONS,
   CLEAN_PUBLICATIONS,
   GET_ALL_COMMENTS,
-  PUT_PRODUCTS_BY_ID
+  PUT_PRODUCTS_BY_ID,
+  GET_ALL_USERS
 } from "./typeAction";
 
 const initialState = {
@@ -199,6 +200,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         AllComments: payload,
       };
+      case GET_ALL_USERS:
+        return {
+          ...state,
+          AllUsers: payload,
+        };
     default:
       return { ...state };
   }

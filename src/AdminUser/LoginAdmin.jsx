@@ -59,7 +59,7 @@ function LoginAdmin() {
         if (response.validate === true) {
           localStorage.setItem("user", JSON.stringify(response.user));
          
-          navigate("/admin/account");
+          navigate("/admin/account=successfully");
         } else {
           alert("los datos son incorrectos")
         }

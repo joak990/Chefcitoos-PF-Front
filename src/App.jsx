@@ -14,20 +14,27 @@ import Detail from "./Views/Detail";
 import LoginAdmin from "./AdminUser/LoginAdmin";
 import Dashboard from "./AdminUser/Dashboard";
 import Products from "./AdminUser/Products";
+import Users from "./AdminUser/Users";
 function App() {
   const location = useLocation();
     const hasId = localStorage.getItem("id");
   return (
     <>
-      {location.pathname !== "/register" && location.pathname !== "/login"&& location.pathname !== "/admin" && location.pathname !== "/admin/account"  &&location.pathname !== "/admin/products"  && (
+      {location.pathname !== "/register" 
+      && location.pathname !== "/login"
+      && location.pathname !== "/admin" 
+      && location.pathname !== "/admin/account=successfully"  
+      &&location.pathname !== "/admin/products"  
+      && location.pathname !== "/admin/users" && (
         <Nav />
       )}
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<FormCreate />} />
-        {hasId && <Route path="/admin/account" element={<Dashboard />} />}
-        <Route path="/admin/products" element={<Products />} />
+        {hasId && <Route path="/admin/account=successfully" element={<Dashboard />} />}
+        { hasId && <Route path="/admin/products" element={<Products />} />}
+        { hasId && <Route path="/admin/users" element={<Users />} />}
         <Route path="/about" element={<About />} />
         <Route path="/admin" element={<LoginAdmin />} />
         <Route path="/login" element={<Login />} />
