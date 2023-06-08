@@ -41,7 +41,15 @@ export const getProducts = () => {
         payload: json.data,
       });
     } catch (error) {
-      alert(`Message ${GET_PRODUCTS}:`, error);
+      Swal.fire({
+        title: 'Error GET PRODUCTS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${GET_PRODUCTS}:`, error);
     }
   };
 };
@@ -56,7 +64,15 @@ export const getCreations = () => {
         payload: json.data,
       });
     } catch (error) {
-      alert(`Message ${GET_CREATIONS}:`, error);
+      Swal.fire({
+        title: 'Error GET CREATIONS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${GET_CREATIONS}:`, error);
     }
   };
 };
@@ -73,7 +89,15 @@ export const  getCreationDetail = (id) => {
         payload: json.data,
       });
     } catch (error) {
-      alert(`Message ${GET_CREATIONS_BY_ID}:`, error);
+      Swal.fire({
+        title: 'Error GET_CREATIONS_BY_ID',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${GET_CREATIONS_BY_ID}:`, error);
     }
   };
 };
@@ -91,7 +115,15 @@ export const getCreationDetailByUser = (id) => {
         payload: json.data,
       });
     } catch (error) {
-      alert(`Message ${GET_CREATIONS_BY_USER}:`, error);
+      Swal.fire({
+        title: 'Error GET_CREATIONS_BY_USER',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${GET_CREATIONS_BY_USER}:`, error);
     }
   };
 };
@@ -106,8 +138,15 @@ export const deleteProducts = (id) => {
         payload: json.data,
       });
     } catch (error) {
-      
-      alert(`Message ${DELETE_PRODUCTS}:`, error); 
+      Swal.fire({
+        title: 'Error DELETE_PRODUCTS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${DELETE_PRODUCTS}:`, error); 
     }
   };
 };
@@ -118,7 +157,15 @@ export const postProducts = (payload) => {
       const post = await axios.post(`http://localhost:3001/products`, payload);
       return post;
     } catch (error) {
-      alert(`Message ${POST_PRODUCTS}:`, error);
+      Swal.fire({
+        title: 'Error POST_PRODUCTS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+     // alert(`Message ${POST_PRODUCTS}:`, error);
     }
   };
 };
@@ -135,7 +182,15 @@ export const putProducts = (id, payload) => {
         payload: put.data,
       });
     } catch (error) {
-      alert(`Message ${PUT_PRODUCTS}:`, error);
+      Swal.fire({
+        title: 'Error PUT_PRODUCTS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${PUT_PRODUCTS}:`, error);
     }
   };
 };
@@ -177,7 +232,16 @@ export const postRegisterUser = (payload) => {
       return post.data;
      }     
     } catch (error) {
-      alert(`Message ${REGISTER_USER}:`, error);
+      Swal.fire({
+        title: 'Error REGISTER_USER',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      
+      //alert(`Message ${REGISTER_USER}:`, error);
     }
   };
 };
@@ -227,7 +291,15 @@ export const getComponents = () => {
         payload: json.data,
       });
     } catch (error) {
-      alert(`Message ${GET_COMPONENTS}:`, error);
+      Swal.fire({
+        title: 'Error GET_COMPONENTS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${GET_COMPONENTS}:`, error);
     }
   };
 };
@@ -243,7 +315,15 @@ export const getComponents = () => {
         payload : json.data,
       })
     } catch (error) {
-      alert((`Message ${GET_CREATION_FILTERS}:`, error))
+      Swal.fire({
+        title: 'Error GET_CREATION_FILTERS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert((`Message ${GET_CREATION_FILTERS}:`, error))
     }
   }
  }
@@ -257,7 +337,15 @@ export const getComponents = () => {
         payload : json.data,
       })
     } catch (error) {
-      alert((`Message ${GET_PUBLICATION_FILTERS}:`, error))
+      Swal.fire({
+        title: 'Error GET_PUBLICATION_FILTERS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert((`Message ${GET_PUBLICATION_FILTERS}:`, error))
     }
   }
  }
@@ -310,7 +398,15 @@ export const getCreationByName = (id, name) => {
         payload: json.data,
       });
     } catch (error) {
-      alert(`Message ${GET_CREATION_BY_NAME}:`, error);
+      Swal.fire({
+        title: 'Error GET_CREATION_BY_NAME',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${GET_CREATION_BY_NAME}:`, error);
     }
   };
 };
@@ -325,7 +421,15 @@ export const getPublicationName = (name) => {
         payload: json.data,
       });
     } catch (error) {
-      alert(`Message ${GET_PUBLICATION_BY_NAME}:`, error);
+      Swal.fire({
+        title: 'Error GET_PUBLICATION_BY_NAME',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${GET_PUBLICATION_BY_NAME}:`, error);
     }
   };
 };
@@ -364,7 +468,15 @@ export const postAssessment = (payload) => {
       // console.log("::json.data:::", json.data);
       return json.data;
     } catch (error) {
-      alert(`Message POST_ASSESSMENT:`, error);
+      Swal.fire({
+        title: 'Error POST_ASSESSMENT',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message POST_ASSESSMENT:`, error);
     }
   };
 };
@@ -381,7 +493,15 @@ export const comments = (id) => {
         payload:json.data
       })
     } catch (error) {
-      alert(`Message AssesmentValidate:`, error);
+      Swal.fire({
+        title: 'Error AssesmentValidate',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message AssesmentValidate:`, error);
     }
   };
 }
@@ -394,7 +514,15 @@ export const getAssessmentValidate = () => {
       const json = await axios.get(`http://localhost:3001/assessments/validateAssessment`, obj);
       return json.data;
     } catch (error) {
-      alert(`Message AssesmentValidate:`, error);
+      Swal.fire({
+        title: 'Error AssesmentValidate',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message AssesmentValidate:`, error);
     }
   };
 };
@@ -443,7 +571,15 @@ export const putProductsbyid = (id) => {
         payload: response.data,
       });
     } catch (error) {
-      alert(`Message ${PUT_PRODUCTS}:`, error);
+      Swal.fire({
+        title: 'Error PUT_PRODUCTS_BY_ID',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${PUT_PRODUCTS}:`, error);
     }
   };
 };
@@ -458,7 +594,15 @@ export const GetAllUsers = () => {
         payload : json.data,
       })
     } catch (error) {
-      alert((`Message ${GET_ALL_USERS}:`, error))
+      Swal.fire({
+        title: 'Error GET_ALL_USERS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert((`Message ${GET_ALL_USERS}:`, error))
     }
   }
  }
@@ -473,7 +617,15 @@ export const DeleteUser = (id) => {
         payload: json.data,
       });
     } catch (error) {
-      alert(`Message ${DELETE_PRODUCTS}:`, error);
+      Swal.fire({
+        title: 'Error DELETE_PRODUCTS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${DELETE_PRODUCTS}:`, error);
     }
   };
 };
