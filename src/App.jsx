@@ -15,6 +15,7 @@ import LoginAdmin from "./AdminUser/LoginAdmin";
 import Dashboard from "./AdminUser/Dashboard";
 import Products from "./AdminUser/Products";
 import Users from "./AdminUser/Users";
+import CreationsAdmin from "./AdminUser/CreationsAdmin";
 function App() {
   const location = useLocation();
     const hasId = localStorage.getItem("id");
@@ -25,7 +26,8 @@ function App() {
       && location.pathname !== "/admin" 
       && location.pathname !== "/admin/account=successfully"  
       &&location.pathname !== "/admin/products"  
-      && location.pathname !== "/admin/users" && (
+      && location.pathname !== "/admin/users" 
+      && location.pathname !== "/admin/creations" && (
         <Nav />
       )}
 
@@ -35,6 +37,7 @@ function App() {
         {hasId && <Route path="/admin/account=successfully" element={<Dashboard />} />}
         { hasId && <Route path="/admin/products" element={<Products />} />}
         { hasId && <Route path="/admin/users" element={<Users />} />}
+        { hasId && <Route path="/admin/creations" element={<CreationsAdmin />} />}
         <Route path="/about" element={<About />} />
         <Route path="/admin" element={<LoginAdmin />} />
         <Route path="/login" element={<Login />} />
