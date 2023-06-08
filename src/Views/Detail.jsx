@@ -1,14 +1,37 @@
-import React, { useEffect } from "react";
-import logochefcito from "../img/hamburguesafinal.png";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cleanDetail, getCreationDetail } from "../Redux/actions";
 import { useParams } from "react-router-dom";
+import { cleanDetail, getCreationDetail, postAssessment, getAssessmentValidate } from "../Redux/actions";
+import { comments } from "../Redux/actions";
+import { getAuth } from "firebase/auth";
+import { app } from "../Firebase.config";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import RatingStars from "../components/RatingStars";
 
 export default function Detail() {
   const { id } = useParams();
-  console.log(id);
+  const userId = localStorage.getItem("id");
   const dispatch = useDispatch();
   const creation = useSelector((state) => state.creationDetail);
+  const allComments = useSelector((state) => state.AllComments);
+  const isIdInLocalStorage = localStorage.getItem("id");
+  const [showComments, setShowComments] = useState(false);
+  const [form, setForm] = useState({
+    creation_id: "",
+    user_id: parseInt(userId),
+    content: "",
+    vote: "",
+    img: ""
+  });
+
+console.log('Ingredientes', creation.components?.Salsas[2]);
+
+  const [errors, setErrors] = useState({});
+
+  const firebaseAuth = getAuth(app);
+  const user = firebaseAuth.currentUser;
+  const img = user?.photoURL;
 
   useEffect(() => {
     dispatch(getCreationDetail(id));
@@ -16,29 +39,55 @@ export default function Detail() {
       dispatch(cleanDetail());
     };
   }, [dispatch]);
-  console.log(creation);
+
+  const handleRatingChange = (value) => {
+    console.log("_::::::.", value);
+    setForm({
+      ...form,
+      vote: value.toString()
+    });
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setForm({
+      ...form,
+      creation_id: creation.id,
+      [name]: value,
+      img: img ? img : ""
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newErrors = {};
+    if (!form.content.trim()) {
+      newErrors.content = "El nombre es requerido";
+    } else if (form.content.length > 50) {
+      newErrors.content = "El nombre debe tener como máximo 50 caracteres";
+    }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      dispatch(postAssessment(form));
+      alert("Comentario agregado");
+      window.location.reload();
+
+      setForm({
+        creation_id: "",
+        user_id: "",
+        content: "",
+        vote: "",
+        img: ""
+      });
+    }
+  };
+
+  const handleShowComments = () => {
+    dispatch(comments(creation.id));
+    setShowComments(!showComments);
+  };
 
   return (
-    //     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    //   <div>
-    //     <img className="w-full h-auto" src={creation?.image} alt="" />
-    //   </div>
-    //   <div className="flex flex-col justify-center">
-    //     <h3 className="text-gray-900 font-bold text-center text-5xl mt-6 mb-6">Detalle de tu creación</h3>
-    //     <h2 className="text-gray-900 text-2xl font-semibold">{creation?.name}</h2>
-    //     <h2 className="text-gray-900 text-md font-semibold">{creation.product?.name}</h2>
-    //     <h4 className="text-gray-900 text-sm font-semibold">{creation.Users?.name}</h4>
-    //     <h6 className="text-gray-900 font-bold text-center text-5xl mt-6 mb-6">Ingredientes</h6>
-    //     <h3 className="capitalize">
-    //       {creation &&
-    //       creation.componentNames?.map((elem) => {
-    //         return (
-    //           `- ${elem} `
-    //         )
-    //       })}
-    //     </h3>
-    //   </div>
-    // </div>
     <>
       <div className="px-20">
         <div className="flex items-center justify-center mb-4">
@@ -71,105 +120,143 @@ export default function Detail() {
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-gray-900 font-semibold">Ingredientes:</span>
-              <h3 className="capitalize">
-                {creation &&
-                  creation.componentNames?.map((elem) => {
-                    return `- ${elem} `;
-                  })}
-              </h3>
+            <span className="text-orange-600 font-semibold">Ingredientes:</span>
+<h3 className="capitalize">
+  {creation &&
+    creation.components?.Ingredientes ? (
+      creation.components.Ingredientes.map((elem, index) => {
+        return index === creation.components.Ingredientes.length - 1 ? (
+          elem
+        ) : (
+          elem + ", "
+        );
+      })
+    ) : (
+      "No hay Ingredientes"
+    )}
+</h3>
+              <br></br>
+              <span className="text-orange-600 font-semibold">Salsas:</span>
+<h3 className="capitalize">
+  {creation &&
+    creation.components?.Salsas ? (
+      creation.components.Salsas.map((elem, index) => {
+        return index === creation.components.Salsas.length - 1 ? (
+          elem
+        ) : (
+          elem + ", "
+        );
+      })
+    ) : (
+      "No hay Salsas"
+    )}
+</h3>
+              <br></br>
+              <span className="text-orange-600 font-semibold">Adiciones:</span>
+<h3 className="capitalize">
+  {creation &&
+    creation.components?.Adiciones ? (
+      creation.components.Adiciones.map((elem, index) => {
+        return index === creation.components.Adiciones.length - 1 ? (
+          elem
+        ) : (
+          elem + ", "
+        );
+      })
+    ) : (
+      "No hay adiciones"
+    )}
+</h3>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="px-24 mt-2">
+      <div className="flex flex-col items-start ml-8">
         <h2 className="text-orange-600 font-bold text-3xl mt-6 mb-6">
           Comentarios
         </h2>
 
-        <div className="flex items-center mb-4">
-          <div className="flex items-center mr-4">
-            <svg
-              className="w-6 h-6 fill-current text-orange-500"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2L15.09 8.54L22 9.82L17 14.14L18.18 21L12 17.77L5.82 21L7 14.14L2 9.82L8.91 8.54L12 2Z" />
-            </svg>
-            <svg
-              className="w-6 h-6 fill-current text-orange-500"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2L15.09 8.54L22 9.82L17 14.14L18.18 21L12 17.77L5.82 21L7 14.14L2 9.82L8.91 8.54L12 2Z" />
-            </svg>
-            <svg
-              className="w-6 h-6 fill-current text-orange-500"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2L15.09 8.54L22 9.82L17 14.14L18.18 21L12 17.77L5.82 21L7 14.14L2 9.82L8.91 8.54L12 2Z" />
-            </svg>
-            <svg
-              className="w-6 h-6 fill-current text-gray-400"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2L15.09 8.54L22 9.82L17 14.14L18.18 21L12 17.77L5.82 21L7 14.14L2 9.82L8.91 8.54L12 2Z" />
-            </svg>
-            <svg
-              className="w-6 h-6 fill-current text-gray-400"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2L15.09 8.54L22 9.82L17 14.14L18.18 21L12 17.77L5.82 21L7 14.14L2 9.82L8.91 8.54L12 2Z" />
-            </svg>
-          </div>
-          <span className="text-gray-600 text-sm">(4.5)</span>
-        </div>
-
-        <div className="mb-4">
-          <div className="flex items-start mb-2">
-            <div className="w-12 h-12 bg-gray-200 rounded-full mr-4"></div>
-            <div>
-              <h4 className="text-gray-900 font-semibold">Usuario 1</h4>
-              <p className="text-gray-700">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </div>
-          </div>
-          <div className="flex items-start mb-2">
-            <div className="w-12 h-12 bg-gray-200 rounded-full mr-4"></div>
-            <div>
-              <h4 className="text-gray-900 font-semibold">Usuario 2</h4>
-              <p className="text-gray-700">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <form className="mb-4">
-          <h3 className="text-gray-900 font-semibold mb-2">
-            Deja tu comentario
-          </h3>
-          <div className="flex items-center mb-2">
-            <input
-              type="text"
-              className="w-[700px] border border-gray-300 rounded-md py-2 px-4"
-              placeholder="Nombre"
-            />
-          </div>
-          <div className="flex items-center mb-2">
-            <textarea
-              className="w-[700px] border border-gray-300 rounded-md py-2 px-4"
-              placeholder="Comentario"
-            ></textarea>
-          </div>
+        <div className="flex justify-center mb-4">
           <button
-            type="submit"
-            className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded"
+            onClick={handleShowComments}
+            className="bg-orange-600 w-48 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded"
           >
-            Enviar
+            {showComments ? "Ocultar comentarios" : "Ver comentarios"}
           </button>
-        </form>
+        </div>
+
+        {showComments && (
+          <div className="flex flex-col items-center mb-4">
+            {allComments &&
+              allComments.map((elem) => {
+                return (
+                  <div key={elem.id} className="mb-4">
+                    <div className="flex items-center">
+                      {elem.img ? (
+                        <img
+                          className="w-8 h-8 rounded-full mr-2"
+                          src={elem.img}
+                          alt="User Avatar"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          className="h-5 ml-2 mr-2"
+                          icon={faUser}
+                        />
+                      )}
+
+                      <h4 className="text-gray-900 font-bold">
+                        {elem.userName}
+                      </h4>
+                      <div className="ml-4">
+                      <RatingStars   disabled={showComments} value={parseInt(elem.vote)} />
+                      </div>
+                    
+                    </div>
+                    <p className="w-44 p-2 text-gray-700 rounded-md">
+                      {elem.content}
+                    </p>
+                    <div className="flex items-center mt-2"></div>
+                  </div>
+                );
+              })}
+          </div>
+        )}
+
+        {isIdInLocalStorage ? (
+          <form onSubmit={handleSubmit} className="w-1/2">
+            <div className="mt-4">
+              <RatingStars
+                value={parseFloat(form.vote)}
+                handleRatingChange={handleRatingChange}
+              />
+              <label htmlFor="content" className="text-gray-900 font-semibold">
+                Deja un comentario:
+              </label>
+              <textarea
+                name="content"
+                id="content"
+                className="border border-gray-300 rounded-md p-2 mt-2 w-full"
+                value={form.content}
+                onChange={handleChange}
+              ></textarea>
+              {errors.content && (
+                <p className="text-red-500 text-sm mt-1">{errors.content}</p>
+              )}
+            </div>
+            <div className="mt-4">
+              <button
+                type="submit"
+                className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded"
+              >
+                Enviar comentario
+              </button>
+            </div>
+          </form>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );

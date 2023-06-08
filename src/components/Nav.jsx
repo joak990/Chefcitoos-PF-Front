@@ -8,28 +8,34 @@ import { getAuth, signOut } from "firebase/auth";
 import { app } from "../Firebase.config";
 import ModalShoppingCart from "./ModalShoppingCart";
 // import { useUser } from "../useUser";
-
+import { FaSignInAlt } from 'react-icons/fa';
 const Nav = () => {
   const location = useLocation();
   let quantity;
   const [isOpen, setIsOpen] = useState(false);
   const [userorigin, setUserOrigin] = useState(null);
   const [name, setName] = useState('');
+
   const [showShoppingCart, setShowShoppingCart] = useState(false);
-  
+  const [storedEmail, setStoredEmail] = useState('');
+
   useEffect(() => {
-    const storedName = localStorage.getItem('name');
+    const storedName = localStorage.getItem("name");
     setName(storedName);
+    const storedEmail = localStorage.getItem("email");
+    setStoredEmail(storedEmail);
   }, []);
-  // Estado del usuario
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
+  console.log(storedEmail);
+ const isIdInLocalStorage = localStorage.getItem("id");
   const navigate = useNavigate();
   const firebaseAuth = getAuth(app);
   const user = firebaseAuth.currentUser;
-
+console.log(isIdInLocalStorage );
+ 
   const handleLogout = async () => {
     try {
       await signOut(firebaseAuth);
@@ -42,7 +48,8 @@ const Nav = () => {
       console.log("Error al hacer logout:", error);
     }
   };
-  // const userstorage = useUser();
+
+
 
   return (
     
@@ -52,7 +59,7 @@ const Nav = () => {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <Link to="/home" className="-m-1.5 p-1.5">
+          <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Chefcitoos</span>
             <img
               className="h-16 w-auto rounded-full"
@@ -105,6 +112,7 @@ const Nav = () => {
           >
             Menú
           </Link>
+          {(user || isIdInLocalStorage) && (
           <Link
             to="/creaciones"
             className={`text-md font-semibold leading-6 text-gray-900 hover:text-orange-600 hover:border-b-2 border-orange-600 ${
@@ -115,6 +123,7 @@ const Nav = () => {
           >
             Creaciones
           </Link>
+          )}
           <Link
             to="/publicaciones"
             className={`text-md font-semibold leading-6 text-gray-900 hover:text-orange-600 hover:border-b-2 border-orange-600 ${
@@ -137,32 +146,50 @@ const Nav = () => {
             Nosotros
           </Link>
         </div>
-
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button className="bg-white rounded-full flex justify-center items-center mr-4 w-12 cursor-pointer" onClick={ () => setShowShoppingCart(true)}>
-            <FontAwesomeIcon icon={faShoppingCart} />
-            {quantity > 0 && (
-            <span className="inline-flex items-center justify-center bg-red-500 text-white rounded-full h-4 w-4 -mt-5 -mr-4">
-          5
-        </span>)}
-          </button>
-          <button
-            onClick={handleLogout}
-            className="bg-orange-600 w-28 h-12 text-white rounded-xl font-bold mr-4"
-          >
-            Logout
-          </button>
           
-          <div className="bg-gray-200 rounded-full flex justify-center items-center w-12">
-            {
-              user ?  <img
-              className="rounded-full"
-              src={user && user.photoURL}
-              alt=""
-            />: <FontAwesomeIcon icon={faUser} />
-            }
-           
-          </div>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          {user || isIdInLocalStorage ? (
+            <>
+              <button className="bg-white rounded-full flex justify-center items-center mr-4 w-12 cursor-pointer" onClick={ () => setShowShoppingCart(true)}>
+                <FontAwesomeIcon icon={faShoppingCart} />
+                {quantity > 0 && (
+            <span className="inline-flex items-center justify-center bg-red-500 text-white rounded-full h-4 w-4 -mt-5 -mr-4">
+            5
+            </span>)}
+              </button>
+              <button
+                onClick={handleLogout}
+                className="bg-orange-600 w-28 h-12 text-white rounded-xl font-bold mr-4"
+              >
+                Logout
+              </button>
+              <div className="bg-gray-200 rounded-full flex justify-center items-center w-12">
+                {user ? (
+                  <img
+                    className="rounded-full"
+                    src={user && user.photoURL}
+                    alt=""
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faUser} />
+                )}
+              </div>
+            </>
+          ) : (
+            <><div className="flex items-center"> 
+              <div className="mt-1">
+                <Link to="/login">
+              <FaSignInAlt className="ml-4 text-2xl hover:bg-orange-200" />
+              </Link>
+              </div>
+              
+              <div className=" ml-4 mt-1">
+              <p  >ingresar</p>
+              </div> 
+              </div>
+            </>
+            
+          )}
         </div>
       </nav>
       {/* Mobile menu */}
@@ -208,7 +235,8 @@ const Nav = () => {
             <div className="space-y-2 py-6">
               <div className="-mx-3">
                 <div className="mt-2 space-y-2" id="disclosure-1">
-                  <p className="text-gray-400"> Bienvenido! {name}</p>
+                  {isIdInLocalStorage ? (<p className="text-gray-400"> Bienvenido! {name}</p>) :""}
+                  
                   <a
                     href="/home"
                     className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
@@ -221,12 +249,15 @@ const Nav = () => {
                   >
                     Menú
                   </a>
-                  <a
-                    href="/creaciones"
-                    className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
-                  >
-                    Creaciones
-                  </a>
+                  
+                  {user || isIdInLocalStorage ? (
+                    <a
+                      href="/creaciones"
+                      className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
+                    >
+                      Creaciones
+                    </a>
+                  ) : null}
                   <a
                     href="/publicaciones"
                     className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
@@ -239,12 +270,23 @@ const Nav = () => {
                   >
                     Nosotros
                   </a>
-                  <a
-                href="/"
-                className="-mx-3 block rounded-lg px-3 py-2.5 text-base ml-3 font-semibold leading-7 text-gray-900 hover:bg-red-400"
-              >
-                Logout
-              </a>
+                  {user || isIdInLocalStorage ? (
+                    <a
+                      href="/creaciones"
+                      className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
+                    >
+                      Creaciones
+                    </a>
+                  ) :  <div><a
+                  href="/login"
+                  className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
+                >Ingresar</a> 
+                <a
+                  href="/register"
+                  className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
+                >Registrarse</a></div> 
+                }
+                
             
                 </div>
               </div>

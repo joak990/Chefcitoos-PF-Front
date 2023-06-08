@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate,Link } from "react-router-dom";
 import logochefcito from "../img/hamburguesafinal.png";
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  setPersistence,
-  browserSessionPersistence,
-} from "firebase/auth";
-import { app, auth } from "../Firebase.config";
+
+
 import { useDispatch } from "react-redux";
-import { postLoginUser, postRegisterUser } from "../Redux/actions";
-import { FcGoogle } from "react-icons/fc";
+import { LoginAdminValidate, postLoginUser,  } from "../Redux/actions";
+
 const validation = (form)=>{
   const newErrors = {};
 
@@ -33,22 +26,16 @@ const validation = (form)=>{
   } else if (form.password.length > 20) {
     newErrors.password = "La contraseña debe tener como máximo 20 caracteres";
   }
-return newErrors
-  
-  
-} 
-
-  
-function Login() {
+return newErrors 
+}
+function LoginAdmin() {
   const navigate = useNavigate();
-  const firebaseAuth = getAuth(app);
-  const provider = new GoogleAuthProvider();
   const dispatch = useDispatch();
-  const [user, setUser] = useState(null);
   const [errors, setErrors] = useState({});
   const [form, setForm] = useState({
     email: "",
     password: "",
+    type:"admin"
   });
 
   const handleInputChange = (event) => {
@@ -66,17 +53,13 @@ function Login() {
     event.preventDefault();
 
 
-    dispatch(postLoginUser(form))
+    dispatch(LoginAdminValidate(form))
       .then((response) => {
-     // console.log("adentrooo");
-      // if (!Object.keys(response)){
-      //   navigate("/")
-      // }
-        if (response.success === true) {
+     console.log("_____",response);
+        if (response.validate === true) {
           localStorage.setItem("user", JSON.stringify(response.user));
-          // Si la respuesta es true, el inicio de sesión fue exitoso
-          // Redireccionar al Home
-          navigate("/");
+         
+          navigate("/admin/account");
         } else {
           alert("los datos son incorrectos")
         }
@@ -86,51 +69,10 @@ function Login() {
         console.error("Error en el inicio de sesión:", error);
       });
   };
-// const userSession = JSON.parse(localStorage.getItem("user"));
-
 useEffect(() => {
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-      if (user) {
-        navigate("/");
-      }else{
-        const email = localStorage.getItem("email");
-        const id = localStorage.getItem("id");
-        //console.log('email', email);
-        //console.log('id', id);
-
-        if (email && id) {
-          // Redireccionar automáticamente al Home
-          navigate("/");
-        }
-      }
-     
-    });
-    
-
-    return () => {
-      // Limpiar el event listener al desmontar el componente
-      unsubscribe();
-    };
-  }, [firebaseAuth, navigate]);
-  
-
-  const handleLogin = async () => {
-    await setPersistence(firebaseAuth, browserSessionPersistence);
-    const response = await signInWithPopup(firebaseAuth, provider);
-    
-    const datauser = {
-      name: response.user.displayName,
-      email: response.user.email,
-      uid: response.user.uid,
-      type: "user",
-    };
- 
-    dispatch(postRegisterUser(datauser));
-    
-  };
-
+});
   return (
-    <div className="flex min-h-screen w-screen flex-col lg:flex-row justify-center items-center">
+    <div className="bg-black flex min-h-screen w-screen flex-col lg:flex-row justify-center items-center">
       <img className="w-35 h-36 lg:h-96 lg:mb-4 " src={logochefcito} alt="" />
       <form
         onSubmit={handleSubmit}
@@ -138,15 +80,9 @@ useEffect(() => {
       >
         <h1 className="text-3xl font-bold mb-8 text-center">Ingresar</h1>
         <div className="mb-6 lg:ml-4">
-      <button
-        onClick={handleLogin}
-        className="bg-blue-500 w-56 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
-      >
-        <FcGoogle className="text-2xl mr-2" />
-        <span>Sign in with Google</span>
-      </button>
+      
     </div>
-        <p className="text-center">ingresa con email</p>
+        
         <div className="flex flex-col mb-6">
           <label htmlFor="email" className="mb-2 flex items-center">
             Email:
@@ -187,15 +123,15 @@ useEffect(() => {
         >
           Ingresar
         </button>
-        <hr />
-        <Link to={"/register"}>
-          <p className="font-extralight text-center">
-            No tienes cuenta? crea una aqui.
-          </p>
+        <Link to="/login">
+        <div> <p className=" hover:bg-gray-300 mr-6 text-sm text-gray-500 flex justify-center mt-2">Ingreso para usuarios aqui</p></div>
+        
         </Link>
       </form>
+      
+     
     </div>
   );
 }
 
-export default Login;
+export default LoginAdmin;
