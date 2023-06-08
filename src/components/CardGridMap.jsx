@@ -18,7 +18,7 @@ function CardGridMap() {
     },
     {
       title: 'Clientes',
-      metric: '$12,200',
+     
       progress: 15.9,
       deltatype: 'increase',
     },

@@ -3,31 +3,28 @@ import React from 'react'
 
 
 
-const cities = [
+const Products = [
   {
-    name: "New York",
-    sales: 9800,
+    name: "Hamburguesas",
+    sales: 28000,
   },
   {
-    name: "London",
+    name: "Perritos",
     sales: 4567,
   },
   {
-    name: "Hong Kong",
+    name: "Burritos",
     sales: 3908,
   },
   {
-    name: "San Francisco",
-    sales: 2400,
+    name: "Sandwitches",
+    sales: 3908,
   },
   {
-    name: "Singapore",
-    sales: 1908,
+    name: "Otros Platos",
+    sales: 3908,
   },
-  {
-    name: "Zurich",
-    sales: 1398,
-  },
+ 
 ];
 
 const valueFormatter = (number) =>
@@ -35,10 +32,10 @@ const valueFormatter = (number) =>
 
 const Chardonut = () => (
   <Card className="max-w-lg">
-    <Title>Sales</Title>
+    <Title>Ventas</Title>
     <DonutChart
       className="mt-6"
-      data={cities}
+      data={Products}
       category="sales"
       index="name"
       valueFormatter={valueFormatter}
