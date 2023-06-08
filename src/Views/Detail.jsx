@@ -25,6 +25,8 @@ export default function Detail() {
     img: ""
   });
 
+console.log('Ingredientes', creation.components?.Salsas[2]);
+
   const [errors, setErrors] = useState({});
 
   const firebaseAuth = getAuth(app);
@@ -118,13 +120,29 @@ export default function Detail() {
               </span>
             </div>
             <div className="mt-4">
-              <span className="text-gray-900 font-semibold">Ingredientes:</span>
+              <span className="text-orange-600 font-semibold">Ingredientes:</span>
               <h3 className="capitalize">
                 {creation &&
-                  creation.componentNames?.map((elem) => {
-                    return `- ${elem} `;
+                  creation.components?.Ingredientes.map((elem) => {
+                    return (elem + ', ')
                   })}
               </h3>
+              <br></br>
+              <span className="text-orange-600 font-semibold">Salsas:</span>
+              <h3 className="capitalize">
+                {creation &&
+                  creation.components?.Salsas.map((elem) => {
+                    return (elem + ', ')
+                  })}
+              </h3>
+              <br></br>
+              <span className="text-orange-600 font-semibold">Adiciones:</span>
+              <h3 className="capitalize">
+                {creation &&
+                  creation.components?.Adiciones.map((elem) => {
+                    return (elem + ', ')
+                  })}
+                  </h3>
             </div>
           </div>
         </div>
