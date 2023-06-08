@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProducts, putProductsbyid } from '../Redux/actions';
 import NavAdmin from './NavAdmin';
 import { Card } from '@tremor/react';
+import Swal from 'sweetalert2'
 
 function Products() {
   const dispatch = useDispatch();
@@ -12,8 +13,8 @@ function Products() {
   }, [dispatch]);
 
   const products = useSelector((state) => state.Products);
-const prueba  = (id)=>{ 
-  Swal.fire({
+const prueba  = async(id)=>{ 
+  await Swal.fire({
     title: '¿Estas seguro que quieres modificar el producto?',
     icon: 'warning',
     buttonsStyling: false,
@@ -23,7 +24,7 @@ const prueba  = (id)=>{
   })
   //alert("¿Estas seguro que quieres modificar el producto?")
   dispatch(putProductsbyid(id))
-  Swal.fire({
+  await Swal.fire({
     title: 'El producto ha sido Modificado',
     icon: 'success',
     buttonsStyling: false,
