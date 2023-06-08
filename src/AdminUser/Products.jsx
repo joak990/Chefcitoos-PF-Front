@@ -56,7 +56,10 @@ const prueba  = (id)=>{
                          }
                           
                       </td>
-                      <td product_id={product.id} className={`py-2 pl-8 pr-8  ${index !== products.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}> <button onClick={()=> prueba(product.id)} className='bg-gray-400 rounded-xl' >Cambiar Estado</button></td>
+                      { product.isDeleted ? 
+                      (<td product_id={product.id} className={`py-2 pl-8 pr-8  ${index !== products.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}> <button onClick={()=> prueba(product.id)} className='bg-red-200 rounded-xl' >Cambiar Estado</button></td>)
+                      : <td product_id={product.id} className={`py-2 pl-8 pr-8  ${index !== products.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}> <button onClick={()=> prueba(product.id)} className='bg-green-200 rounded-xl' >Cambiar Estado</button></td> }
+                      
                     </tr>
                   ))}
                 </tbody>
