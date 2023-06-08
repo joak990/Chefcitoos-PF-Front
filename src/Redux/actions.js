@@ -23,7 +23,9 @@ import {
   CLEAN_PUBLICATIONS,
   GET_ASSESSMENT_VALIDATE,
   GET_ALL_COMMENTS,
-  PUT_PRODUCTS_BY_ID
+  PUT_PRODUCTS_BY_ID,
+  GET_ALL_USERS,
+  DELETE_USER
 } from "./typeAction";
 
 import axios from "axios";
@@ -433,4 +435,34 @@ export const putProductsbyid = (id) => {
 };
 
 
+export const GetAllUsers = () => {
+  return async function (dispatch){
+    try {
+      const json = await axios.get(`http://localhost:3001/users`)
+      return dispatch ({
+        type : GET_ALL_USERS,
+        payload : json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_ALL_USERS}:`, error))
+    }
+  }
+ }
+
+ 
+export const DeleteUser = (id) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.delete(`http://localhost:3001/users/${id}`);
+      return dispatch({
+        type: DELETE_USER,
+        payload: json.data,
+      });
+    } catch (error) {
+      alert(`Message ${DELETE_PRODUCTS}:`, error);
+    }
+  };
+};
+
+ 
 

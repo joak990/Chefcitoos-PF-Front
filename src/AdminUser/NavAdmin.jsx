@@ -11,7 +11,9 @@ const NavAdmin = () => {
       <nav className="flex items-center justify-center h-16 px-4">
         <div className="flex justify-center">
           <div className="flex justify-center">
-            
+          <Link to="/admin/account=successfully">
+              <button className="mr-4 text-white hover:text-gray-300">Dashboard</button>
+            </Link>
             <Link to="/admin/users">
               <button className="mr-4 text-white hover:text-gray-300">Administrar usuarios</button>
             </Link>
@@ -21,7 +23,7 @@ const NavAdmin = () => {
             <Link to="/admin/products">
               <button className="mr-4 text-white hover:text-gray-300">Gestionar productos</button>
             </Link>
-            <Link to="/admin/products">
+            <Link to="/admin/addproducts">
               <button className="mr-4 text-white hover:text-gray-300">Añadir  Productos</button>
             </Link>
           </div>
