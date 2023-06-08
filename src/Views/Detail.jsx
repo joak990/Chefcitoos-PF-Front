@@ -59,7 +59,7 @@ export default function Detail() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const newErrors = {};
     if (!form.content.trim()) {
@@ -70,15 +70,13 @@ export default function Detail() {
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       dispatch(postAssessment(form));
-      Swal.fire({
+     await Swal.fire({
         title: 'Comentario enviado',
         buttonsStyling: false,
         customClass: {
           confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
         }
-      });
-      
-      
+      })
       window.location.reload();
 
       setForm({
