@@ -13,12 +13,13 @@ import Publicaciones from "./Views/Publicaciones";
 import Detail from "./Views/Detail";
 import LoginAdmin from "./AdminUser/LoginAdmin";
 import Dashboard from "./AdminUser/Dashboard";
+import Products from "./AdminUser/Products";
 function App() {
   const location = useLocation();
     const hasId = localStorage.getItem("id");
   return (
     <>
-      {location.pathname !== "/register" && location.pathname !== "/login"&& location.pathname !== "/admin" && location.pathname !== "/admin/account"  && (
+      {location.pathname !== "/register" && location.pathname !== "/login"&& location.pathname !== "/admin" && location.pathname !== "/admin/account"  &&location.pathname !== "/admin/products"  && (
         <Nav />
       )}
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<FormCreate />} />
         {hasId && <Route path="/admin/account" element={<Dashboard />} />}
+        <Route path="/admin/products" element={<Products />} />
         <Route path="/about" element={<About />} />
         <Route path="/admin" element={<LoginAdmin />} />
         <Route path="/login" element={<Login />} />

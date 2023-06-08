@@ -22,7 +22,8 @@ import {
   CLEAN_YOUR_CREATIONS,
   CLEAN_PUBLICATIONS,
   GET_ASSESSMENT_VALIDATE,
-  GET_ALL_COMMENTS
+  GET_ALL_COMMENTS,
+  PUT_PRODUCTS_BY_ID
 } from "./typeAction";
 
 import axios from "axios";
@@ -408,6 +409,25 @@ export const LoginAdminValidate = (payload) => {
       // Error en la petición
       console.error(error);
       return { success: false, message: "Error de autenticación" };
+    }
+  };
+};
+
+
+
+
+
+export const putProductsbyid = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(`http://localhost:3001/products/change/${id}`);
+      console.log(response.data);
+      return dispatch({
+        type: PUT_PRODUCTS_BY_ID,
+        payload: response.data,
+      });
+    } catch (error) {
+      alert(`Message ${PUT_PRODUCTS}:`, error);
     }
   };
 };
