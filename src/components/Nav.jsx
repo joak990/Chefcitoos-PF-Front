@@ -6,15 +6,19 @@ import { faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../Firebase.config";
+import ModalShoppingCart from "./ModalShoppingCart";
 // import { useUser } from "../useUser";
 import { FaSignInAlt } from 'react-icons/fa';
 const Nav = () => {
   const location = useLocation();
-
+  let quantity;
   const [isOpen, setIsOpen] = useState(false);
   const [userorigin, setUserOrigin] = useState(null);
   const [name, setName] = useState('');
+
+  const [showShoppingCart, setShowShoppingCart] = useState(false);
   const [storedEmail, setStoredEmail] = useState('');
+
   useEffect(() => {
     const storedName = localStorage.getItem("name");
     setName(storedName);
@@ -146,9 +150,13 @@ console.log(isIdInLocalStorage );
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {user || isIdInLocalStorage ? (
             <>
-              <div className="bg-white rounded-full flex justify-center items-center mr-4 w-12">
+              <button className="bg-white rounded-full flex justify-center items-center mr-4 w-12 cursor-pointer" onClick={ () => setShowShoppingCart(true)}>
                 <FontAwesomeIcon icon={faShoppingCart} />
-              </div>
+                {quantity > 0 && (
+            <span className="inline-flex items-center justify-center bg-red-500 text-white rounded-full h-4 w-4 -mt-5 -mr-4">
+            5
+            </span>)}
+              </button>
               <button
                 onClick={handleLogout}
                 className="bg-orange-600 w-28 h-12 text-white rounded-xl font-bold mr-4"
@@ -287,6 +295,7 @@ console.log(isIdInLocalStorage );
           </div>
         </div>
       </div>
+      {showShoppingCart && <ModalShoppingCart onClose={() => setShowShoppingCart(false)} />}
     </header>
   );
 };

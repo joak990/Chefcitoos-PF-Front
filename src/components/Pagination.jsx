@@ -72,7 +72,7 @@ export const Pagination = ({ page, maxPage, action }) => {
       </button>
       <div className="flex justify-center items-center">
         <input
-          className="border border-gray-300 px-1 py-2 mr-2 w-12"
+          className="border border-gray-300 rounded-md text-center px-1 py-2 mr-2 w-12"
           onChange={onChange}
           onKeyDown={onKeyDown}
           name="page"
