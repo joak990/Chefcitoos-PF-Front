@@ -26,7 +26,8 @@ import {
   PUT_PRODUCTS_BY_ID,
   GET_ALL_USERS,
   DELETE_USER,
-  GET_COMMENTS
+  GET_COMMENTS,
+  DELETE_COMMENT
 } from "./typeAction";
 
 import axios from "axios";
@@ -644,3 +645,24 @@ export const GetAllComments = (id) => {
   }
  }
 
+ export const DeleteComments = (id) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.delete(`http://localhost:3001/assessments/${id}`);
+      return dispatch({
+        type: DELETE_COMMENT,
+        payload: json.data,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error DELETE_PRODUCTS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //alert(`Message ${DELETE_PRODUCTS}:`, error);
+    }
+  };
+};
