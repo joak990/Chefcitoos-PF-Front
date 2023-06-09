@@ -4,7 +4,8 @@ import { DeleteUser, GetAllUsers, getProducts, putProductsbyid } from '../Redux/
 import NavAdmin from './NavAdmin';
 import { Card } from '@tremor/react';
 import Swal from 'sweetalert2'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 function Users() {
   const dispatch = useDispatch();
 
@@ -87,23 +88,33 @@ function Users() {
                   <tbody>
                     {users?.map((user, index) => (
                       <tr key={index}>
-                        <td className={`py-2 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                        {user.id===111? ( <td className={`py-2 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                        <div className='flex justify-center'><FontAwesomeIcon icon={faLock} /></div>
+                        </td>):<td className={`py-2 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
                           {user.id}
-                        </td>
+                        </td>}
+                       
                         <td className={`py-2 pl-8 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
                           {user.name}
                         </td>
-                        <td className={`py-2 pl-8 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                        {user.email==="freddyher@gmail.com" ? (<td className={`py-2 pl-8 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                        <div className='flex justify-center'><FontAwesomeIcon icon={faLock} /></div>
+                        
+                        </td>):<td className={`py-2 pl-8 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
                           {user.email}
-                        </td>
+                        </td>}
+                        
                         <td className={`py-2 pl-4 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
                          {user.type === "user" ? (<button className='bg-yellow-200 rounded-2xl w-48'>User</button>): <button className='bg-green-400 rounded-2xl w-48'>Admin</button>} 
                           
                         </td>
                         <td className={`py-2 pl-1 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} text-center`}>
-                          <button onClick={() => handleDeleteUser(user.id)} className='bg-red-200 rounded-2xl w-48'>
+                         
+                          {user.type==="admin" ? (
+                          <div className='flex justify-center'><FontAwesomeIcon icon={faLock} /></div>
+                          ): <button onClick={() => handleDeleteUser(user.id)} className='bg-red-200 rounded-2xl w-48'>
                             Eliminar Usuario
-                          </button>
+                          </button>}
                         </td>
                       </tr>
                     ))}
