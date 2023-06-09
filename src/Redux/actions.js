@@ -27,6 +27,15 @@ import {
   GET_ALL_USERS,
   DELETE_USER,
   GET_COMMENTS,
+  ADD_CREATION,
+  GET_CREATIONS_SELECTED,
+  DELETE_CREATION,
+  UPDATE_CREATION_QUANTITY,
+  ADD_PRODUCT,
+  DELETE_PRODUCT,
+  UPDATE_PRODUCT_QUANTITY,
+  SET_SHOPPING_CART,
+  CLEAN_SHOPPING_CART,
   DELETE_COMMENT
 } from "./typeAction";
 
@@ -645,10 +654,60 @@ export const GetAllComments = (id) => {
   }
  }
 
+ export function addCreation(payload){
+  return {
+    type: ADD_CREATION,
+    payload
+  }
+}
+
+export function deleteCreation(payload){
+  return {
+    type: DELETE_CREATION,
+    payload
+  }
+}
+export function updateCreationQuantity(payload){
+  return {
+    type: UPDATE_CREATION_QUANTITY,
+    payload
+  }
+}
+ export function addProduct(payload){
+  return {
+    type: ADD_PRODUCT,
+    payload
+  }
+}
+
+export function deleteProduct(payload){
+  return {
+    type: DELETE_PRODUCT,
+    payload
+  }
+}
+export function updateProductQuantity(payload){
+  return {
+    type: UPDATE_PRODUCT_QUANTITY,
+    payload
+  }
+}
+export function setShoppingCart(payload){
+  return {
+    type: SET_SHOPPING_CART,
+    payload
+  }
+}
+export function cleanShoppingCart(){
+  return {
+    type: CLEAN_SHOPPING_CART,
+  }
+}
+
  export const DeleteComments = (id) => {
   return async function (dispatch) {
     try {
-      const json = await axios.delete(`http://localhost:3001/assessments/${id}`);
+      const json = await axios.delete(`/assessments/${id}`);
       return dispatch({
         type: DELETE_COMMENT,
         payload: json.data,
@@ -666,3 +725,4 @@ export const GetAllComments = (id) => {
     }
   };
 };
+
