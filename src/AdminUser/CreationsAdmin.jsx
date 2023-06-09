@@ -91,16 +91,16 @@ function CreationsAdmin() {
     }
   };
 
-  const handleDeleteCreation = async (id) =>{
-    dispatch(DeleteComments(id))
-    
+  const handleDeleteCreation = async (id) => {
+    dispatch(DeleteComments(id));
+  
     const confirmation = await Swal.fire({
-      title: '¿Estás seguro que quieres modificar el producto?',
+      title: '¿Estás seguro que quieres eliminar este comentario?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#ff9800',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, modificar',
+      confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar',
       reverseButtons: true,
       buttonsStyling: false,
@@ -110,8 +110,21 @@ function CreationsAdmin() {
       },
       allowOutsideClick: () => !Swal.isLoading(),
     });
-    window.location.reload()
-  }
+  
+    if (confirmation.isConfirmed) {
+      // Aquí agregarías la lógica para eliminar el comentario
+      // ...
+      // Luego, mostrar el alert de éxito
+      await Swal.fire({
+        icon: 'success',
+        title: 'Comentario eliminado',
+        showConfirmButton: false,
+        timer: 1500, // Duración del mensaje en milisegundos (1.5 segundos)
+      });
+      window.location.reload();
+    }
+  };
+  
 
   return (
     <main className="bg-slate-200 min-h-screen overflow-y-auto">
