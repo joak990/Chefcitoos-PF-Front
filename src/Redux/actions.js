@@ -26,7 +26,16 @@ import {
   PUT_PRODUCTS_BY_ID,
   GET_ALL_USERS,
   DELETE_USER,
-  GET_COMMENTS
+  GET_COMMENTS,
+  ADD_CREATION,
+  GET_CREATIONS_SELECTED,
+  DELETE_CREATION,
+  UPDATE_CREATION_QUANTITY,
+  ADD_PRODUCT,
+  DELETE_PRODUCT,
+  UPDATE_PRODUCT_QUANTITY,
+  SET_SHOPPING_CART,
+  CLEAN_SHOPPING_CART
 } from "./typeAction";
 
 import axios from "axios";
@@ -644,3 +653,52 @@ export const GetAllComments = (id) => {
   }
  }
 
+ export function addCreation(payload){
+  return {
+    type: ADD_CREATION,
+    payload
+  }
+}
+
+export function deleteCreation(payload){
+  return {
+    type: DELETE_CREATION,
+    payload
+  }
+}
+export function updateCreationQuantity(payload){
+  return {
+    type: UPDATE_CREATION_QUANTITY,
+    payload
+  }
+}
+ export function addProduct(payload){
+  return {
+    type: ADD_PRODUCT,
+    payload
+  }
+}
+
+export function deleteProduct(payload){
+  return {
+    type: DELETE_PRODUCT,
+    payload
+  }
+}
+export function updateProductQuantity(payload){
+  return {
+    type: UPDATE_PRODUCT_QUANTITY,
+    payload
+  }
+}
+export function setShoppingCart(payload){
+  return {
+    type: SET_SHOPPING_CART,
+    payload
+  }
+}
+export function cleanShoppingCart(){
+  return {
+    type: CLEAN_SHOPPING_CART,
+  }
+}

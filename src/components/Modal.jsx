@@ -4,11 +4,13 @@ import image from "../img/hamburguesa.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getComponents } from "../Redux/actions";
+import { addCreation, getComponents } from "../Redux/actions";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../Firebase.config";
+import Swal from 'sweetalert2'
+
 const isIdInLocalStorage = localStorage.getItem("id");
 
 const Modal = ({ productSelected, onClose }) => {
@@ -21,9 +23,8 @@ const Modal = ({ productSelected, onClose }) => {
   const userId = localStorage.getItem("id");
   const [errorName, setErrorName] = useState("");
   const [errorSelectedComponents, setErrorSelectedComponents] = useState("");
- 
   const firebaseAuth = getAuth(app);
-  const user = firebaseAuth.currentUser
+  const user = firebaseAuth.currentUser;
   const components_product = [
     {
       id: 1,
@@ -120,7 +121,7 @@ const Modal = ({ productSelected, onClose }) => {
 
     if (selectedComponents.length > 0 && name) {
       const components = selectedComponents.map((component) => component.id);
-      const body = {
+      const creation = {
         product_id: productSelected.id,
         users_id: userId,
         components,
@@ -128,24 +129,48 @@ const Modal = ({ productSelected, onClose }) => {
         image: productSelected.image,
         price: productSelected.price,
         isPosted: isPostable,
-        purchased_amount: 1,
         isDeleted: false,
+        quantity: 1
       };
-      console.log(body);
-      axios
-        .post("http://localhost:3001/creations", body)
-        .then((response) => {
-          navigate("/creaciones");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+
+      dispatch(addCreation(creation));
+      setErrorName("");
+      setSelectedComponents([]);
+      onClose();
+      Swal.fire({
+        title: 'Producto agregado satisfactoriamente al carrito',
+        icon: 'success',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+      //   const body = {
+      //     product_id: productSelected.id,
+      //     users_id: userId,
+      //     components,
+      //     name,
+      //     image: productSelected.image,
+      //     price: productSelected.price,
+      //     isPosted: isPostable,
+      //     purchased_amount: 1,
+      //     isDeleted: false,
+      //   };
+      //   console.log(body);
+      //   axios
+      //     .post("http://localhost:3001/creations", body)
+      //     .then((response) => {
+      //       navigate("/creaciones");
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //     });
     }
   };
 
   // Verificar si hay un usuario registrado
   if (!(user || userId)) {
-    console.log("isIdInLocalStorage:", isIdInLocalStorage)
+    console.log("isIdInLocalStorage:", isIdInLocalStorage);
     return ReactDOM.createPortal(
       <div
         className="fixed z-10 inset-0 overflow-y-auto"
@@ -282,8 +307,10 @@ const Modal = ({ productSelected, onClose }) => {
                       </label>
                     </div>
                     <form className="mt-3">
-                    {errorSelectedComponents && (
-                        <p className="text-red-600 text-sm">{errorSelectedComponents}</p>
+                      {errorSelectedComponents && (
+                        <p className="text-red-600 text-sm">
+                          {errorSelectedComponents}
+                        </p>
                       )}
                       {components_product.map((component_produc) => (
                         <div className="mt-1" key={component_produc.id}>
