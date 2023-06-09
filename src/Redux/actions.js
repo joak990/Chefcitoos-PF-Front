@@ -35,7 +35,7 @@ import Swal from 'sweetalert2'
 export const getProducts = () => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/products`);
+      const json = await axios.get(`/products`);
       // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_PRODUCTS,
@@ -58,7 +58,7 @@ export const getProducts = () => {
 export const getCreations = () => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/creations/posts?filterName=isPosted`);
+      const json = await axios.get(`/creations/posts?filterName=isPosted`);
       
       return dispatch({
         type: GET_CREATIONS,
@@ -83,7 +83,7 @@ export const  getCreationDetail = (id) => {
 
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/creations/myCreations/${id}?type=creation`);
+      const json = await axios.get(`/creations/myCreations/${id}?type=creation`);
       // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_CREATIONS_BY_ID,
@@ -109,7 +109,7 @@ export const getCreationDetailByUser = (id) => {
   console.log('id',id);
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/creations/myCreations/${id}?type=user`);
+      const json = await axios.get(`/creations/myCreations/${id}?type=user`);
       // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_CREATIONS_BY_USER,
@@ -133,7 +133,7 @@ export const getCreationDetailByUser = (id) => {
 export const deleteProducts = (id) => {
   return async function (dispatch) {
     try {
-      const json = await axios.delete(`http://localhost:3001/products/${id}`);
+      const json = await axios.delete(`/products/${id}`);
       return dispatch({
         type: DELETE_PRODUCTS,
         payload: json.data,
@@ -155,7 +155,7 @@ export const deleteProducts = (id) => {
 export const postProducts = (payload) => {
   return async function (dispatch) {
     try {
-      const post = await axios.post(`http://localhost:3001/products`, payload);
+      const post = await axios.post(`/products`, payload);
       return post;
     } catch (error) {
       Swal.fire({
@@ -175,7 +175,7 @@ export const putProducts = (id, payload) => {
   return async function (dispatch) {
     try {
       const put = await axios.put(
-        `http://localhost:3001/products/${id}`,
+        `/products/${id}`,
         payload
       );
       return dispatch({
@@ -206,7 +206,7 @@ export const postRegisterUser = (payload) => {
   //console.log('::payload:',payload);
   return async function (dispatch) {
     try {
-      const post = await axios.post(`http://localhost:3001/users`, payload);
+      const post = await axios.post(`/users`, payload);
       
      if(post.data.root === "register"){
       if(post.data.duplicated === true){
@@ -256,7 +256,7 @@ export const postLoginUser = (payload) => {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        "http://localhost:3001/users/validate",
+        "/users/validate",
         payload
       );
     
@@ -285,7 +285,7 @@ export const postLoginUser = (payload) => {
 export const getComponents = () => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/components`);
+      const json = await axios.get(`/components`);
       // console.log("::json.data:::", json.data);
       return dispatch({
         type: GET_COMPONENTS,
@@ -310,7 +310,7 @@ export const getComponents = () => {
   //console.log('typeProducts', TypeProducts);
   return async function (dispatch){
     try {
-      const json = await axios.get(`http://localhost:3001/creations/myCreations/${id}?type=user&filterName=typeProduct${TypeProducts}`)
+      const json = await axios.get(`/creations/myCreations/${id}?type=user&filterName=typeProduct${TypeProducts}`)
       return dispatch ({
         type : GET_CREATION_FILTERS,
         payload : json.data,
@@ -332,7 +332,7 @@ export const getComponents = () => {
  export const getPublicacionesFilters = (TypeProducts) => {
   return async function (dispatch){
     try {
-      const json = await axios.get(`http://localhost:3001/creations/posts?filterName=typeProduct${TypeProducts}`)
+      const json = await axios.get(`/creations/posts?filterName=typeProduct${TypeProducts}`)
       return dispatch ({
         type : GET_PUBLICATION_FILTERS,
         payload : json.data,
@@ -392,7 +392,7 @@ export const getPublicacionesFilterPrice = (payload) => {
 export const getCreationByName = (id, name) => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/searchBar/${id}?productName=${name}`);
+      const json = await axios.get(`/searchBar/${id}?productName=${name}`);
      
       return dispatch({
         type: GET_CREATION_BY_NAME,
@@ -415,7 +415,7 @@ export const getCreationByName = (id, name) => {
 export const getPublicationName = (name) => {
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/searchBar/?productName=${name}`);
+      const json = await axios.get(`/searchBar/?productName=${name}`);
     
       return dispatch({
         type: GET_PUBLICATION_BY_NAME,
@@ -465,7 +465,7 @@ export const postAssessment = (payload) => {
   
   return async function (dispatch) {
     try {
-      const json = await axios.post(`http://localhost:3001/assessments`, payload);
+      const json = await axios.post(`/assessments`, payload);
       // console.log("::json.data:::", json.data);
       return json.data;
     } catch (error) {
@@ -487,7 +487,7 @@ export const comments = (id) => {
   console.log('id',id);
   return async function (dispatch) {
     try {
-      const json = await axios.get(`http://localhost:3001/assessments/comments/${id}`);
+      const json = await axios.get(`/assessments/comments/${id}`);
       console.log("::jsonDdata:::", json.data);
       return dispatch({
         type : GET_ALL_COMMENTS ,
@@ -512,7 +512,7 @@ export const getAssessmentValidate = () => {
   return async function (dispatch) {
     try {
       const obj = {creation_id:1,user_id:100}
-      const json = await axios.get(`http://localhost:3001/assessments/validateAssessment`, obj);
+      const json = await axios.get(`/assessments/validateAssessment`, obj);
       return json.data;
     } catch (error) {
       Swal.fire({
@@ -530,11 +530,11 @@ export const getAssessmentValidate = () => {
 
 
 export const LoginAdminValidate = (payload) => {
-  console.log('payloadkkkkkkkkkkkkkkkkkkkkkkkk', payload);
+
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        "http://localhost:3001/users/validate",
+        "/users/validate",
         payload
       );
      console.log("date",response.data);
@@ -565,7 +565,7 @@ export const LoginAdminValidate = (payload) => {
 export const putProductsbyid = (id) => {
   return async function (dispatch) {
     try {
-      const response = await axios.put(`http://localhost:3001/products/change/${id}`);
+      const response = await axios.put(`/products/change/${id}`);
       console.log(response.data);
       return dispatch({
         type: PUT_PRODUCTS_BY_ID,
@@ -589,7 +589,7 @@ export const putProductsbyid = (id) => {
 export const GetAllUsers = () => {
   return async function (dispatch){
     try {
-      const json = await axios.get(`http://localhost:3001/users`)
+      const json = await axios.get(`/users`)
       return dispatch ({
         type : GET_ALL_USERS,
         payload : json.data,
@@ -612,7 +612,7 @@ export const GetAllUsers = () => {
 export const DeleteUser = (id) => {
   return async function (dispatch) {
     try {
-      const json = await axios.delete(`http://localhost:3001/users/${id}`);
+      const json = await axios.delete(`/users/${id}`);
       return dispatch({
         type: DELETE_USER,
         payload: json.data,
@@ -633,7 +633,7 @@ export const DeleteUser = (id) => {
 export const GetAllComments = (id) => {
   return async function (dispatch){
     try {
-      const json = await axios.get(`http://localhost:3001/assessments/${id}`)
+      const json = await axios.get(`/assessments/${id}`)
       return dispatch ({
         type : GET_COMMENTS,
         payload : json.data,
