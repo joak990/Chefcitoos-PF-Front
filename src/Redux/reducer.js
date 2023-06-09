@@ -23,7 +23,8 @@ import {
   GET_ALL_COMMENTS,
   PUT_PRODUCTS_BY_ID,
   GET_ALL_USERS,
-  GET_COMMENTS
+  GET_COMMENTS,
+  DELETE_COMMENT
 } from "./typeAction";
 
 const initialState = {
@@ -212,6 +213,18 @@ const rootReducer = (state = initialState, { type, payload }) => {
             ...state,
             Comments: payload,
           };
+          case DELETE_COMMENT:
+            const updatedComments = state.Comments.filter(
+              
+              (comment) => comment.creation_id !== payload 
+              
+            );
+            console.log("aaaa",updatedComments);
+            return {
+              ...state,
+              Comments: updatedComments,
+            };
+            
     default:
       return { ...state };
   }
