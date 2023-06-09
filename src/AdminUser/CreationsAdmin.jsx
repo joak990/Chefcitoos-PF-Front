@@ -5,6 +5,7 @@ import NavAdmin from "./NavAdmin";
 import { Card } from "@tremor/react";
 import { Link } from "react-router-dom";
 import RatingStars from "../components/RatingStars";
+import Swal from 'sweetalert2'
 
 function CreationsAdmin() {
   const dispatch = useDispatch();
@@ -22,8 +23,16 @@ function CreationsAdmin() {
   const creations = useSelector((state) => state.allCreations);
   const comments = useSelector((state) => state.Comments);
 
-  const handleDeleteCreation = (id) => {
-    alert("Vas a mandar");
+  const handleDeleteCreation = async (id) => {
+   await Swal.fire({
+      title: 'Vas a mandar',
+      icon: 'success',
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+      }
+    })
+    //alert("Vas a mandar");
     dispatch(GetAllComments(id));
   
   };

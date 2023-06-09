@@ -20,20 +20,40 @@ function Users() {
 
   const users = useSelector((state) => state.AllUsers);
 
-  const handleDeleteUser = async(id) => {
-    await Swal.fire({
-      title: '¿Estas seguro que quieres eliminar este usuario?',
-      icon: 'warning',
-      buttonsStyling: false,
-      customClass: {
-        confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+  
+    const handleDeleteUser = async (id) => {
+      const confirmation = await Swal.fire({
+        title: '¿Estás seguro que quieres eliminar este usuario?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ff9800',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-red-600 text-white rounded-md px-4 py-2 mr-2',
+          cancelButton: 'bg-green-600 text-white rounded-md px-4 py-2 mr-2',
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      });
+    
+      if (confirmation.isConfirmed) {
+        dispatch(DeleteUser(id));
+        await Swal.fire({
+          title: 'El usuario ha sido eliminado',
+          icon: 'success',
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
+          },
+        });
+        window.location.reload();
       }
-    })
-    //alert('¿Estás seguro que quieres eliminar este usuario?');
-    dispatch(DeleteUser(id));
-    window.location.reload();
-  };
-
+    };
+    
+ //alert('¿Estás seguro que quieres eliminar este usuario?');
   return (
     <main className='bg-slate-200 min-h-screen overflow-y-auto'>
       <NavAdmin />
