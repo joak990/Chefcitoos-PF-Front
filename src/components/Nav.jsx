@@ -93,7 +93,7 @@ console.log(isIdInLocalStorage );
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
           <Link
-            to="/home"
+            to="/"
             className={`text-md font-semibold leading-6 text-gray-900 hover:text-orange-600 hover:border-b-2 border-orange-600 ${
               location.pathname === "/home"
                 ? "active border-b-2 border-orange-600 text-orange-600"

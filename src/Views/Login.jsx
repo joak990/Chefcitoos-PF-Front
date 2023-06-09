@@ -13,6 +13,7 @@ import { app, auth } from "../Firebase.config";
 import { useDispatch } from "react-redux";
 import { postLoginUser, postRegisterUser } from "../Redux/actions";
 import { FcGoogle } from "react-icons/fc";
+import Swal from 'sweetalert2'
 const validation = (form)=>{
   const newErrors = {};
 
@@ -78,7 +79,15 @@ function Login() {
           // Redireccionar al Home
           navigate("/");
         } else {
-          alert("los datos son incorrectos")
+          Swal.fire({
+            title: 'Los datos son incorrectos',
+            icon: 'error',
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+            }
+          })
+          //alert("los datos son incorrectos")
         }
       })
       .catch((error) => {
