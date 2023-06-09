@@ -126,9 +126,7 @@ const Home = () => {
             />
           ))}
         </div>
-        <div>
-          <MercadoPagoButton/>
-        </div>
+        
       </div>
     </>
   );
