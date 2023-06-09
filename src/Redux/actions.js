@@ -25,7 +25,8 @@ import {
   GET_ALL_COMMENTS,
   PUT_PRODUCTS_BY_ID,
   GET_ALL_USERS,
-  DELETE_USER
+  DELETE_USER,
+  GET_COMMENTS
 } from "./typeAction";
 
 import axios from "axios";
@@ -629,6 +630,17 @@ export const DeleteUser = (id) => {
     }
   };
 };
-
- 
+export const GetAllComments = (id) => {
+  return async function (dispatch){
+    try {
+      const json = await axios.get(`http://localhost:3001/assessments/${id}`)
+      return dispatch ({
+        type : GET_COMMENTS,
+        payload : json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_ALL_USERS}:`, error))
+    }
+  }
+ }
 

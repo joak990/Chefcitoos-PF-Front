@@ -24,3 +24,4 @@ export const GET_ALL_COMMENTS = "GET_ALL_COMMENTS";
 export const PUT_PRODUCTS_BY_ID = "PUT_PRODUCTS_BY_ID";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
+export const GET_COMMENTS = "GET_COMMENTS";

@@ -64,8 +64,8 @@ export default function Detail() {
     const newErrors = {};
     if (!form.content.trim()) {
       newErrors.content = "El nombre es requerido";
-    } else if (form.content.length > 50) {
-      newErrors.content = "El nombre debe tener como máximo 50 caracteres";
+    } else if (form.content.length > 80) {
+      newErrors.content = "El comentario debe tener como máximo 80 caracteres";
     }
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
