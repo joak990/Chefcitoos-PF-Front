@@ -22,7 +22,8 @@ import {
   CLEAN_PUBLICATIONS,
   GET_ALL_COMMENTS,
   PUT_PRODUCTS_BY_ID,
-  GET_ALL_USERS
+  GET_ALL_USERS,
+  GET_COMMENTS
 } from "./typeAction";
 
 const initialState = {
@@ -38,6 +39,7 @@ const initialState = {
   AllComments:[],
   numPageCreations: 1,
   numPagePublications: 1,
+  Comments:[]
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -205,6 +207,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
           ...state,
           AllUsers: payload,
         };
+        case GET_COMMENTS:
+          return {
+            ...state,
+            Comments: payload,
+          };
     default:
       return { ...state };
   }
