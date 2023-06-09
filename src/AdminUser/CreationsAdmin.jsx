@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteUser, GetAllComments, getCreations } from "../Redux/actions";
+import { DeleteComments, DeleteUser, GetAllComments, getCreations } from "../Redux/actions";
 import NavAdmin from "./NavAdmin";
 import { Card } from "@tremor/react";
 import { Link } from "react-router-dom";
@@ -23,18 +23,20 @@ function CreationsAdmin() {
   const creations = useSelector((state) => state.allCreations);
   const comments = useSelector((state) => state.Comments);
 
-  const handleDeleteCreation = async (id) => {
-   await Swal.fire({
-      title: 'Vas a mandar',
+  const handleviewCreation = async (id) => {
+   
+    //alert("Vas a mandar");
+    dispatch(GetAllComments(id));
+    
+    await Swal.fire({
+      title: 'Comentarios Cargados',
       icon: 'success',
       buttonsStyling: false,
       customClass: {
         confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
       }
     })
-    //alert("Vas a mandar");
-    dispatch(GetAllComments(id));
-  
+    
   };
 
   const renderProductButton = (product_id) => {
@@ -88,6 +90,41 @@ function CreationsAdmin() {
         return null;
     }
   };
+
+  const handleDeleteCreation = async (id) => {
+    dispatch(DeleteComments(id));
+  
+    const confirmation = await Swal.fire({
+      title: '¿Estás seguro que quieres eliminar este comentario?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ff9800',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'bg-red-600 text-white rounded-md px-4 py-2 mr-2',
+        cancelButton: 'bg-green-600 text-white rounded-md px-4 mr-2 py-2',
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    });
+  
+    if (confirmation.isConfirmed) {
+      // Aquí agregarías la lógica para eliminar el comentario
+      // ...
+      // Luego, mostrar el alert de éxito
+      await Swal.fire({
+        icon: 'success',
+        title: 'Comentario eliminado',
+        showConfirmButton: false,
+        timer: 1500, // Duración del mensaje en milisegundos (1.5 segundos)
+      });
+      window.location.reload();
+    }
+  };
+  
 
   return (
     <main className="bg-slate-200 min-h-screen overflow-y-auto">
@@ -166,7 +203,7 @@ function CreationsAdmin() {
                           } text-center`}
                         >
                           <button
-                            onClick={() => handleDeleteCreation(creation.id)}
+                            onClick={() => handleviewCreation(creation.id)}
                             className="bg-blue-200 rounded-2xl font-semibold w-48"
                           >
                             Ver Comentarios
@@ -224,7 +261,7 @@ function CreationsAdmin() {
                         >
                           {comment.user_id}
                         </td>
-                        <td
+                        {comment.content ? (<td
                           className={`py-2 pl-8 pr-8 ${
                             index !== comment.length - 1
                               ? "border-b border-gray-300"
@@ -232,7 +269,16 @@ function CreationsAdmin() {
                           } border-r border-gray-300`}
                         >
                           {comment.content}
-                        </td>
+                        </td>): <td
+                          className={`py-2 pl-8 pr-8 ${
+                            index !== comment.length - 1
+                              ? "border-b border-gray-300"
+                              : ""
+                          } border-r border-gray-300`}
+                        >
+                          NO HAY
+                        </td>}
+                
                         <td
                           className={`py-2 pl-4 pr-8 ${
                             index !== comment.length - 1

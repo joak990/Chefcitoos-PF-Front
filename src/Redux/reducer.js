@@ -34,7 +34,9 @@ import {
   DELETE_PRODUCT,
   UPDATE_PRODUCT_QUANTITY,
   SET_SHOPPING_CART,
-  CLEAN_SHOPPING_CART
+  CLEAN_SHOPPING_CART,
+  DELETE_COMMENT
+
 } from "./typeAction";
 
 const initialState = {
@@ -312,6 +314,19 @@ const rootReducer = (state = initialState, { type, payload }) => {
               ...state,
               shoppingCart: {...initialState.shoppingCart}
             };
+
+          case DELETE_COMMENT:
+            const updatedComments = state.Comments.filter(
+              
+              (comment) => comment.creation_id !== payload 
+              
+            );
+            console.log("aaaa",updatedComments);
+            return {
+              ...state,
+              Comments: updatedComments,
+            };
+            
     default:
       return { ...state };
   }

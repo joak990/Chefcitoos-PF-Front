@@ -289,11 +289,11 @@ const Nav = () => {
                     Nosotros
                   </a>
                   {user || isIdInLocalStorage ? (
-                    <a
-                      href="/creaciones"
+                    <a onClick={handleLogout}
+                      
                       className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
                     >
-                      Creaciones
+                      logout
                     </a>
                   ) : (
                     <div>

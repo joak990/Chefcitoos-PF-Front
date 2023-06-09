@@ -3,6 +3,7 @@ import imgChefcitos from "../img/LogoChefcitoos.png";
 import imglog from "../img/logo.jpg";
 import hambur from "../img/pruebaProducto.jpeg";
 import Card from "../components/Card";
+import MercadoPagoButton from "../components/MercadoPagoButton";
 import { useUser } from "../useUser";
 import { Link } from "react-router-dom";
 
@@ -125,6 +126,7 @@ const Home = () => {
             />
           ))}
         </div>
+        
       </div>
     </>
   );
