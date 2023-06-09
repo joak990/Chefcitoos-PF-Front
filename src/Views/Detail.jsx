@@ -26,8 +26,6 @@ export default function Detail() {
     img: ""
   });
 
-
-
   const [errors, setErrors] = useState({});
 
   const firebaseAuth = getAuth(app);
@@ -70,7 +68,7 @@ export default function Detail() {
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       dispatch(postAssessment(form));
-     await Swal.fire({
+      await Swal.fire({
         title: 'Comentario enviado',
         buttonsStyling: false,
         customClass: {
@@ -127,53 +125,53 @@ export default function Detail() {
               </span>
             </div>
             <div className="mt-4">
-            <span className="text-orange-600 font-semibold">Ingredientes:</span>
-<h3 className="capitalize">
-  {creation &&
-    creation.components?.Ingredientes ? (
-      creation.components.Ingredientes.map((elem, index) => {
-        return index === creation.components.Ingredientes.length - 1 ? (
-          elem
-        ) : (
-          elem + ", "
-        );
-      })
-    ) : (
-      "No hay Ingredientes"
-    )}
-</h3>
+              <span className="text-orange-600 font-semibold">Ingredientes:</span>
+              <h3 className="capitalize">
+                {creation &&
+                  creation.components?.Ingredientes ? (
+                    creation.components.Ingredientes.map((elem, index) => {
+                      return index === creation.components.Ingredientes.length - 1 ? (
+                        elem
+                      ) : (
+                        elem + ", "
+                      );
+                    })
+                  ) : (
+                    "No hay Ingredientes"
+                  )}
+              </h3>
               <br></br>
               <span className="text-orange-600 font-semibold">Salsas:</span>
-<h3 className="capitalize">
-  {creation &&
-    creation.components?.Salsas ? (
-      creation.components.Salsas.map((elem, index) => {
-        return index === creation.components.Salsas.length - 1 ? (
-          elem
-        ) : (
-          elem + ", "
-        );
-      })
-    ) : (
-      "No hay Salsas"
-    )}
-</h3>
+              <h3 className="capitalize">
+                {creation &&
+                  creation.components?.Salsas ? (
+                    creation.components.Salsas.map((elem, index) => {
+                      return index === creation.components.Salsas.length - 1 ? (
+                        elem
+                      ) : (
+                        elem + ", "
+                      );
+                    })
+                  ) : (
+                    "No hay Salsas"
+                  )}
+              </h3>
               <br></br>
               <span className="text-orange-600 font-semibold">Adiciones:</span>
-<h3 className="capitalize">
-  {creation &&
-    creation.components?.Adiciones ? (
-      creation.components.Adiciones.map((elem, index) => {
-        return index === creation.components.Adiciones.length - 1 ? (
-          elem
-        ) : (
-          elem + ", "
-        );
-      })
-    ) : (
-      "No hay adiciones"
-    )}
-</h3>
+              <h3 className="capitalize">
+                {creation &&
+                  creation.components?.Adiciones ? (
+                    creation.components.Adiciones.map((elem, index) => {
+                      return index === creation.components.Adiciones.length - 1 ? (
+                        elem
+                      ) : (
+                        elem + ", "
+                      );
+                    })
+                  ) : (
+                    "No hay adiciones"
+                  )}
+              </h3>
             </div>
           </div>
         </div>
@@ -195,7 +193,9 @@ export default function Detail() {
 
         {showComments && (
           <div className="flex flex-col items-center mb-4">
-            {allComments &&
+            {allComments.length === 0 ? (
+              <p className="text-gray-700 text-lg">Esta creación aún no tiene comentarios.</p>
+            ) : (
               allComments.map((elem) => {
                 return (
                   <div key={elem.id} className="mb-4">
@@ -217,9 +217,8 @@ export default function Detail() {
                         {elem.userName}
                       </h4>
                       <div className="ml-4">
-                      <RatingStars   disabled={showComments} value={parseInt(elem.vote)} />
+                        <RatingStars disabled={showComments} value={parseInt(elem.vote)} />
                       </div>
-                    
                     </div>
                     <p className="w-44 p-2 text-gray-700 rounded-md">
                       {elem.content}
@@ -227,7 +226,8 @@ export default function Detail() {
                     <div className="flex items-center mt-2"></div>
                   </div>
                 );
-              })}
+              })
+            )}
           </div>
         )}
 
