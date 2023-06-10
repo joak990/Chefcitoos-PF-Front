@@ -27,7 +27,8 @@ function App() {
       && location.pathname !== "/admin/account=successfully"  
       &&location.pathname !== "/admin/products"  
       && location.pathname !== "/admin/users" 
-      && location.pathname !== "/admin/creations" && (
+      && location.pathname !== "/admin/creations" 
+      && location.pathname !== "*" &&(
         <Nav />
       )}
 
