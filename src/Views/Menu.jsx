@@ -4,7 +4,8 @@ import perritocaliente from "../img/perritocaliente.jpg";
 import CardMenu from "../components/CardMenu";
 import Modal from "../components/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../Redux/actions";
+import { addProduct, getProducts, updateProductQuantity } from "../Redux/actions";
+import Swal from 'sweetalert2'
 
 function Menu() {
 
@@ -13,11 +14,34 @@ function Menu() {
   const [productSelected, setProductSelected] = useState(null);
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.AllProducts);
+  const productsShoppingCart = useSelector((state) => state.shoppingCart.products);
 
 
 
-  const addProductToCart = () => {
-    console.log("agregar producto al carrito");
+  const addProductToCart = (product) => {
+    if( productsShoppingCart.some(productCurrent => productCurrent.product_id === product.id)){
+      dispatch(updateProductQuantity({quantity: 1, index: productsShoppingCart.findIndex(productCurrent => { 
+        return productCurrent.product_id === product.id
+      })}))
+    } else {
+
+      const productAdd = {
+        product_id: product.id,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        quantity: 1
+      };
+      dispatch(addProduct(productAdd));
+    }
+    Swal.fire({
+      title: 'Producto agregado satisfactoriamente al carrito',
+      icon: 'success',
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+      }
+    })
   };
 
   useEffect(() => {
@@ -115,7 +139,7 @@ function Menu() {
                     <CardMenu
                       key={product.id}
                       product={product}
-                      onOrderProduct={addProductToCart}
+                      onOrderProduct={() => addProductToCart(product)}
                     />
                   );
               })}
@@ -133,7 +157,7 @@ function Menu() {
                     <CardMenu
                       key={product.id}
                       product={product}
-                      onOrderProduct={addProductToCart}
+                      onOrderProduct={() => addProductToCart(product)}
                     />
                   );
               })}

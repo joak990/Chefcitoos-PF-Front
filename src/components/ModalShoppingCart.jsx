@@ -4,11 +4,82 @@ import image from "../img/hamburguesa.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getComponents } from "../Redux/actions";
+import Swal from "sweetalert2";
+import {
+  cleanShoppingCart,
+  deleteCreation,
+  deleteProduct,
+  getComponents,
+  updateCreationQuantity,
+  updateProductQuantity,
+} from "../Redux/actions";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ModalShoppingCart = ({ onClose }) => {
+  const creations = useSelector((state) => state.shoppingCart.creations);
+  const products = useSelector((state) => state.shoppingCart.products);
+  const amounts = useSelector((state) => state.shoppingCart.amounts);
+  const quantity = useSelector((state) => state.shoppingCart.quantity);
+  const dispatch = useDispatch();
+  const users_id = localStorage.getItem("id");
+  const maxQuantity = 10;
+
+  const handlePayOrder = () => {
+    if (quantity > 0) {
+      //CRear objeto a enviar
+      //Mandar la orden al backend con un dispatch
+      const order = {
+        users_id,
+        total_price: amounts.total,
+        creations,
+        products,
+      };
+      axios
+        .post(`http://localhost:3001/orders`, order)
+        .then((response) => {
+            console.log(response)
+            dispatch(cleanShoppingCart());
+        })
+        .catch((error) => {
+
+        });
+    //   console.log(JSON.stringify(order));
+    }
+  };
+
+  const handleDeleteProduct = (index) => {
+    Swal.fire({
+      title: "¿Está seguro que desea eliminar el producto?",
+      icon: "danger",
+      showCancelButton: true,
+      confirmButtonColor: "#9CA3AF",
+      cancelButtonColor: "#EA580C",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteProduct({ index }));
+      }
+    });
+  };
+
+  const handleDeleteCreation = (index) => {
+    Swal.fire({
+      title: "¿Está seguro que desea eliminar el producto?",
+      icon: "danger",
+      showCancelButton: true,
+      confirmButtonColor: "#9CA3AF",
+      cancelButtonColor: "#EA580C",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteCreation({ index }));
+      }
+    });
+  };
+
   return ReactDOM.createPortal(
     <div
       className="fixed z-10 inset-0 overflow-y-auto"
@@ -42,106 +113,155 @@ const ModalShoppingCart = ({ onClose }) => {
               {/* Modal body */}
               <ul className="flex-col items-center mt-[6px] w-[100%]">
                 {/* div card */}
-                <div className="flex flex-col mb-3 gap-10 items-center justify-end py-[9px] w-full border-b border-gray-300 pb-2">
-                  <div className="flex px-2 flex-row items-end justify-between w-full">
-                    <div className="bg-gray_51 flex flex-row items-center justify-between rounded-[16.5px] w-[50%]">
-                      <img
-                        src={image}
-                        className="h-[70px] md:h-auto rounded-lg w-[70px]"
-                        alt="product name"
-                      />
-                      <div className="max-w-[300px] flex-col px-3">
-                        <h5 className="font-semibold text-md uppercase">
-                          Spaghetti reree erte ert wetertert
+                {creations.map((creation, index) => (
+                  <div className="flex flex-col mb-3 gap-10 items-center justify-end py-[9px] w-full border-b border-gray-300 pb-2">
+                    <div className="flex px-2 flex-row items-end justify-between w-full">
+                      <div className="bg-gray_51 flex flex-row items-center justify-between rounded-[16.5px] w-[50%]">
+                        <img
+                          src={creation.image}
+                          className="h-[70px] md:h-auto rounded-lg w-[70px]"
+                          alt="product name"
+                        />
+                        <div className="max-w-[300px] flex-col px-3">
+                          <h5 className="font-semibold text-md uppercase">
+                            {creation.name}
+                          </h5>
+                          <h6 className="text-gray-500 text-sm font-semibold">
+                            ${creation.price}
+                          </h6>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        {creation.quantity >= maxQuantity && (
+                          <p className="text-red-500 text-[10px] text-center max-w-[150px]">
+                            No se pueden agregar más productos
+                          </p>
+                        )}
+                        <div>
+                          <button
+                            className="bg-gray-200 text-black px-3 py-0.5 mr-2 rounded-lg hover:text-orange-600"
+                            disabled={creation.quantity <= 1}
+                            onClick={() =>
+                              dispatch(
+                                updateCreationQuantity({ quantity: -1, index })
+                              )
+                            }
+                          >
+                            -
+                          </button>
+                          <input
+                            className="w-12 text-center border border-gray-300 rounded-md"
+                            type="text"
+                            value={creation.quantity}
+                          />
+                          <button
+                            className="bg-gray-200 text-black px-3 py-0.5 ml-2 rounded-lg hover:text-orange-600"
+                            disabled={creation.quantity >= maxQuantity}
+                            onClick={() =>
+                              dispatch(
+                                updateCreationQuantity({ quantity: 1, index })
+                              )
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end">
+                        <button
+                          className="bg-gray-200 rounded-lg flex justify-center self-end"
+                          onClick={() => handleDeleteCreation(index)}
+                        >
+                          <FontAwesomeIcon
+                            className="p-2 text-gray-500 text-xs hover:text-orange-600"
+                            icon={faTrash}
+                          />
+                        </button>
+                        <h5 className="font-semibold text-lg">
+                          ${creation.price * creation.quantity}
                         </h5>
-                        <h6 className="text-gray-500 text-sm font-semibold">
-                          $20000
-                        </h6>
                       </div>
                     </div>
-                    <div className="flex items-center">
-                      <button
-                        className="bg-gray-200 text-black px-3 py-0.5 mr-2 rounded-lg hover:text-orange-600"
-                        onClick=""
-                      >
-                        -
-                      </button>
-                      <input
-                        className="w-12 text-center border border-gray-300 rounded-md"
-                        type="text"
-                        value={1}
-                      />
-                      <button
-                        className="bg-gray-200 text-black px-3 py-0.5 ml-2 rounded-lg hover:text-orange-600"
-                        onClick=""
-                      >
-                        +
-                      </button>
-                    </div>
-                    <div className="flex flex-col items-end">
-                      <button
-                        className="bg-gray-200 rounded-lg flex justify-center self-end"
-                        onClick=""
-                      >
-                        <FontAwesomeIcon
-                          className="p-2 text-gray-500 text-xs hover:text-orange-600"
-                          icon={faTrash}
-                        />
-                      </button>
-                      <h5 className="font-semibold text-lg">$24.100</h5>
-                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col mb-3 gap-10 items-center justify-end py-[9px] w-full border-b border-gray-300 pb-2">
-                  <div className="flex px-2 flex-row items-end justify-between w-full">
-                    <div className="bg-gray_51 flex flex-row items-center justify-between rounded-[16.5px] w-[50%]">
-                      <img
-                        src={image}
-                        className="h-[70px] md:h-auto rounded-lg w-[70px]"
-                        alt="product name"
-                      />
-                      <div className="max-w-[300px] flex-col px-3">
-                        <h5 className="font-semibold text-md uppercase">
-                          Spaghetti reree erte ert wetertert
+                ))}
+
+                {products.map((product, index) => (
+                  <div className="flex flex-col mb-3 gap-10 items-center justify-end py-[9px] w-full border-b border-gray-300 pb-2">
+                    <div className="flex px-2 flex-row items-end justify-between w-full">
+                      <div className="bg-gray_51 flex flex-row items-center justify-between rounded-[16.5px] w-[50%]">
+                        <img
+                          src={product.image}
+                          className="h-[70px] md:h-auto rounded-lg w-[70px]"
+                          alt="product name"
+                        />
+                        <div className="max-w-[300px] flex-col px-3">
+                          <h5 className="font-semibold text-md uppercase">
+                            {product.name}
+                          </h5>
+                          <h6 className="text-gray-500 text-sm font-semibold">
+                            ${product.price}
+                          </h6>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        {product.quantity >= maxQuantity && (
+                          <p className="text-red-500 text-[10px] text-center max-w-[150px]">
+                            No se pueden agregar más productos
+                          </p>
+                        )}
+                        <div>
+                          <button
+                            className="bg-gray-200 text-black px-3 py-0.5 mr-2 rounded-lg hover:text-orange-600"
+                            disabled={product.quantity <= 1}
+                            onClick={() =>
+                              dispatch(
+                                updateProductQuantity({ quantity: -1, index })
+                              )
+                            }
+                          >
+                            -
+                          </button>
+                          <input
+                            className="w-12 text-center border border-gray-300 rounded-md"
+                            type="text"
+                            value={product.quantity}
+                          />
+                          <button
+                            className="bg-gray-200 text-black px-3 py-0.5 ml-2 rounded-lg hover:text-orange-600"
+                            disabled={product.quantity >= maxQuantity}
+                            onClick={() =>
+                              dispatch(
+                                updateProductQuantity({ quantity: 1, index })
+                              )
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end">
+                        <button
+                          className="bg-gray-200 rounded-lg flex justify-center self-end"
+                          onClick={() => handleDeleteProduct(index)}
+                        >
+                          <FontAwesomeIcon
+                            className="p-2 text-gray-500 text-xs hover:text-orange-600"
+                            icon={faTrash}
+                          />
+                        </button>
+                        <h5 className="font-semibold text-lg">
+                          ${product.price * product.quantity}
                         </h5>
-                        <h6 className="text-gray-500 text-sm font-semibold">
-                          $20000
-                        </h6>
                       </div>
                     </div>
-                    <div className="flex items-center">
-                      <button
-                        className="bg-gray-200 text-black px-3 py-0.5 mr-2 rounded-lg hover:text-orange-600"
-                        onClick=""
-                      >
-                        -
-                      </button>
-                      <input
-                        className="w-12 text-center border border-gray-300 rounded-md"
-                        type="text"
-                        value={1}
-                      />
-                      <button
-                        className="bg-gray-200 text-black px-3 py-0.5 ml-2 rounded-lg hover:text-orange-600"
-                        onClick=""
-                      >
-                        +
-                      </button>
-                    </div>
-                    <div className="flex flex-col items-end">
-                      <button
-                        className="bg-gray-200 rounded-lg flex justify-center self-end"
-                        onClick=""
-                      >
-                        <FontAwesomeIcon
-                          className="p-2 text-gray-500 text-xs hover:text-orange-600"
-                          icon={faTrash}
-                        />
-                      </button>
-                      <h5 className="font-semibold text-lg">$24.100</h5>
-                    </div>
                   </div>
-                </div>
+                ))}
+
+                {creations.length === 0 && products.length === 0 && (
+                  <p className="font-semibold my-2 text-center">
+                    No hay productos en tu carrito
+                  </p>
+                )}
               </ul>
               <div className="flex flex-col mt-[6px] w-[60%] gap-5 self-end">
                 <div className="flex flex-row items-center justify-between w-full">
@@ -149,23 +269,15 @@ const ModalShoppingCart = ({ onClose }) => {
                     Subtotal
                   </h5>
                   <h5 className="font-medium text-gray_900" variant="body1">
-                    $78.300
+                    ${amounts.subtotal}
                   </h5>
                 </div>
                 <div className="flex flex-row items-center justify-between w-full">
                   <h5 className="font-semibold text-black_900" variant="body1">
-                    IVA
+                    IVA(19%)
                   </h5>
                   <h5 className="font-medium text-gray_900" variant="body1">
-                    19%
-                  </h5>
-                </div>
-                <div className="flex flex-row items-center justify-between w-full">
-                  <h5 className="font-semibold text-black_900" variant="body1">
-                    Voucher
-                  </h5>
-                  <h5 className="font-medium text-gray_900" variant="body1">
-                    $5.0
+                    ${amounts.iva}
                   </h5>
                 </div>
                 <div className="flex flex-row items-center justify-between w-full">
@@ -176,7 +288,7 @@ const ModalShoppingCart = ({ onClose }) => {
                     className="font-bold text-lg text-gray_900"
                     variant="body1"
                   >
-                    $76.800
+                    ${amounts.total}
                   </h5>
                 </div>
               </div>
@@ -185,8 +297,15 @@ const ModalShoppingCart = ({ onClose }) => {
           <div className="bg-gray-50 px-4 py-3 flex flex-row justify-end border-t border-gray-200">
             <button
               type="button"
+              className="bg-gray-400 mr-2 h-8 text-white rounded-xl font-bold px-2"
+              onClick={() => dispatch(cleanShoppingCart())}
+            >
+              Vaciar carrito
+            </button>
+            <button
+              type="button"
               className="bg-orange-600 w-24 h-8 text-white rounded-xl font-bold"
-              onClick=""
+              onClick={handlePayOrder}
             >
               Pagar
             </button>
