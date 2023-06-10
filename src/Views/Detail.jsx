@@ -94,21 +94,21 @@ export default function Detail() {
 
   return (
     <>
-      <div className="px-20">
+      <div className="px-6 md:px-20">
         <div className="flex items-center justify-center mb-4">
           <h2 className="text-gray-900 font-bold text-3xl mt-6 mb-6">
             Detalle de tu creación
           </h2>
         </div>
-        <div className="flex gap-8">
-          <div className="w-1/2 flex justify-center items-center bg-white rounded-3xl p-8 shadow-md">
+        <div className="flex flex-col md:flex-row md:gap-8">
+          <div className="md:w-1/2 flex justify-center items-center bg-white rounded-3xl p-8 shadow-md">
             <img
-              className="w-[400px] rounded-lg"
+              className="w-full max-h-[400px] md:w-[400px] rounded-lg"
               src={creation?.image}
               alt="Product Image"
             />
           </div>
-          <div className="w-1/2 flex flex-col justify-center">
+          <div className="md:w-1/2 flex flex-col justify-center mt-4 md:mt-0">
             <h3 className="text-3xl text-orange-600 capitalize font-semibold">
               {creation?.name}
             </h3>
@@ -232,7 +232,7 @@ export default function Detail() {
         )}
 
         {isIdInLocalStorage ? (
-          <form onSubmit={handleSubmit} className="w-1/2">
+          <form onSubmit={handleSubmit} className="w-full md:w-1/2">
             <div className="mt-4">
               <RatingStars
                 value={parseFloat(form.vote)}

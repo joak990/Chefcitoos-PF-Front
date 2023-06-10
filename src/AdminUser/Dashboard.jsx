@@ -39,7 +39,7 @@ function Dashboard() {
         <Tab value={1} text='Principal' />
       </TabList>
       {selectedView === 1 && (
-        <div className='w-9/12 flex flex-col lg:flex-row lg:justify-center'>
+        <div className='w-full lg:w-9/12 flex flex-col lg:flex-row lg:justify-center'>
           <div className='h-screen bg-slate-200 flex-grow'></div>
           <div className='lg:w-3/4'>
             <CardGridMap />
