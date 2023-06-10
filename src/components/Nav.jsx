@@ -131,7 +131,7 @@ const Nav = () => {
                   : ""
               }`}
             >
-              Creaciones
+               Mis creaciones
             </Link>
           )}
           <Link
@@ -273,7 +273,7 @@ const Nav = () => {
                       href="/creaciones"
                       className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
                     >
-                      Creaciones
+                    Mis creaciones
                     </a>
                   ) : null}
                   <a
