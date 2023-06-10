@@ -105,7 +105,7 @@ const Nav = () => {
           <Link
             to="/"
             className={`text-md font-semibold leading-6 text-gray-900 hover:text-orange-600 hover:border-b-2 border-orange-600 ${
-              location.pathname === "/home"
+              location.pathname === "/"
                 ? "active border-b-2 border-orange-600 text-orange-600"
                 : ""
             }`}
