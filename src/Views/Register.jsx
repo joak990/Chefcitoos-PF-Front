@@ -160,7 +160,7 @@ function Register() {
           type="submit"
           className="flex mt-4 items-center text-center justify-center w-full md:w-56 text-white bg-orange-500 rounded-2xl"
         >
-          Register
+          Registrase
         </button>
         <hr className="my-4" />
         <Link to={"/login"}>
