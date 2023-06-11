@@ -24,6 +24,7 @@ const ModalShoppingCart = ({ onClose }) => {
   const dispatch = useDispatch();
   const users_id = localStorage.getItem("id");
   const maxQuantity = 10;
+  const navigate = useNavigate();
 
   const handlePayOrder = () => {
     if (quantity > 0) {
@@ -36,10 +37,19 @@ const ModalShoppingCart = ({ onClose }) => {
         products,
       };
       axios
-        .post(`http://localhost:3001/orders`, order)
+        .post(`${process.env.REACT_APP_API_URL}/orders`, order)
         .then((response) => {
             console.log(response)
             dispatch(cleanShoppingCart());
+            Swal.fire({
+              title: 'Orden creada satisfactoriamente',
+              icon: 'success',
+              buttonsStyling: false,
+              customClass: {
+                confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+              }
+            })
+            navigate("/checkout/" + response.data.id)
         })
         .catch((error) => {
 
@@ -134,7 +144,7 @@ const ModalShoppingCart = ({ onClose }) => {
                       <div className="flex flex-col items-center">
                         {creation.quantity >= maxQuantity && (
                           <p className="text-red-500 text-[10px] text-center max-w-[150px]">
-                            No se pueden agregar más productos
+                            No se pueden agregar más productos, llame al +573112674038
                           </p>
                         )}
                         <div>
@@ -206,7 +216,7 @@ const ModalShoppingCart = ({ onClose }) => {
                       <div className="flex flex-col items-center">
                         {product.quantity >= maxQuantity && (
                           <p className="text-red-500 text-[10px] text-center max-w-[150px]">
-                            No se pueden agregar más productos
+                            No se pueden agregar más productos, llame al +573112674038
                           </p>
                         )}
                         <div>

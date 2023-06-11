@@ -16,6 +16,8 @@ import Dashboard from "./AdminUser/Dashboard";
 import Products from "./AdminUser/Products";
 import Users from "./AdminUser/Users";
 import CreationsAdmin from "./AdminUser/CreationsAdmin";
+import { Checkout } from "./Views/Checkout";
+import { ResultCheckout } from "./Views/ResultCheckout";
 function App() {
   const location = useLocation();
     const hasId = localStorage.getItem("id");
@@ -25,9 +27,11 @@ function App() {
       && location.pathname !== "/login"
       && location.pathname !== "/admin" 
       && location.pathname !== "/admin/account=successfully"  
-      &&location.pathname !== "/admin/products"  
+      && location.pathname !== "/admin/products"  
       && location.pathname !== "/admin/users" 
       && location.pathname !== "/admin/creations" 
+      && !location.pathname.includes("checkout") 
+      && !location.pathname.includes("result") 
       && location.pathname !== "*" &&(
         <Nav />
       )}
@@ -48,6 +52,8 @@ function App() {
         <Route path="/publicaciones" element={<Publicaciones />} />
         <Route path="/register" element={<Register />} />
         <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/checkout/:id" element={<Checkout />} />
+        <Route path="/result/order/:id" element={<ResultCheckout />} />
       </Routes>
     </>
   );

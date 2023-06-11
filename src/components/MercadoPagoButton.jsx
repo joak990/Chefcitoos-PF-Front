@@ -2,7 +2,7 @@ import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const MercadoPagoButton = () => {
+const MercadoPagoButton = (props) => {
   const [preferenceId, setPreferenceId] = useState(null);
 
   useEffect(() => {
@@ -10,15 +10,18 @@ const MercadoPagoButton = () => {
     handleButton();
   }, []);
 
+
+
   const handleButton = async () => {
     try {
       const orderData = {
         quantity: 1,
-        description: 'Hamburguesa',
-        price: 25000
+        description: 'Orden Nro. ' + props.order.id,
+        price: props.order.total_price,
+        order_id: props.order.id
       }
 
-      const response = await axios.post('http://localhost:3001/mercadoPago/create_preference', orderData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/mercadoPago/create_preference`, orderData);
       setPreferenceId(response.data.id);
     } catch (error) {
       alert(error);

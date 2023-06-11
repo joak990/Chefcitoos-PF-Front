@@ -10,10 +10,11 @@ import ModalShoppingCart from "./ModalShoppingCart";
 // import { useUser } from "../useUser";
 import { FaSignInAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { setShoppingCart } from "../Redux/actions";
+import { setShoppingCart, setUser } from "../Redux/actions";
 const Nav = () => {
   const location = useLocation();
   let quantity = useSelector((state) => state.shoppingCart.quantity);
+  let userRedux = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [userorigin, setUserOrigin] = useState(null);
@@ -29,10 +30,15 @@ const Nav = () => {
     setStoredEmail(storedEmail);
     try {
       let shoppingCart = localStorage.getItem("shoppingCart");
+      let userLogin = localStorage.getItem("userLogin");
       if (shoppingCart){
         shoppingCart = JSON.parse(shoppingCart);
         console.log(typeof shoppingCart);
         dispatch(setShoppingCart(shoppingCart));
+      }
+      if (userLogin && !(userRedux?.name)){
+        userLogin = JSON.parse(userLogin);
+        dispatch(setUser(userLogin));
       }
     } catch (error) {
       console.log(error);
@@ -289,11 +295,19 @@ const Nav = () => {
                     Nosotros
                   </a>
                   {user || isIdInLocalStorage ? (
+                    <button onClick={() => setShowShoppingCart(true)}
+                      href="/creaciones"
+                      className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
+                    >
+                    Carrito de compras
+                    </button>
+                  ) : null}
+                  {user || isIdInLocalStorage ? (
                     <a onClick={handleLogout}
                       
                       className="block rounded-lg py-2 pl-6 pr-3 text-base font-semibold leading-7 text-gray-900 hover:bg-orange-300"
                     >
-                      logout
+                      Logout
                     </a>
                   ) : (
                     <div>
