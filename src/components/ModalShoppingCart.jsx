@@ -37,7 +37,7 @@ const ModalShoppingCart = ({ onClose }) => {
         products,
       };
       axios
-        .post(`${process.env.REACT_APP_API_URL}/orders`, order)
+        .post(`${process.env.REACT_APP_API_URL}orders`, order)
         .then((response) => {
             console.log(response)
             dispatch(cleanShoppingCart());
