@@ -36,7 +36,9 @@ import {
   UPDATE_PRODUCT_QUANTITY,
   SET_SHOPPING_CART,
   CLEAN_SHOPPING_CART,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  ORDER_DETAIL,
+  SET_USER
 } from "./typeAction";
 
 import axios from "axios";
@@ -240,6 +242,7 @@ export const postRegisterUser = (payload) => {
       localStorage.setItem("email", post.data.email);
       localStorage.setItem("id", post.data.id);
       localStorage.setItem("name", post.data.name);
+      localStorage.setItem("userLogin", JSON.stringify(post.data));
       return post.data;
      }     
     } catch (error) {
@@ -276,6 +279,7 @@ export const postLoginUser = (payload) => {
         localStorage.setItem("email", response.data.email);
         localStorage.setItem("id", response.data.id);
         localStorage.setItem("name", response.data.name);
+        localStorage.setItem("userLogin", JSON.stringify(response.data));
         // y redireccionar al usuario al home
         dispatch({ type: LOGIN_SUCCESS });
         return { success: true,email:response.data.email, id:response.data.id };
@@ -726,3 +730,29 @@ export function cleanShoppingCart(){
   };
 };
 
+export const orderDetail = (id) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/orders/${id}`);
+      return dispatch({
+        type: ORDER_DETAIL,
+        payload: json.data,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error ORDER_DETAIL' + error.message,
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        }
+      })
+    }
+  };
+};
+
+export const setUser = () => {
+   return  {
+     type:SET_USER,  
+   }
+ }

@@ -35,8 +35,9 @@ import {
   UPDATE_PRODUCT_QUANTITY,
   SET_SHOPPING_CART,
   CLEAN_SHOPPING_CART,
-  DELETE_COMMENT
-
+  DELETE_COMMENT,
+  ORDER_DETAIL,
+  SET_USER,
 } from "./typeAction";
 
 const initialState = {
@@ -49,10 +50,10 @@ const initialState = {
   isAuthenticated: false,
   components: [],
   yourCreationsprice: [],
-  AllComments:[],
+  AllComments: [],
   numPageCreations: 1,
   numPagePublications: 1,
-  Comments:[],
+  Comments: [],
   shoppingCart: {
     creations: [],
     products: [],
@@ -63,6 +64,8 @@ const initialState = {
       total: 0,
     },
   },
+  orderDetail: {},
+  user: {}
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -203,130 +206,182 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         numPageCreations: payload,
       };
-    
+
     case CLEAN_YOUR_CREATIONS:
-    return {
+      return {
         ...state,
         yourCreations: [],
-    };
+      };
 
     case CLEAN_PUBLICATIONS:
-    return {
+      return {
         ...state,
         allCreations: [],
-    };
+      };
     case NUM_PAGE_PUBLICATION:
       return {
         ...state,
         numPagePublications: payload,
       };
-      case GET_ALL_COMMENTS:
+    case GET_ALL_COMMENTS:
       return {
         ...state,
         AllComments: payload,
       };
-      case GET_ALL_USERS:
-        return {
-          ...state,
-          AllUsers: payload,
-        };
-        case GET_COMMENTS:
-          return {
-            ...state,
-            Comments: payload,
-          };
+    case GET_ALL_USERS:
+      return {
+        ...state,
+        AllUsers: payload,
+      };
+    case GET_COMMENTS:
+      return {
+        ...state,
+        Comments: payload,
+      };
 
-        case ADD_CREATION:
-          const quantity = state.shoppingCart.quantity + payload.quantity;
-          const shoppingCart = {...state.shoppingCart, creations: [...state.shoppingCart.creations, payload], quantity}
-          shoppingCart.amounts = calculateAmounts(shoppingCart)
-          updateLocalStorage(shoppingCart);
+    case ADD_CREATION:
+      const quantity = state.shoppingCart.quantity + payload.quantity;
+      const shoppingCart = {
+        ...state.shoppingCart,
+        creations: [...state.shoppingCart.creations, payload],
+        quantity,
+      };
+      shoppingCart.amounts = calculateAmounts(shoppingCart);
+      updateLocalStorage(shoppingCart);
 
-          return {
-            ...state,
-            shoppingCart,
-          };
-       
-        case DELETE_CREATION:
-          const creationsUpdate = state.shoppingCart.creations.filter( (creation, index) => index !== payload.index);
-          const quantityUpdate = creationsUpdate.reduce((prev, cur) => prev + cur.quantity, 0) + state.shoppingCart.products.reduce((prev, cur) => prev + cur.quantity, 0);
-          const shoppingCartDelete =  {...state.shoppingCart, creations: [...creationsUpdate], quantity: quantityUpdate}
-          shoppingCartDelete.amounts = calculateAmounts(shoppingCartDelete)
-          updateLocalStorage(shoppingCartDelete);
+      return {
+        ...state,
+        shoppingCart,
+      };
 
-          return {
-            ...state,
-            shoppingCart: shoppingCartDelete
-          };
-        case UPDATE_CREATION_QUANTITY:
-          const temporal = [...state.shoppingCart.creations]
-          temporal[payload.index].quantity = temporal[payload.index].quantity + payload.quantity
-          const shoppingCartUpdate = {...state.shoppingCart, creations: [...temporal], quantity: state.shoppingCart.quantity + payload.quantity}
-          shoppingCartUpdate.amounts = calculateAmounts(shoppingCartUpdate)
-          updateLocalStorage(shoppingCartUpdate);
+    case DELETE_CREATION:
+      const creationsUpdate = state.shoppingCart.creations.filter(
+        (creation, index) => index !== payload.index
+      );
+      const quantityUpdate =
+        creationsUpdate.reduce((prev, cur) => prev + cur.quantity, 0) +
+        state.shoppingCart.products.reduce(
+          (prev, cur) => prev + cur.quantity,
+          0
+        );
+      const shoppingCartDelete = {
+        ...state.shoppingCart,
+        creations: [...creationsUpdate],
+        quantity: quantityUpdate,
+      };
+      shoppingCartDelete.amounts = calculateAmounts(shoppingCartDelete);
+      updateLocalStorage(shoppingCartDelete);
 
-          return {
-            ...state,
-            shoppingCart: shoppingCartUpdate
-          };
+      return {
+        ...state,
+        shoppingCart: shoppingCartDelete,
+      };
+    case UPDATE_CREATION_QUANTITY:
+      const temporal = [...state.shoppingCart.creations];
+      temporal[payload.index].quantity =
+        temporal[payload.index].quantity + payload.quantity;
+      const shoppingCartUpdate = {
+        ...state.shoppingCart,
+        creations: [...temporal],
+        quantity: state.shoppingCart.quantity + payload.quantity,
+      };
+      shoppingCartUpdate.amounts = calculateAmounts(shoppingCartUpdate);
+      updateLocalStorage(shoppingCartUpdate);
 
-        case ADD_PRODUCT:
-          const quantityProducts = state.shoppingCart.quantity + payload.quantity;
-          const shoppingCartProducts = {...state.shoppingCart, products: [...state.shoppingCart.products, payload], quantity: quantityProducts}
-          shoppingCartProducts.amounts = calculateAmounts(shoppingCartProducts)
-          updateLocalStorage(shoppingCartProducts);
+      return {
+        ...state,
+        shoppingCart: shoppingCartUpdate,
+      };
 
-          return {
-            ...state,
-            shoppingCart: shoppingCartProducts,
-          };
-       
-        case DELETE_PRODUCT:
-          const productsUpdate = state.shoppingCart.products.filter( (product, index) => index !== payload.index);
-          const quantityProductsUpdate = productsUpdate.reduce((prev, cur) => prev + cur.quantity, 0) + state.shoppingCart.creations.reduce((prev, cur) => prev + cur.quantity, 0);
-          const shoppingCartProductsDelete =  {...state.shoppingCart, products: [...productsUpdate], quantity: quantityProductsUpdate}
-          shoppingCartProductsDelete.amounts = calculateAmounts(shoppingCartProductsDelete)
-          updateLocalStorage(shoppingCartProductsDelete);
+    case ADD_PRODUCT:
+      const quantityProducts = state.shoppingCart.quantity + payload.quantity;
+      const shoppingCartProducts = {
+        ...state.shoppingCart,
+        products: [...state.shoppingCart.products, payload],
+        quantity: quantityProducts,
+      };
+      shoppingCartProducts.amounts = calculateAmounts(shoppingCartProducts);
+      updateLocalStorage(shoppingCartProducts);
 
-          return {
-            ...state,
-            shoppingCart: shoppingCartProductsDelete
-          };
-        case UPDATE_PRODUCT_QUANTITY:
-          const temporalProducts = [...state.shoppingCart.products]
-          temporalProducts[payload.index].quantity = temporalProducts[payload.index].quantity + payload.quantity
-          const shoppingCartProductsUpdate = {...state.shoppingCart, products: [...temporalProducts], quantity: state.shoppingCart.quantity + payload.quantity}
-          shoppingCartProductsUpdate.amounts = calculateAmounts(shoppingCartProductsUpdate)
-          updateLocalStorage(shoppingCartProductsUpdate);
+      return {
+        ...state,
+        shoppingCart: shoppingCartProducts,
+      };
 
-          return {
-            ...state,
-            shoppingCart: shoppingCartProductsUpdate
-          };
-        case SET_SHOPPING_CART:
-          return {
-            ...state,
-            shoppingCart: payload
-          };
-          case CLEAN_SHOPPING_CART:
-            localStorage.removeItem("shoppingCart");
-            return {
-              ...state,
-              shoppingCart: {...initialState.shoppingCart}
-            };
+    case DELETE_PRODUCT:
+      const productsUpdate = state.shoppingCart.products.filter(
+        (product, index) => index !== payload.index
+      );
+      const quantityProductsUpdate =
+        productsUpdate.reduce((prev, cur) => prev + cur.quantity, 0) +
+        state.shoppingCart.creations.reduce(
+          (prev, cur) => prev + cur.quantity,
+          0
+        );
+      const shoppingCartProductsDelete = {
+        ...state.shoppingCart,
+        products: [...productsUpdate],
+        quantity: quantityProductsUpdate,
+      };
+      shoppingCartProductsDelete.amounts = calculateAmounts(
+        shoppingCartProductsDelete
+      );
+      updateLocalStorage(shoppingCartProductsDelete);
 
-          case DELETE_COMMENT:
-            const updatedComments = state.Comments.filter(
-              
-              (comment) => comment.creation_id !== payload 
-              
-            );
-            console.log("aaaa",updatedComments);
-            return {
-              ...state,
-              Comments: updatedComments,
-            };
-            
+      return {
+        ...state,
+        shoppingCart: shoppingCartProductsDelete,
+      };
+    case UPDATE_PRODUCT_QUANTITY:
+      const temporalProducts = [...state.shoppingCart.products];
+      temporalProducts[payload.index].quantity =
+        temporalProducts[payload.index].quantity + payload.quantity;
+      const shoppingCartProductsUpdate = {
+        ...state.shoppingCart,
+        products: [...temporalProducts],
+        quantity: state.shoppingCart.quantity + payload.quantity,
+      };
+      shoppingCartProductsUpdate.amounts = calculateAmounts(
+        shoppingCartProductsUpdate
+      );
+      updateLocalStorage(shoppingCartProductsUpdate);
+
+      return {
+        ...state,
+        shoppingCart: shoppingCartProductsUpdate,
+      };
+    case SET_SHOPPING_CART:
+      return {
+        ...state,
+        shoppingCart: payload,
+      };
+    case CLEAN_SHOPPING_CART:
+      localStorage.removeItem("shoppingCart");
+      return {
+        ...state,
+        shoppingCart: { ...initialState.shoppingCart },
+      };
+
+    case DELETE_COMMENT:
+      const updatedComments = state.Comments.filter(
+        (comment) => comment.creation_id !== payload
+      );
+      console.log("aaaa", updatedComments);
+      return {
+        ...state,
+        Comments: updatedComments,
+      };
+    case ORDER_DETAIL:
+      return {
+        ...state,
+        orderDetail: payload,
+      };
+    case SET_USER:
+      return {
+        ...state,
+        user: JSON.parse(localStorage.getItem("userLogin")),
+      };
+
     default:
       return { ...state };
   }
