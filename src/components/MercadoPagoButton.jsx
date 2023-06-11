@@ -21,7 +21,7 @@ const MercadoPagoButton = (props) => {
         order_id: props.order.id
       }
 
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/mercadoPago/create_preference`, orderData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}mercadoPago/create_preference`, orderData);
       setPreferenceId(response.data.id);
     } catch (error) {
       alert(error);
