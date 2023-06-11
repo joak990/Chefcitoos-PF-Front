@@ -46,7 +46,7 @@ const Home = () => {
           <div className="flex flex-col gap-9 items-start justify-start w-full">
             <div className="flex flex-col gap-4 items-start justify-start w-full">
               <img src={imgChefcitos} alt="img" className="h-52 mb-8"></img>
-              <h3 className=" text-gray-900">
+              <h3 className="text-gray-900">
                 <span className="md:text-5xl text-gray-900 text-[70px] text-left font-bold">
                   <>
                     Crea, comparte y disfruta
@@ -63,10 +63,7 @@ const Home = () => {
             </div>
             <div className="flex flex-row items-center justify-start">
               <Link to="/menu">
-                <button
-                  className="cursor-pointer bg-orange-600 min-w-[140px] h-12 text-white rounded-xl font-bold"
-                  // onClick={() => navigate("/menu")}
-                >
+                <button className="cursor-pointer bg-orange-600 min-w-[140px] h-12 text-white rounded-xl font-bold">
                   Ordenar ahora
                 </button>
               </Link>
@@ -95,21 +92,18 @@ const Home = () => {
             <Card key={burger.id} id={burger.id} image={burger.image} />
           ))}
         </div>
-        <div className=" flex flex-row items-center justify-center">
+        <div className="flex flex-row items-center justify-center">
           <Link to="/menu">
-            <button
-              className="mt-16 cursor-pointer bg-orange-600 min-w-[140px] h-12 text-white rounded-xl font-bold"
-              // onClick={() => navigate("/menu")}
-            >
+            <button className="mt-16 cursor-pointer bg-orange-600 min-w-[140px] h-12 text-white rounded-xl font-bold">
               Menu completo
             </button>
           </Link>
         </div>
       </div>
 
-      <div className=" flex flex-col mt-28 ">
+      <div className="flex flex-col mt-28">
         <h4 className="text-center">
-          <span className="    lg:text-6xl text-gray-900 text-[70px] text-left font-bold">
+          <span className="lg:text-6xl text-gray-900 text-[70px] text-left font-bold">
             Creaciones mas votadas
           </span>
         </h4>
@@ -126,7 +120,6 @@ const Home = () => {
             />
           ))}
         </div>
-        
       </div>
     </>
   );
