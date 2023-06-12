@@ -47,8 +47,6 @@ function About() {
         <br />
         <span className="text-black">Andrés Gómez</span>
         <br />
-        <span className="text-black">Ezequiel Arias</span>
-        <br />
         <span className="text-black">Freddy Herrera</span>
         <br />
         <span className="text-black">Glendy Dugarte</span>
