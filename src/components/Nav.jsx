@@ -63,6 +63,7 @@ const Nav = () => {
       localStorage.removeItem("name");
       localStorage.removeItem("id");
       navigate("/");
+      window.location.reload()
     } catch (error) {
       console.log("Error al hacer logout:", error);
     }
@@ -199,13 +200,12 @@ const Nav = () => {
             <>
               <div className="flex items-center">
                 <div className="mt-1">
-                  <Link to="/login">
-                    <FaSignInAlt className="ml-4 text-2xl hover:bg-orange-200" />
-                  </Link>
-                </div>
-
-                <div className=" ml-4 mt-1">
-                  <p>ingresar</p>
+                <Link to="/login" className="group relative">
+      <FaSignInAlt className="ml-4 text-2xl hover:bg-orange-200 cursor-pointer" />
+      <span className="invisible opacity-0 bg-gray-100 text-gray-800 rounded-md py-1 px-2 absolute bottom-full left-1/2 transform -translate-x-1/2 translate-y-2 group-hover:visible group-hover:opacity-100">
+        Ingresar
+      </span>
+    </Link>
                 </div>
               </div>
             </>
