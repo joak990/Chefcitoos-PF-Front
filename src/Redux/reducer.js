@@ -39,6 +39,7 @@ import {
   ORDER_DETAIL,
   SET_USER,
   GET_RECENT_ORDERS,
+  GET_COMPONENTS_CATEG_PRODUCTS,
 } from "./typeAction";
 
 const initialState = {
@@ -67,7 +68,8 @@ const initialState = {
   },
   orderDetail: {},
   user: {},
-  recentorders:[]
+  recentorders:[],
+  componentsCategProducts:[],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -388,6 +390,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         recentorders: [...payload]
        
+      };
+      case GET_COMPONENTS_CATEG_PRODUCTS:
+      return {
+        ...state,
+        componentsCategProducts: payload,
       };
 
     default:
