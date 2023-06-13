@@ -785,3 +785,21 @@ export const setUser = () => {
       alert((`Message ${GET_COMPONENTS_CATEG_PRODUCTS}:`, error))
     }
   }}
+
+  export const sendRegisterMail = (payload) => {
+
+    return async function () {
+      try {
+        const sendmail = {email:payload}
+        const response = await axios.post( "/nodeMailer/send-email",sendmail );
+        console.log(response,"repueta");
+        return response
+      }
+       catch (error) {
+        // Error en la petición
+        console.error(error);
+        return { failed:false};
+      }
+    };
+  };
+
