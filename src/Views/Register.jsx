@@ -76,7 +76,7 @@ function Register() {
       }
       dispatch(postRegisterUser(form));
       dispatch(sendRegisterMail(form.email))
-      
+      navigate("/login")
       setForm({
         name: "",
         email: "",
