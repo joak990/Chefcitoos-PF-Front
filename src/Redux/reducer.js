@@ -38,6 +38,7 @@ import {
   DELETE_COMMENT,
   ORDER_DETAIL,
   SET_USER,
+  GET_RECENT_ORDERS,
 } from "./typeAction";
 
 const initialState = {
@@ -65,7 +66,8 @@ const initialState = {
     },
   },
   orderDetail: {},
-  user: {}
+  user: {},
+  recentorders:[]
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -380,6 +382,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         user: JSON.parse(localStorage.getItem("userLogin")),
+      };
+      case GET_RECENT_ORDERS:
+      return {
+        ...state,
+        recentorders: [...payload]
+       
       };
 
     default:

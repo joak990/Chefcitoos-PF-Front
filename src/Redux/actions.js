@@ -38,7 +38,8 @@ import {
   CLEAN_SHOPPING_CART,
   DELETE_COMMENT,
   ORDER_DETAIL,
-  SET_USER
+  SET_USER,
+  GET_RECENT_ORDERS
 } from "./typeAction";
 
 import axios from "axios";
@@ -756,3 +757,17 @@ export const setUser = () => {
      type:SET_USER,  
    }
  }
+
+
+ export const getRecentOrders = () => {
+  return async function (dispatch){
+    try {
+      const json = await axios.get(`/admin/orders`)
+      return dispatch ({
+        type : GET_RECENT_ORDERS,
+        payload : json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_RECENT_ORDERS}:`, error))
+    }
+  }}

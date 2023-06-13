@@ -1,36 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, TabList, Tab, DonutChart } from '@tremor/react';
 import NavAdmin from './NavAdmin';
 import CardGridMap from './CardGridMap';
 import Chardonut from './Chardonut';
-
+import { getRecentOrders } from '../Redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import merca from "./merca.png"
 function Dashboard() {
   const [selectedView, setSelectedView] = useState(1);
 
-  // Datos de ejemplo para las órdenes
-  const orders = [
-    {
-      id: 1,
-      date: '2023-06-07',
-      name: 'John Doe',
-      paymentMethod: 'Credit Card',
-      total: 150.0,
-    },
-    {
-      id: 2,
-      date: '2023-06-06',
-      name: 'Jane Smith',
-      paymentMethod: 'PayPal',
-      total: 200.0,
-    },
-    {
-      id: 3,
-      date: '2023-06-05',
-      name: 'Robert Johnson',
-      paymentMethod: 'Cash',
-      total: 80.0,
-    },
-  ];
+const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getRecentOrders());
+  }, [dispatch]);
+  
+
+  
+  const orders = useSelector((state) => state.recentorders);
+ 
 
   return (
     <main className='bg-slate-200 min-h-screen overflow-y-auto'>
@@ -55,21 +42,21 @@ function Dashboard() {
                   <table className='w-full mt-2'>
                     <thead>
                       <tr>
-                        <th className='py-2 text-left'>ID</th>
-                        <th className='py-2 text-left'>Fecha</th>
+                        <th className='py-2 text-left'>Estado</th>
+                        <th className='py-2 px-24 text-left'>Fecha</th>
                         <th className='py-2 text-left'>Nombre</th>
                         <th className='py-2 text-left'>Método de Pago</th>
                         <th className='py-2 text-left'>Total</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {orders.map(order => (
+                      {orders?.map(order => (
                         <tr key={order.id}>
-                          <td className='py-2'>{order.id}</td>
-                          <td className='py-2'>{order.date}</td>
-                          <td className='py-2'>{order.name}</td>
-                          <td className='py-2'>{order.paymentMethod}</td>
-                          <td className='py-2'>{order.total}</td>
+                          <td className='py-2 px-4 text-green-600'> ✔</td>
+                          <td className='py-2 px-10'>{order.date}</td>
+                          <td className='py-2'>{order.User.name}</td>
+                          <td className='py-2'><img className='w-4 ml-10' src={merca} alt="" /> Mercado Pago</td>
+                          <td className='py-2 font-bold'>${order.total_price}</td>
                         </tr>
                       ))}
                     </tbody>
