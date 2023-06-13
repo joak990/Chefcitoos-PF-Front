@@ -39,7 +39,8 @@ import {
   DELETE_COMMENT,
   ORDER_DETAIL,
   SET_USER,
-  GET_RECENT_ORDERS
+  GET_RECENT_ORDERS,
+  GET_COMPONENTS_CATEG_PRODUCTS
 } from "./typeAction";
 
 import axios from "axios";
@@ -769,5 +770,18 @@ export const setUser = () => {
       })
     } catch (error) {
       alert((`Message ${GET_RECENT_ORDERS}:`, error))
+    }
+  }}
+
+ export const getComponentsCategProducts = (productId) => {
+  return async function (dispatch){
+    try {
+      const json = await axios.get(`/componentsCategProducts/${productId}`)
+      return dispatch ({
+        type : GET_COMPONENTS_CATEG_PRODUCTS,
+        payload : json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_COMPONENTS_CATEG_PRODUCTS}:`, error))
     }
   }}
