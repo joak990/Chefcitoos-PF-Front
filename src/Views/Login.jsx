@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 import { app, auth } from "../Firebase.config";
 import { useDispatch } from "react-redux";
-import { postLoginUser, postRegisterUser } from "../Redux/actions";
+import { postLoginUser, postRegisterUser, sendRegisterMail } from "../Redux/actions";
 import { FcGoogle } from "react-icons/fc";
 import Swal from 'sweetalert2'
 const validation = (form)=>{
@@ -135,7 +135,7 @@ useEffect(() => {
     };
  
     dispatch(postRegisterUser(datauser));
-    
+    dispatch(sendRegisterMail(response.user.email))
   };
 
   return (

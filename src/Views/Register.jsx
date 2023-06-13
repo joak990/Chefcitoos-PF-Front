@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logochefcito from "../img/hamburguesafinal.png";
-import { postRegisterUser } from "../Redux/actions";
+import { postRegisterUser, sendRegisterMail } from "../Redux/actions";
 import { useDispatch } from "react-redux";
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -75,6 +75,8 @@ function Register() {
         return;
       }
       dispatch(postRegisterUser(form));
+      dispatch(sendRegisterMail(form.email))
+      
       setForm({
         name: "",
         email: "",
