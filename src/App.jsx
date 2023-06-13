@@ -18,9 +18,11 @@ import Users from "./AdminUser/Users";
 import CreationsAdmin from "./AdminUser/CreationsAdmin";
 import { Checkout } from "./Views/Checkout";
 import { ResultCheckout } from "./Views/ResultCheckout";
+import { useVercelAnalytics } from "./AdminUser/app/root";
 function App() {
   const location = useLocation();
     const hasId = localStorage.getItem("id");
+    useVercelAnalytics();
   return (
     <>
       {location.pathname !== "/register" 
