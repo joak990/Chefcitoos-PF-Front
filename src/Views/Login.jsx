@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { postLoginUser, postRegisterUser, sendRegisterMail } from "../Redux/actions";
 import { FcGoogle } from "react-icons/fc";
 import Swal from 'sweetalert2'
-const validation = (form)=>{
+const validation = (form) => {
   const newErrors = {};
 
   // Validar campo de email
@@ -34,12 +34,12 @@ const validation = (form)=>{
   } else if (form.password.length > 20) {
     newErrors.password = "La contraseña debe tener como máximo 20 caracteres";
   }
-return newErrors
-  
-  
-} 
+  return newErrors
 
-  
+
+}
+
+
 function Login() {
   const navigate = useNavigate();
   const firebaseAuth = getAuth(app);
@@ -58,36 +58,47 @@ function Login() {
       ...form,
       [name]: value,
     });
-    setErrors(validation({ 
-      ...form,[name]:value,
+    setErrors(validation({
+      ...form, [name]: value,
     }))
-    
+
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-
-
     dispatch(postLoginUser(form))
       .then((response) => {
-     // console.log("adentrooo");
-      // if (!Object.keys(response)){
-      //   navigate("/")
-      // }
-        if (response.success === true) {
-          localStorage.setItem("user", JSON.stringify(response.user));
-          // Si la respuesta es true, el inicio de sesión fue exitoso
-          // Redireccionar al Home
-          navigate("/");
-        } else {
-          Swal.fire({
-            title: 'Los datos son incorrectos',
+        // console.log("adentrooo");
+        // if (!Object.keys(response)){
+        //   navigate("/")
+        // }
+        if (response.success === false) {
+            // navigate("/login")
+            Swal.fire({
+            title: 'usuario bloqueado',
             icon: 'error',
             buttonsStyling: false,
             customClass: {
-              confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+              confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
             }
           })
-          //alert("los datos son incorrectos")
+          navigate("/login")
+        } else {
+          if (response.success === true) {
+            localStorage.setItem("user", JSON.stringify(response.user));
+            // Si la respuesta es true, el inicio de sesión fue exitoso
+            // Redireccionar al Home
+            navigate("/");
+          } else {
+            Swal.fire({
+              title: 'Los datos son incorrectos',
+              icon: 'error',
+              buttonsStyling: false,
+              customClass: {
+                confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
+              }
+            })
+            //alert("los datos son incorrectos")
+          }
         }
       })
       .catch((error) => {
@@ -95,13 +106,11 @@ function Login() {
         console.error("Error en el inicio de sesión:", error);
       });
   };
-// const userSession = JSON.parse(localStorage.getItem("user"));
+  // const userSession = JSON.parse(localStorage.getItem("user"));
 
-useEffect(() => {
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
-        navigate("/");
-      }else{
         const email = localStorage.getItem("email");
         const id = localStorage.getItem("id");
         //console.log('email', email);
@@ -112,30 +121,44 @@ useEffect(() => {
           navigate("/");
         }
       }
-     
     });
-    
+
 
     return () => {
       // Limpiar el event listener al desmontar el componente
       unsubscribe();
     };
   }, [firebaseAuth, navigate]);
-  
+
 
   const handleLogin = async () => {
     await setPersistence(firebaseAuth, browserSessionPersistence);
     const response = await signInWithPopup(firebaseAuth, provider);
-    
+
     const datauser = {
       name: response.user.displayName,
       email: response.user.email,
       uid: response.user.uid,
       type: "user",
     };
- 
-    dispatch(postRegisterUser(datauser));
+
+    dispatch(postRegisterUser(datauser)).then((response) => {
+    if(response === true) {
+      Swal.fire({
+        title: 'Usuario bloqueado',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
+        }
+      })
+    }else {
+      navigate("/")
+    }
+    })
     dispatch(sendRegisterMail(response.user.email))
+
+
   };
 
   return (
@@ -147,14 +170,14 @@ useEffect(() => {
       >
         <h1 className="text-3xl font-bold mb-8 text-center">Ingresar</h1>
         <div className="mb-6 lg:ml-4">
-      <button
-        onClick={handleLogin}
-        className="bg-blue-500 w-56 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
-      >
-        <FcGoogle className="text-2xl mr-2" />
-        <span>Sign in with Google</span>
-      </button>
-    </div>
+          <button
+            onClick={handleLogin}
+            className="bg-blue-500 w-56 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
+          >
+            <FcGoogle className="text-2xl mr-2" />
+            <span>Sign in with Google</span>
+          </button>
+        </div>
         <p className="text-center">ingresa con email</p>
         <div className="flex flex-col mb-6">
           <label htmlFor="email" className="mb-2 flex items-center">
