@@ -22,6 +22,15 @@ const Nav = () => {
 
   const [showShoppingCart, setShowShoppingCart] = useState(false);
   const [storedEmail, setStoredEmail] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleProfileClick = () => {
+    setIsMenuOpen(false); // Cerrar el menú al hacer clic en "Ver perfil"
+  };
+
+const toggleMenu2 = () => {
+  setIsMenuOpen(!isMenuOpen);
+};
 
   useEffect(() => {
     const storedName = localStorage.getItem("name");
@@ -70,7 +79,7 @@ const Nav = () => {
   };
 
   return (
-    <header className="bg-orange-100 ">
+    <header className="bg-orange-100  h-46">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
@@ -184,17 +193,28 @@ const Nav = () => {
               >
                 Logout
               </button>
+              
               <div className="bg-gray-200 rounded-full flex justify-center items-center w-12">
-                {user ? (
-                  <img
-                    className="rounded-full"
-                    src={user && user.photoURL}
-                    alt=""
-                  />
-                ) : (
-                  <FontAwesomeIcon icon={faUser} />
-                )}
-              </div>
+  <button onClick={toggleMenu2}>
+    {user ? (
+      <img className="rounded-full" src={user && user.photoURL} alt="" />
+    ) : (
+      <FontAwesomeIcon icon={faUser} />
+    )}
+  </button>
+{isMenuOpen && (
+  <div className="absolute bottom-auto mt-28 bg-slate-100">
+    <div className="">
+      <Link to="/myProfile"onClick={handleProfileClick} className="block px-4 py-2 text-gray-800 hover:bg-orange-200">
+        Ver perfil
+      </Link>
+      <Link to="/myProfile"onClick={handleProfileClick} className="block px-4 py-2 text-gray-800 hover:bg-orange-200">
+        mis pedidos
+      </Link>
+    </div>
+  </div>
+)}
+</div>
             </>
           ) : (
             <>

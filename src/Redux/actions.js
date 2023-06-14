@@ -39,7 +39,8 @@ import {
   DELETE_COMMENT,
   ORDER_DETAIL,
   SET_USER,
-  GET_RECENT_ORDERS
+  GET_RECENT_ORDERS,
+  CHANGE_DATE_USER
 } from "./typeAction";
 
 import axios from "axios";
@@ -627,7 +628,7 @@ export const GetAllUsers = () => {
 export const DeleteUser = (id) => {
   return async function (dispatch) {
     try {
-      const json = await axios.delete(`/users/${id}`);
+      const json = await axios.put(`/users/${id}`);
       return dispatch({
         type: DELETE_USER,
         payload: json.data,
@@ -785,6 +786,27 @@ export const setUser = () => {
         // Error en la petición
         console.error(error);
         return { failed:false};
+      }
+    };
+  };
+
+
+  export const changedateUser = (payload,id) => {
+
+    return async function (dispatch) {
+      try {
+          console.log(id,payload);
+        const response = await axios.put(
+          `/users/changeData/${id}`,
+          payload
+        );
+          dispatch({ type: CHANGE_DATE_USER });
+          return { success: true,response};
+        } 
+       catch (error) {
+        // Error en la petición
+        console.error(error);
+        return { failed: false, message: "Error al cambiar datos" };
       }
     };
   };

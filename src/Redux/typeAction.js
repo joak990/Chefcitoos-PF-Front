@@ -37,3 +37,4 @@ export const DELETE_COMMENT = "DELETE_COMMENT";
 export const ORDER_DETAIL = "ORDER_DETAIL";
 export const SET_USER = "SET_USER";
 export const GET_RECENT_ORDERS = "GET_RECENT_ORDERS";
+export const CHANGE_DATE_USER = "CHANGE_DATE_USER"

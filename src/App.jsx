@@ -18,6 +18,7 @@ import Users from "./AdminUser/Users";
 import CreationsAdmin from "./AdminUser/CreationsAdmin";
 import { Checkout } from "./Views/Checkout";
 import { ResultCheckout } from "./Views/ResultCheckout";
+import UserProfile from "./Views/UserProfile";
 function App() {
   const location = useLocation();
     const hasId = localStorage.getItem("id");
@@ -46,6 +47,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/admin" element={<LoginAdmin />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/myProfile" element={<UserProfile />} />
         <Route path="/creaciones" element={<Creaciones />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="*" element={<NotFound />} />
