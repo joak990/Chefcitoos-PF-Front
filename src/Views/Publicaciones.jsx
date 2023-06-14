@@ -93,15 +93,22 @@ function Publicaciones() {
           allCreations
             .slice((page - 1) * perPage, (page - 1) * perPage + perPage)
             .map((elem, index) => (
-              <CardCreations
-                key={index}
-                id={elem.id}
-                product={elem.product.name}
-                image={elem.image}
-                name={elem.name}
-                user={elem.Users.name}
-                price={elem.price}
-              />
+              <>
+                {
+                  !elem.isDeleted ? (
+                    <CardCreations
+                      key={index}
+                      id={elem.id}
+                      product={elem.product.name}
+                      image={elem.image}
+                      name={elem.name}
+                      user={elem.Users.name}
+                      price={elem.price}
+                    />
+                  ) :
+                    null
+                }
+              </>
             ))}
       </div>
       {allCreations.length > 0 && <Pagination action={pagePublications} page={page} maxPage={maxPage} />}
