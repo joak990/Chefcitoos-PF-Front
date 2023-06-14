@@ -4,7 +4,7 @@ import image from "../img/hamburguesa.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { addCreation, getComponents } from "../Redux/actions";
+import { addCreation, getComponents, getComponentsCategProducts } from "../Redux/actions";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
@@ -25,28 +25,63 @@ const Modal = ({ productSelected, onClose }) => {
   const [errorSelectedComponents, setErrorSelectedComponents] = useState("");
   const firebaseAuth = getAuth(app);
   const user = firebaseAuth.currentUser;
-  const components_product = [
-    {
-      id: 1,
-      product_id: 1,
-      component_categ_id: 1,
-      component_categ: { id: 1, name: "Ingredientes" },
-      amount: 5,
-    },
-    {
-      id: 2,
-      product_id: 1,
-      component_categ_id: 2,
-      component_categ: { id: 2, name: "Salsas" },
-      amount: 5,
-    },
-  ];
+  const components_product = useSelector((state) => state.componentsCategProducts);
+
+  // const components_product = [
+  //   {
+  //     id: 9,
+  //     product_id: 4,
+  //     Componente_categ_id: 1,
+  //     amount: 6,
+  //     createdAt: "2023-06-06T00:00:00.000Z",
+  //     updatedAt: "2023-06-06T00:00:00.000Z",
+  //     components_categ: {
+  //       name: "Ingredientes"
+  //     },
+  //     product: {
+  //       name: "CHEFCIBURGUER"
+  //     }
+  //   },
+  //   {
+  //     id: 10,
+  //     product_id: 4,
+  //     Componente_categ_id: 2,
+  //     amount: 13,
+  //     createdAt: "2023-06-06T00:00:00.000Z",
+  //     updatedAt: "2023-06-06T00:00:00.000Z",
+  //     components_categ: {
+  //       name: "Salsas"
+  //     },
+  //     product: {
+  //       name: "CHEFCIBURGUER"
+  //     }
+  //   },
+  //   {
+  //     id: 11,
+  //     product_id: 4,
+  //     Componente_categ_id: 3,
+  //     amount: 3,
+  //     createdAt: "2023-06-06T00:00:00.000Z",
+  //     updatedAt: "2023-06-06T00:00:00.000Z",
+  //     components_categ: {
+  //       name: "Adiciones"
+  //     },
+  //     product: {
+  //       name: "CHEFCIBURGUER"
+  //     }
+  //   }
+  // ]
 
   useEffect(() => {
+    document.body.style.overflow = 'hidden';
     dispatch(getComponents());
+    dispatch(getComponentsCategProducts(productSelected.id));
+    return () => {
+      document.body.style.overflow = 'auto';
+    }
   }, []);
 
-  const handleNameChange = (event) => {
+ const handleNameChange = (event) => {
     if (event.target.value === "") {
       setErrorName("El nombre de la creación es requerido.");
     } else {
@@ -87,7 +122,7 @@ const Modal = ({ productSelected, onClose }) => {
     let response = false;
     components_product.forEach((component_current) => {
       if (
-        Number(component_current.component_categ_id) ===
+        Number(component_current.Componente_categ_id) ===
           Number(component.component_categ_id) &&
         component_current.amount >
           numberOfComponentsSelectedByCateg(component.component_categ_id)
@@ -107,13 +142,16 @@ const Modal = ({ productSelected, onClose }) => {
   };
 
   const onSaveCreation = () => {
+    const divInfo = document.getElementById("info");
     if (!name) {
+      divInfo.scrollTo(0, 0);
       setErrorName("El nombre de la creación es requerido.");
     } else {
       setErrorName("");
     }
 
     if (selectedComponents.length === 0) {
+      divInfo.scrollTo(0, 0);
       setErrorSelectedComponents("Los ingredientes son requeridos.");
     } else {
       setErrorSelectedComponents("");
@@ -285,7 +323,7 @@ const Modal = ({ productSelected, onClose }) => {
                       ${productSelected.price}
                     </h5>
                   </div>
-                  <div className="flex flex-col px-3 ml-4 lg:w-1/2 sm:w-1/2 md:w-1/2 h-[450px] overflow-y-scroll">
+                  <div className="flex flex-col px-3 ml-4 lg:w-1/2 sm:w-1/2 md:w-1/2 h-[450px] overflow-y-scroll" id="info">
                     <p className="text-xs">{productSelected.description}</p>
                     <div className="flex flex-col mb-1 items-start mt-5">
                       {errorName && (
@@ -316,9 +354,9 @@ const Modal = ({ productSelected, onClose }) => {
                         <div className="mt-1" key={component_produc.id}>
                           <div className="flex justify-between">
                             <h5 className="text-md font-bold">
-                              {component_produc.component_categ.name} (
+                              {component_produc.components_categ.name} (
                               {numberOfComponentsSelectedByCateg(
-                                component_produc.component_categ_id
+                                component_produc.Componente_categ_id
                               )}{" "}
                               / {component_produc.amount})
                             </h5>
@@ -332,7 +370,7 @@ const Modal = ({ productSelected, onClose }) => {
                           {components.map((component) => {
                             if (
                               Number(component.component_categ_id) ===
-                              Number(component_produc.component_categ_id)
+                              Number(component_produc.Componente_categ_id)
                             ) {
                               return (
                                 <div className="flex items-center mb-1">

@@ -26,6 +26,13 @@ const ModalShoppingCart = ({ onClose }) => {
   const maxQuantity = 10;
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   const handlePayOrder = () => {
     if (quantity > 0) {
       //CRear objeto a enviar
@@ -39,22 +46,20 @@ const ModalShoppingCart = ({ onClose }) => {
       axios
         .post(`${process.env.REACT_APP_API_URL}orders`, order)
         .then((response) => {
-            console.log(response)
-            dispatch(cleanShoppingCart());
-            Swal.fire({
-              title: 'Orden creada satisfactoriamente',
-              icon: 'success',
-              buttonsStyling: false,
-              customClass: {
-                confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
-              }
-            })
-            navigate("/checkout/" + response.data.id)
+          console.log(response);
+          dispatch(cleanShoppingCart());
+          Swal.fire({
+            title: "Orden creada satisfactoriamente",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "bg-orange-600 text-white rounded-md px-4 py-2",
+            },
+          });
+          navigate("/checkout/" + response.data.id);
         })
-        .catch((error) => {
-
-        });
-    //   console.log(JSON.stringify(order));
+        .catch((error) => {});
+      //   console.log(JSON.stringify(order));
     }
   };
 
@@ -121,18 +126,18 @@ const ModalShoppingCart = ({ onClose }) => {
           <div className="bg-white px-5 pb-4 ">
             <div className="flex flex-col items-center">
               {/* Modal body */}
-              <ul className="flex-col items-center mt-[6px] w-[100%]">
+              <ul className="flex-col items-center mt-[6px] w-[100%] h-[350px] overflow-y-auto">
                 {/* div card */}
                 {creations.map((creation, index) => (
                   <div className="flex flex-col mb-3 gap-10 items-center justify-end py-[9px] w-full border-b border-gray-300 pb-2">
-                    <div className="flex px-2 flex-row items-end justify-between w-full">
-                      <div className="bg-gray_51 flex flex-row items-center justify-between rounded-[16.5px] w-[50%]">
+                    <div className="flex px-2 lg:flex-row flex-col lg:items-end lg:justify-between w-full">
+                      <div className="bg-gray_51 flex flex-row items-center rounded-[16.5px] w-[50%]">
                         <img
                           src={creation.image}
                           className="h-[70px] md:h-auto rounded-lg w-[70px]"
                           alt="product name"
                         />
-                        <div className="max-w-[300px] flex-col px-3">
+                        <div className="max-w-[300px] px-3 flex flex-col">
                           <h5 className="font-semibold text-md uppercase">
                             {creation.name}
                           </h5>
@@ -144,10 +149,11 @@ const ModalShoppingCart = ({ onClose }) => {
                       <div className="flex flex-col items-center">
                         {creation.quantity >= maxQuantity && (
                           <p className="text-red-500 text-[10px] text-center max-w-[150px]">
-                            No se pueden agregar más productos, llame al +573112674038
+                            No se pueden agregar más productos, llame al
+                            +573112674038
                           </p>
                         )}
-                        <div>
+                        <div className="flex flex-row">
                           <button
                             className="bg-gray-200 text-black px-3 py-0.5 mr-2 rounded-lg hover:text-orange-600"
                             disabled={creation.quantity <= 1}
@@ -197,8 +203,8 @@ const ModalShoppingCart = ({ onClose }) => {
 
                 {products.map((product, index) => (
                   <div className="flex flex-col mb-3 gap-10 items-center justify-end py-[9px] w-full border-b border-gray-300 pb-2">
-                    <div className="flex px-2 flex-row items-end justify-between w-full">
-                      <div className="bg-gray_51 flex flex-row items-center justify-between rounded-[16.5px] w-[50%]">
+                    <div className="flex px-2 lg:flex-row flex-col lg:items-end lg:justify-between w-full">
+                      <div className="bg-gray_51 flex flex-row items-center rounded-[16.5px] w-[50%]">
                         <img
                           src={product.image}
                           className="h-[70px] md:h-auto rounded-lg w-[70px]"
@@ -216,10 +222,11 @@ const ModalShoppingCart = ({ onClose }) => {
                       <div className="flex flex-col items-center">
                         {product.quantity >= maxQuantity && (
                           <p className="text-red-500 text-[10px] text-center max-w-[150px]">
-                            No se pueden agregar más productos, llame al +573112674038
+                            No se pueden agregar más productos, llame al
+                            +573112674038
                           </p>
                         )}
-                        <div>
+                        <div className="flex flex-row">
                           <button
                             className="bg-gray-200 text-black px-3 py-0.5 mr-2 rounded-lg hover:text-orange-600"
                             disabled={product.quantity <= 1}
@@ -273,52 +280,67 @@ const ModalShoppingCart = ({ onClose }) => {
                   </p>
                 )}
               </ul>
-              <div className="flex flex-col mt-[6px] w-[60%] gap-5 self-end">
-                <div className="flex flex-row items-center justify-between w-full">
-                  <h5 className="font-semibold text-black_900" variant="body1">
-                    Subtotal
-                  </h5>
-                  <h5 className="font-medium text-gray_900" variant="body1">
-                    ${amounts.subtotal}
-                  </h5>
+              {quantity > 0 && (
+                <div className="flex flex-col mt-[6px] w-[60%] gap-5 self-end">
+                  <div className="flex flex-row items-center justify-between w-full">
+                    <h5
+                      className="font-semibold text-black_900"
+                      variant="body1"
+                    >
+                      Subtotal
+                    </h5>
+                    <h5 className="font-medium text-gray_900" variant="body1">
+                      ${amounts.subtotal}
+                    </h5>
+                  </div>
+                  <div className="flex flex-row items-center justify-between w-full">
+                    <h5
+                      className="font-semibold text-black_900"
+                      variant="body1"
+                    >
+                      IVA(19%)
+                    </h5>
+                    <h5 className="font-medium text-gray_900" variant="body1">
+                      ${amounts.iva}
+                    </h5>
+                  </div>
+                  <div className="flex flex-row items-center justify-between w-full">
+                    <h5
+                      className="font-semibold text-black_900"
+                      variant="body1"
+                    >
+                      Total
+                    </h5>
+                    <h5
+                      className="font-bold text-lg text-gray_900"
+                      variant="body1"
+                    >
+                      ${amounts.total}
+                    </h5>
+                  </div>
                 </div>
-                <div className="flex flex-row items-center justify-between w-full">
-                  <h5 className="font-semibold text-black_900" variant="body1">
-                    IVA(19%)
-                  </h5>
-                  <h5 className="font-medium text-gray_900" variant="body1">
-                    ${amounts.iva}
-                  </h5>
-                </div>
-                <div className="flex flex-row items-center justify-between w-full">
-                  <h5 className="font-semibold text-black_900" variant="body1">
-                    Total
-                  </h5>
-                  <h5
-                    className="font-bold text-lg text-gray_900"
-                    variant="body1"
-                  >
-                    ${amounts.total}
-                  </h5>
-                </div>
-              </div>
+              )}
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 flex flex-row justify-end border-t border-gray-200">
-            <button
-              type="button"
-              className="bg-gray-400 mr-2 h-8 text-white rounded-xl font-bold px-2"
-              onClick={() => dispatch(cleanShoppingCart())}
-            >
-              Vaciar carrito
-            </button>
-            <button
-              type="button"
-              className="bg-orange-600 w-24 h-8 text-white rounded-xl font-bold"
-              onClick={handlePayOrder}
-            >
-              Pagar
-            </button>
+            {quantity > 0 && (
+              <>
+                <button
+                  type="button"
+                  className="bg-gray-400 mr-2 h-8 text-white rounded-xl font-bold px-2"
+                  onClick={() => dispatch(cleanShoppingCart())}
+                >
+                  Vaciar carrito
+                </button>
+                <button
+                  type="button"
+                  className="bg-orange-600 w-24 h-8 text-white rounded-xl font-bold"
+                  onClick={handlePayOrder}
+                >
+                  Pagar
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

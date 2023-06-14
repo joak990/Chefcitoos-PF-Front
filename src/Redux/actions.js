@@ -41,6 +41,8 @@ import {
   SET_USER,
   GET_RECENT_ORDERS,
   CHANGE_DATE_USER
+  GET_COMPONENTS_CATEG_PRODUCTS
+
 } from "./typeAction";
 
 import axios from "axios";
@@ -773,6 +775,19 @@ export const setUser = () => {
     }
   }}
 
+ export const getComponentsCategProducts = (productId) => {
+  return async function (dispatch){
+    try {
+      const json = await axios.get(`/componentsCategProducts/${productId}`)
+      return dispatch ({
+        type : GET_COMPONENTS_CATEG_PRODUCTS,
+        payload : json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_COMPONENTS_CATEG_PRODUCTS}:`, error))
+    }
+  }}
+
   export const sendRegisterMail = (payload) => {
 
     return async function () {
@@ -810,3 +825,4 @@ export const setUser = () => {
       }
     };
   };
+
