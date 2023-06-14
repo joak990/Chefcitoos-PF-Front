@@ -126,7 +126,7 @@ const ModalShoppingCart = ({ onClose }) => {
           <div className="bg-white px-5 pb-4 ">
             <div className="flex flex-col items-center">
               {/* Modal body */}
-              <ul className="flex-col items-center mt-[6px] w-[100%]">
+              <ul className="flex-col items-center mt-[6px] w-[100%] h-[350px] overflow-y-auto">
                 {/* div card */}
                 {creations.map((creation, index) => (
                   <div className="flex flex-col mb-3 gap-10 items-center justify-end py-[9px] w-full border-b border-gray-300 pb-2">

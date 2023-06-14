@@ -28,18 +28,18 @@ export const Checkout = () => {
 
   return (
     <>
-      <div className="bg-gray-50 flex flex-col font-poppins items-center justify-end mx-auto pt-[51px] w-full">
-        <img src={logo} className="w-60 mb-5" />
-        <div className="flex flex-col md:gap-10 gap-[120px] items-center justify-start w-full">
-          <div className="flex flex-col md:gap-10 gap-[100px] items-start justify-start max-w-[1112px] mx-auto md:px-5 w-full">
-            <div className="flex md:flex-col flex-row font-opensans md:gap-10 gap-[99px] items-start justify-start w-[87%] md:w-full">
-              <div className="bg-white mb-32 shadow-md flex flex-col items-center justify-start lg:p-[46px] md:px-10 sm:px-5 rounded-[16px] shadow-bs6 w-[60%] md:w-full">
+      <div className="bg-gray-50 flex flex-col items-center justify-center mx-auto pt-[40px] w-full">
+        <img src={logo} className="lg:w-60 md:w-60 w-44 mb-5" />
+        <div className="flex flex-col md:gap-10 items-center justify-center w-full">
+          <div className="flex flex-col md:gap-10 gap-[50px] items-center justify-center lg:max-w-[1112px] mx-auto md:px-5 w-full">
+            <div className="flex md:flex-col flex-row md:gap-10 gap-[10px] items-center justify-center lg:w-[95%] md:w-full">
+              <div className="bg-white mb-32 shadow-md flex flex-col items-center justify-start lg:p-[46px] md:px-10 sm:px-5 p-5 rounded-[16px] shadow-bs6 w-full md:w-full">
                 <div className="flex flex-col gap-8 items-center justify-start w-full">
                   <h5 className="text-gray-900 text-3xl font-bold">
                     Paga tu orden
                   </h5>
-                  <div className="flex flex-row font-poppins gap-8 lg:px-[30px] items-start justify-start w-full">
-                    <div className="flex flex-col w-1/2 gap-4 items-start justify-start rounded-lg">
+                  <div className="flex lg:flex-row md:flex-row flex-col gap-8 lg:px-[30px] items-start justify-start w-full">
+                    <div className="flex flex-col lg:w-1/2 md:w-1/2 gap-4 items-start justify-start rounded-lg w-full">
                       <h3 className="text-gray-900 text-xl font-semibold">
                         Dirección de envío
                       </h3>
@@ -47,19 +47,19 @@ export const Checkout = () => {
                         <textarea
                           className="text-left border border-gray-300 rounded-md w-full"
                           name="Subject"
-                          rows={2}
+                          rows={3}
                         />
                         <button
                           type="button"
                           className="bg-orange-600 w-24 h-8 text-white rounded-xl font-bold"
                           //   onClick={() => navigate("/shippingaddress")}
                         >
-                          Change
+                          Cambiar
                         </button>
                       </div>
                     </div>
                     {order.total_price && (
-                      <div className="flex flex-col w-1/2">
+                      <div className="flex flex-col lg:w-1/2 md:w-1/2">
                         <div className="flex flex-col gap-4 items-start justify-start w-full">
                           <h5 className="text-gray-900 text-2xl font-semibold">
                             Información de la orden
@@ -83,7 +83,7 @@ export const Checkout = () => {
                             </h4>
                           </div>
                         </div>
-                        <div className="h-[250px] overflow-y-scroll">
+                        <div className="h-[230px] overflow-y-scroll">
                           {order.Creations?.map((creation, index) => (
                             <div className="flex flex-col mt-3 mb-3 gap-10 items-center justify-end py-[9px] w-full border-b border-gray-300 pb-2">
                               <div className="flex px-2 flex-row items-end justify-between w-full">
