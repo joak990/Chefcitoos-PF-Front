@@ -254,22 +254,19 @@ export const postRegisterUser = (payload) => {
               }
             });
           }
+        } else {
+          localStorage.setItem("email", post.data.email);
+          localStorage.setItem("id", post.data.id);
+          localStorage.setItem("name", post.data.name);
+          localStorage.setItem("userLogin", JSON.stringify(post.data));
+          dispatch(getuserbyid(post.data.id))
+          return post.data;
         }
-
-     }else{
-      localStorage.setItem("email", post.data.email);
-      localStorage.setItem("id", post.data.id);
-      localStorage.setItem("name", post.data.name);
-      localStorage.setItem("userLogin", JSON.stringify(post.data));
-      console.log(post.data.id,"isadasd");
-        dispatch(getuserbyid(post.data.id))
-      return post.data;
-     }     
-
+      }
     } catch (error) {
-    
 
-      //alert(`Message ${REGISTER_USER}:`, error);
+
+      //alert(Message ${REGISTER_USER}:, error);
     }
   };
 };
@@ -287,7 +284,10 @@ export const postLoginUser = (payload) => {
         "/users/validate",
         payload
       );
-    
+
+    if (response.data === true) {
+        return { success: false }
+      }else{
       if (response.data.email && response.data.id && response.data.name) {
         // Autenticación exitosa
         // Puedes realizar acciones adicionales aquí, como guardar el token de autenticación en el estado global
@@ -299,25 +299,8 @@ export const postLoginUser = (payload) => {
         dispatch({ type: LOGIN_SUCCESS });
         dispatch(getuserbyid(response.data.id))
 
-        return { success: true,email:response.data.email, id:response.data.id };
-=======
-      const response = await axios.post("/users/validate", payload);
-
-      if (response.data === true) {
-        return { success: false }
-
-      } else {
-        if (response.data.email && response.data.id && response.data.name) {
-          // Autenticación exitosa
-          // Puedes realizar acciones adicionales aquí, como guardar el token de autenticación en el estado global
-          localStorage.setItem("email", response.data.email);
-          localStorage.setItem("id", response.data.id);
-          localStorage.setItem("name", response.data.name);
-          localStorage.setItem("userLogin", JSON.stringify(response.data));
-          // y redireccionar al usuario al home
-          dispatch({ type: LOGIN_SUCCESS });
-          return { success: true, email: response.data.email, id: response.data.id };
-        } else {
+        return { success: true,email:response.data.email, id:response.data.id }}
+        else {
           // Autenticación fallida
           const errorMessage = response.data.message || "Error de autenticación";
           return { success: false, message: errorMessage };
