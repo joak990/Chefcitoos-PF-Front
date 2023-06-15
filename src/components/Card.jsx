@@ -25,12 +25,6 @@ const Card = ({ id, image, name, description, ratingValue, price }) => {
         </div>
         <div className="flex flex-row gap-4 items-center justify-between mt-[30px] rounded-lg w-[95%] md:w-full">
           <span className="font-bold text-xl text-gray_900">${price}</span>
-          <button
-            className="h-10 rounded-xl cursor-pointer font-bold min-w-[140px] text-base text-center text-white bg-orange-600"
-            onClick={orderProduct}
-          >
-            Ordenar ahora
-          </button>
         </div>
       </div>
     </div>
