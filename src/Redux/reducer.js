@@ -40,6 +40,8 @@ import {
   SET_USER,
   GET_RECENT_ORDERS,
   GET_COMPONENTS_CATEG_PRODUCTS,
+  GET_FAV_CREATIONS,
+  GET_FAV_BY_USER,
   GET_USER,
 } from "./typeAction";
 
@@ -71,6 +73,8 @@ const initialState = {
   user: {},
   recentorders:[],
   componentsCategProducts:[],
+  favCreations : [],
+  favCreationsByUser : [],
   userbyid: [],
 };
 
@@ -398,13 +402,21 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         componentsCategProducts: payload,
       };
+      case GET_FAV_CREATIONS:
+        return {
+          ...state,
+          favCreations: [...payload],
+        };
+        case GET_FAV_BY_USER:
+          return {
+            ...state,
+            favCreationsByUser: [...payload],
+          };
       case GET_USER:
         return {
           ...state,
           userbyid: payload,
         };
-
-
     default:
       return { ...state };
   }
