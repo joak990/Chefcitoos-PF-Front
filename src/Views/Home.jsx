@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import imgChefcitos from "../img/LogoChefcitoos.png";
 import imglog from "../img/logo.jpg";
 import hambur from "../img/pruebaProducto.jpeg";
@@ -6,6 +6,11 @@ import Card from "../components/Card";
 import MercadoPagoButton from "../components/MercadoPagoButton";
 import { useUser } from "../useUser";
 import { Link } from "react-router-dom";
+import { getuserbyid } from "../Redux/actions";
+import { useDispatch } from "react-redux";
+
+
+
 
 const burgers = [
   {
@@ -39,6 +44,13 @@ const burgers = [
 
 const Home = () => {
   const userstorage = useUser();
+ const dispatch = useDispatch()
+ const [id,setId]= useState( localStorage.getItem("id"))
+
+  useEffect(() => {
+       
+  }, []);
+  
   return (
     <>
       <div className="flex md:flex-row flex-row md:gap-10 items-center justify-around w-full pt-20 bg-gradient-to-b from-orange-100 to-white">

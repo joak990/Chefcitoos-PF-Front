@@ -1,24 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getAuth } from "firebase/auth";
 import { app } from "../Firebase.config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from 'react-redux';
-import { changedateUser } from '../Redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetAllUsers, changedateUser } from '../Redux/actions';
 import Modalpassword from '../components/Modalpassword';
 function UserProfile() {
     const name = localStorage.getItem("name");
     const email = localStorage.getItem("email");
-    const telefono = localStorage.getItem("tel");
-    const Dirección = localStorage.getItem("address");
-     const id = localStorage.getItem("id");
+
+    const id = localStorage.getItem("id");
+     const names = localStorage.getItem("name");
     const firebaseAuth = getAuth(app);
     const user = firebaseAuth.currentUser;
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const users = useSelector(state => state.userbyid);
+  
+   
     const [form, setForm] = useState({
         name:  name,
-        address:Dirección,
-          tel:telefono,
+        address:users?.address,
+          tel:users?.tel,
       });
       const [errors, setErrors] = useState({});
 const dispatch = useDispatch()
@@ -27,6 +30,11 @@ const dispatch = useDispatch()
         setForm({ ...form, [name]: value });
       };
 
+      useEffect(() => {
+         
+     
+        
+      }, []);
      const handleSubmit = (event) => {
         event.preventDefault();
      
@@ -71,7 +79,8 @@ const dispatch = useDispatch()
           const closeModal = () => {
             setIsModalOpen(false);
           };
-
+         
+    
       return (
         <div className="flex items-center justify-center mt-8">
             {isModalOpen && <Modalpassword onClose={closeModal} />}
@@ -97,7 +106,12 @@ const dispatch = useDispatch()
               <div className="flex mt-4 space-x-2">
                 <button  onClick={openModal} className="px-2 py-1 bg-gray-300 rounded-md text-gray-800 hover:bg-gray-400">
                   Cambiar contraseña
-                </button>
+                </button>                
+              </div>
+              <div className="flex mt-4 space-x-2">
+                <button  onClick={openModal} className="px-2 py-1 bg-red-500 rounded-md text-white hover:bg-gray-400">
+                  desactivar cuenta
+                </button>                
               </div>
             </div>
           </div>

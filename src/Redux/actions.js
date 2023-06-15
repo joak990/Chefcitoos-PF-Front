@@ -41,7 +41,9 @@ import {
   SET_USER,
   GET_RECENT_ORDERS,
   CHANGE_DATE_USER,
-  GET_COMPONENTS_CATEG_PRODUCTS
+  GET_COMPONENTS_CATEG_PRODUCTS,
+  CHANGE_PASSWORD,
+  GET_USER
 
 } from "./typeAction";
 
@@ -252,14 +254,18 @@ export const postRegisterUser = (payload) => {
               }
             });
           }
-        } else {
-          localStorage.setItem("email", post.data.email);
-          localStorage.setItem("id", post.data.id);
-          localStorage.setItem("name", post.data.name);
-          localStorage.setItem("userLogin", JSON.stringify(post.data));
-          return post.data;
         }
-      }
+
+     }else{
+      localStorage.setItem("email", post.data.email);
+      localStorage.setItem("id", post.data.id);
+      localStorage.setItem("name", post.data.name);
+      localStorage.setItem("userLogin", JSON.stringify(post.data));
+      console.log(post.data.id,"isadasd");
+        dispatch(getuserbyid(post.data.id))
+      return post.data;
+     }     
+
     } catch (error) {
     
 
@@ -276,10 +282,30 @@ export const postLoginUser = (payload) => {
 
   return async function (dispatch) {
     try {
+
+      const response = await axios.post(
+        "/users/validate",
+        payload
+      );
+    
+      if (response.data.email && response.data.id && response.data.name) {
+        // Autenticación exitosa
+        // Puedes realizar acciones adicionales aquí, como guardar el token de autenticación en el estado global
+        localStorage.setItem("email", response.data.email);
+        localStorage.setItem("id", response.data.id);
+        localStorage.setItem("name", response.data.name);
+        localStorage.setItem("userLogin", JSON.stringify(response.data));
+        // y redireccionar al usuario al home
+        dispatch({ type: LOGIN_SUCCESS });
+        dispatch(getuserbyid(response.data.id))
+
+        return { success: true,email:response.data.email, id:response.data.id };
+=======
       const response = await axios.post("/users/validate", payload);
 
       if (response.data === true) {
         return { success: false }
+
       } else {
         if (response.data.email && response.data.id && response.data.name) {
           // Autenticación exitosa
@@ -824,7 +850,7 @@ export const sendRegisterMail = (payload) => {
           `/users/changeData/${id}`,
           payload
         );
-          dispatch({ type: CHANGE_DATE_USER });
+          dispatch({ type: CHANGE_PASSWORD });
           return { success: true,response};
         } 
        catch (error) {
@@ -835,3 +861,39 @@ export const sendRegisterMail = (payload) => {
     };
   };
 
+
+  export const changeUserPassword = (payload,id) => {
+
+    return async function (dispatch) {
+      try {
+          console.log(id,payload);
+        const response = await axios.put(
+          `/users/changePassword/${id}`,
+          payload
+        );
+          dispatch({ type: CHANGE_PASSWORD });
+          return { success: true,response};
+        } 
+       catch (error) {
+        // Error en la petición
+        console.error(error);
+        return { failed: false, message: "Error al cambiar datos" };
+      }
+    };
+  };
+
+  export const getuserbyid = (id) => {
+    return async function (dispatch){
+      try {
+        const json = await axios.get(`/users/${id}`)
+        const data = json.data
+        return dispatch ({
+          type : GET_USER,
+          payload : {tel: data.tel,address: data.address},
+        })
+      } catch (error) {
+        alert((`Message ${GET_USER}:`, error))
+      }
+    }
+   }
+  
