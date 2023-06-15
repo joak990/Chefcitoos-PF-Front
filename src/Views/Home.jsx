@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import imgChefcitos from "../img/LogoChefcitoos.png";
 import imglog from "../img/logo.jpg";
-import hambur from "../img/pruebaProducto.jpeg";
+import hambur1 from "../img/pruebaProducto.jpeg";
+import hambur2 from "../img/hamburguesa.jpg";
+import perrito from "../img/perritocaliente.jpg";
 import Card from "../components/Card";
 import MercadoPagoButton from "../components/MercadoPagoButton";
 import { useUser } from "../useUser";
@@ -10,6 +12,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFavCreations  , getFavByUser } from "../Redux/actions";
 import CardCreations from "../components/CardCreations";
 import { getuserbyid } from "../Redux/actions";
+
+const burgers = [
+  {
+    id: 1,
+    image: `${hambur1}`,
+    name: "Hamburguesa Clásica",
+    description:
+    "Una deliciosa hamburguesa con ingredientes frescos y jugosa carne de res.",
+    ratingValue: 4.5,
+    price: 17000,
+  },
+  {
+    id: 2,
+    image: `${hambur2}`,
+    name: "Hamburguesa con Queso",
+    description:
+      "Una hamburguesa con queso fundido y carne jugosa, perfecta para los amantes del queso.",
+    ratingValue: 4.2,
+    price: 20000,
+  },
+  {
+    id: 3,
+    image: `${perrito}`,
+    description:
+      "Una opción saludable y deliciosa, hecha con una mezcla de vegetales frescos y legumbres.",
+    name: "Perrito caliente",
+    ratingValue: 4.0,
+    price: 25000,
+  },
+];
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -71,15 +103,31 @@ const Home = () => {
           </h4>
         </div>
         <div className="flex flex-row flex-wrap justify-center gap-8 pb-6 mt-12">
-          {FavUser && FavUser.map((elem,index) => (
-            <CardCreations
-            key={index}
-            id={elem.id}
-            name={elem.name}
-            image={elem.image}
-            price={elem.price}
-          />
-          ))}
+          {
+            FavUser.length === 0? (
+              burgers && burgers.map((elem,index) => (
+                <Card
+                key={index}
+                id={elem.id}
+                name={elem.name}
+                description={elem.description}
+                image={elem.image}
+                price={elem.price}
+              />
+              ))   
+            ) : 
+            (
+              FavUser && FavUser.map((elem,index) => (
+                <CardCreations
+                key={index}
+                id={elem.id}
+                name={elem.name}
+                image={elem.image}
+                price={elem.price}
+              />
+              ))   
+            )
+          }
         </div>
         <div className="flex flex-row items-center justify-center">
           <Link to="/menu">
