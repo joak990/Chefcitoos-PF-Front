@@ -41,7 +41,9 @@ import {
   SET_USER,
   GET_RECENT_ORDERS,
   CHANGE_DATE_USER,
-  GET_COMPONENTS_CATEG_PRODUCTS
+  GET_COMPONENTS_CATEG_PRODUCTS,
+  GET_FAV_CREATIONS,
+  GET_FAV_BY_USER
 
 } from "./typeAction";
 
@@ -257,13 +259,12 @@ export const postRegisterUser = (payload) => {
           localStorage.setItem("id", post.data.id);
           localStorage.setItem("name", post.data.name);
           localStorage.setItem("userLogin", JSON.stringify(post.data));
+          dispatch(getFavByUser(post.data.id))
           return post.data;
         }
       }
     } catch (error) {
-    
-
-      //alert(`Message ${REGISTER_USER}:`, error);
+      alert(`Message ${REGISTER_USER}:`, error);
     }
   };
 };
@@ -290,6 +291,7 @@ export const postLoginUser = (payload) => {
           localStorage.setItem("userLogin", JSON.stringify(response.data));
           // y redireccionar al usuario al home
           dispatch({ type: LOGIN_SUCCESS });
+          dispatch(getFavByUser(response.data.id))
           return { success: true, email: response.data.email, id: response.data.id };
         } else {
           // Autenticación fallida
@@ -827,7 +829,7 @@ export const sendRegisterMail = (payload) => {
           dispatch({ type: CHANGE_DATE_USER });
           return { success: true,response};
         } 
-       catch (error) {
+        catch (error) {
         // Error en la petición
         console.error(error);
         return { failed: false, message: "Error al cambiar datos" };
@@ -835,3 +837,31 @@ export const sendRegisterMail = (payload) => {
     };
   };
 
+  export const getFavCreations = (productId) => {
+    return async function (dispatch) {
+      try {
+        const json = await axios.get(`/creations/topRated`)
+        return dispatch({
+          type: GET_FAV_CREATIONS,
+          payload: json.data,
+        })
+      } catch (error) {
+        alert((`Message ${GET_FAV_CREATIONS}:`, error))
+      }
+    }
+  }
+
+
+  export const getFavByUser = (id) => {
+    return async function (dispatch) {
+      try {
+        const json = await axios.get(`/users/favorites/${id}`)
+        return dispatch({
+          type: GET_FAV_BY_USER,
+          payload: json.data,
+        })
+      } catch (error) {
+        alert((`Message ${GET_FAV_BY_USER}:`, error))
+      }
+    }
+  }

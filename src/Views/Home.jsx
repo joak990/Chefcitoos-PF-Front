@@ -6,6 +6,10 @@ import Card from "../components/Card";
 import MercadoPagoButton from "../components/MercadoPagoButton";
 import { useUser } from "../useUser";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getFavCreations  , getFavByUser } from "../Redux/actions";
+import CardCreations from "../components/CardCreations";
 
 const burgers = [
   {
@@ -38,7 +42,17 @@ const burgers = [
 ];
 
 const Home = () => {
+  const dispatch = useDispatch()
+  const FavCreations = useSelector((state) => state.favCreations)
+  const FavUser = useSelector((state) => state.favCreationsByUser)
   const userstorage = useUser();
+
+  
+  console.log(':::FavUser::', FavUser);
+  useEffect(() => {
+    dispatch(getFavCreations())
+  },[dispatch])
+
   return (
     <>
       <div className="flex md:flex-row flex-row md:gap-10 items-center justify-around w-full pt-20 bg-gradient-to-b from-orange-100 to-white">
@@ -88,8 +102,14 @@ const Home = () => {
           </h4>
         </div>
         <div className="flex flex-row flex-wrap justify-center gap-8 pb-6 mt-12">
-          {burgers.map((burger) => (
-            <Card key={burger.id} id={burger.id} image={burger.image} />
+          {FavUser && FavUser.map((elem,index) => (
+            <CardCreations
+            key={index}
+            id={elem.id}
+            name={elem.name}
+            image={elem.image}
+            price={elem.price}
+          />
           ))}
         </div>
         <div className="flex flex-row items-center justify-center">
@@ -108,16 +128,14 @@ const Home = () => {
           </span>
         </h4>
         <div className="flex flex-row flex-wrap justify-center gap-8 pb-6 mt-12">
-          {burgers.map((burger) => (
-            <Card
-              key={burger.id}
-              id={burger.id}
-              image={burger.image}
-              name={burger.name}
-              description={burger.description}
-              ratingValue={burger.ratingValue}
-              price={burger.price}
-            />
+          { FavCreations && FavCreations.map((elem,index) => (
+            <CardCreations
+            key={index}
+            id={elem.id}
+            name={elem.name}
+            image={elem.image}
+            price={elem.price}
+          />
           ))}
         </div>
       </div>
