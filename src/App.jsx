@@ -16,7 +16,7 @@ import Dashboard from "./AdminUser/Dashboard";
 import Products from "./AdminUser/Products";
 import Users from "./AdminUser/Users";
 import CreationsAdmin from "./AdminUser/CreationsAdmin";
-import { Checkout } from "./Views/Checkout";
+import Checkout from "./Views/Checkout";
 import { ResultCheckout } from "./Views/ResultCheckout";
 import UserProfile from "./Views/UserProfile";
 function App() {
