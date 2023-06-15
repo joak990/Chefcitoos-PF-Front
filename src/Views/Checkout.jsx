@@ -1,17 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MercadoPagoButton from "../components/MercadoPagoButton";
 import logo from "../img/LogoChefcitoos.png";
 import { useDispatch, useSelector } from "react-redux";
 import { orderDetail, setUser } from "../Redux/actions";
 import { useParams } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import Swal from 'sweetalert2'
+import { disableNetwork } from "firebase/firestore";
 
-export const Checkout = () => {
+const Checkout = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const order = useSelector((state) => state.orderDetail);
   const userRedux = useSelector((state) => state.user);
+  const [errorAddress, setErrorAddress] = useState("");
 
   useEffect(() => {
     dispatch(orderDetail(id));
@@ -24,7 +26,36 @@ export const Checkout = () => {
     //   console.log(error);
     // }
   }, []);
-  console.log(userRedux);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setErrorAddress("")
+    // console.log(event.target.value);
+    const form = event.target;
+    const formData = new FormData(form);
+    console.log(formData);
+    console.log(Object.fromEntries(formData.entries()).newAddress);
+
+    if (Object.fromEntries(formData.entries()).newAddress.length > 15) {
+      axios
+      .put(`/users/newAddress/${userRedux.id}`, Object.fromEntries(formData.entries()))
+      .then((response) => {
+        Swal.fire({
+          title: 'Direccion de envio guardada satisfactoriamente',
+          icon: 'success',
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          }
+        })
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    } else {
+      setErrorAddress("La dirección debe contener al menos 15 caracteres")
+    }
+  };
 
   return (
     <>
@@ -40,22 +71,35 @@ export const Checkout = () => {
                   </h5>
                   <div className="flex lg:flex-row md:flex-row flex-col gap-8 lg:px-[30px] items-start justify-start w-full">
                     <div className="flex flex-col lg:w-1/2 md:w-1/2 gap-4 items-start justify-start rounded-lg w-full">
-                      <h3 className="text-gray-900 text-xl font-semibold">
-                        Dirección de envío
-                      </h3>
-                      <div className="flex lg:flex-col flex-col gap-4 items-end justify-between rounded-lg w-full">
-                        <textarea
-                          className="text-left border border-gray-300 rounded-md w-full"
-                          name="Subject"
-                          rows={3}
-                        />
-                        <button
-                          type="button"
-                          className="bg-orange-600 w-24 h-8 text-white rounded-xl font-bold"
-                          //   onClick={() => navigate("/shippingaddress")}
-                        >
-                          Cambiar
-                        </button>
+                      <div className="flex lg:flex-col flex-col gap-4 items-start justify-between rounded-lg w-full">
+                        <form action="" onSubmit={handleSubmit}>
+                          <label
+                            htmlFor="newAddress"
+                            className="text-gray-900 text-xl font-semibold"
+                          >
+                            Dirección de envío
+                          </label>
+                          <textarea
+                            className="text-left border border-gray-300 rounded-md w-full"
+                            id="newAddress"
+                            name="newAddress"
+                            placeholder="Si desea puede cambiar la dirección de envio"
+                            rows={3}
+                            defaultValue={
+                              userRedux.address ? userRedux.address : ""
+                            }
+                            // value={inputAddress}
+                            // onChange={handleChange}
+                          />
+                          { errorAddress && <p className="text-red-500 mb-3 text-sm">{errorAddress}</p>}
+                          <button
+                            type="submit"
+                            className="bg-orange-600 pointer w-24 h-8 text-white rounded-xl font-bold"
+                            //   onClick={() => navigate("/shippingaddress")}
+                          >
+                            Cambiar
+                          </button>
+                        </form>
                       </div>
                     </div>
                     {order.total_price && (
@@ -121,13 +165,14 @@ export const Checkout = () => {
                         </div>
                         <div className="flex flex-col w-full">
                           <h5 className="text-gray-900 text-xl font-semibold text-right mt-2">
-                            Total a pagar: $<span className="">{order.total_price}</span>
+                            Total a pagar: $
+                            <span className="">{order.total_price}</span>
                           </h5>
                         </div>
                       </div>
                     )}
                   </div>
-                  {order.total_price && <MercadoPagoButton order={order}/>}
+                  {order.total_price && errorAddress.length<=0 && <MercadoPagoButton order={order} />}
                 </div>
               </div>
             </div>
@@ -137,3 +182,5 @@ export const Checkout = () => {
     </>
   );
 };
+
+export default Checkout;
