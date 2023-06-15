@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import imgChefcitos from "../img/LogoChefcitoos.png";
 import imglog from "../img/logo.jpg";
 import hambur from "../img/pruebaProducto.jpeg";
@@ -10,6 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getFavCreations  , getFavByUser } from "../Redux/actions";
 import CardCreations from "../components/CardCreations";
+import { getuserbyid } from "../Redux/actions";
+import { useDispatch } from "react-redux";
+
+
+
 
 const burgers = [
   {
@@ -46,13 +51,19 @@ const Home = () => {
   const FavCreations = useSelector((state) => state.favCreations)
   const FavUser = useSelector((state) => state.favCreationsByUser)
   const userstorage = useUser();
-
   
   console.log(':::FavUser::', FavUser);
   useEffect(() => {
     dispatch(getFavCreations())
   },[dispatch])
 
+ const dispatch = useDispatch()
+ const [id,setId]= useState( localStorage.getItem("id"))
+
+  useEffect(() => {
+       
+  }, []);
+  
   return (
     <>
       <div className="flex md:flex-row flex-row md:gap-10 items-center justify-around w-full pt-20 bg-gradient-to-b from-orange-100 to-white">
