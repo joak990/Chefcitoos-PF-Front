@@ -65,7 +65,7 @@ export const getProducts = () => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${GET_PRODUCTS}:`, error);
@@ -77,7 +77,7 @@ export const getCreations = () => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`/creations/posts?filterName=isPosted`);
-      
+
       return dispatch({
         type: GET_CREATIONS,
         payload: json.data,
@@ -88,7 +88,7 @@ export const getCreations = () => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${GET_CREATIONS}:`, error);
@@ -97,7 +97,7 @@ export const getCreations = () => {
 };
 
 
-export const  getCreationDetail = (id) => {
+export const getCreationDetail = (id) => {
 
   return async function (dispatch) {
     try {
@@ -113,7 +113,7 @@ export const  getCreationDetail = (id) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${GET_CREATIONS_BY_ID}:`, error);
@@ -124,7 +124,7 @@ export const  getCreationDetail = (id) => {
 
 //todas las creaciones del usuario
 export const getCreationDetailByUser = (id) => {
-  console.log('id',id);
+  console.log('id', id);
   return async function (dispatch) {
     try {
       const json = await axios.get(`/creations/myCreations/${id}?type=user`);
@@ -139,7 +139,7 @@ export const getCreationDetailByUser = (id) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${GET_CREATIONS_BY_USER}:`, error);
@@ -162,7 +162,7 @@ export const deleteProducts = (id) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${DELETE_PRODUCTS}:`, error); 
@@ -181,10 +181,10 @@ export const postProducts = (payload) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
-     // alert(`Message ${POST_PRODUCTS}:`, error);
+      // alert(`Message ${POST_PRODUCTS}:`, error);
     }
   };
 };
@@ -206,7 +206,7 @@ export const putProducts = (id, payload) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${PUT_PRODUCTS}:`, error);
@@ -221,29 +221,41 @@ export const putProducts = (id, payload) => {
 //en el back devolve una nueva propiedad que se llame duplicated y que sea true
 //podes enviar duplicated de uktina en false si no lo esta 
 export const postRegisterUser = (payload) => {
-  //console.log('::payload:',payload);
+  console.log('::payloadUSERS:', payload);
   return async function (dispatch) {
     try {
       const post = await axios.post(`/users`, payload);
-      
-     if(post.data.root === "register"){
-      if(post.data.duplicated === true){
+      if (post.data === true) {
         Swal.fire({
-          title: 'El usuario ya esta registrado',
+          title: 'No puede registrase, usuario bloqueado',
+          icon: 'error',
           buttonsStyling: false,
           customClass: {
-            confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+            confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
           }
-        });
-      }else{
-        Swal.fire({
-          title: 'El usuario se creo correctamente',
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        })
+        return post.data
+      }else {
+        if (post.data.root === "register") {
+          if (post.data.duplicated === true) {
+            Swal.fire({
+              title: 'El usuario ya esta registrado',
+              buttonsStyling: false,
+              customClass: {
+                confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
+              }
+            });
+          } else {
+            Swal.fire({
+              title: 'El usuario se creo correctamente',
+              buttonsStyling: false,
+              customClass: {
+                confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
+              }
+            });
           }
-        });
-      }
+        }
+
      }else{
       localStorage.setItem("email", post.data.email);
       localStorage.setItem("id", post.data.id);
@@ -253,16 +265,10 @@ export const postRegisterUser = (payload) => {
         dispatch(getuserbyid(post.data.id))
       return post.data;
      }     
+
     } catch (error) {
-      Swal.fire({
-        title: 'Error REGISTER_USER',
-        icon: 'error',
-        buttonsStyling: false,
-        customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
-        }
-      })
-      
+    
+
       //alert(`Message ${REGISTER_USER}:`, error);
     }
   };
@@ -276,6 +282,7 @@ export const postLoginUser = (payload) => {
 
   return async function (dispatch) {
     try {
+
       const response = await axios.post(
         "/users/validate",
         payload
@@ -293,11 +300,31 @@ export const postLoginUser = (payload) => {
         dispatch(getuserbyid(response.data.id))
 
         return { success: true,email:response.data.email, id:response.data.id };
+=======
+      const response = await axios.post("/users/validate", payload);
+
+      if (response.data === true) {
+        return { success: false }
+
       } else {
-        // Autenticación fallida
-        const errorMessage = response.data.message || "Error de autenticación";
-        return { success: false, message: errorMessage };
+        if (response.data.email && response.data.id && response.data.name) {
+          // Autenticación exitosa
+          // Puedes realizar acciones adicionales aquí, como guardar el token de autenticación en el estado global
+          localStorage.setItem("email", response.data.email);
+          localStorage.setItem("id", response.data.id);
+          localStorage.setItem("name", response.data.name);
+          localStorage.setItem("userLogin", JSON.stringify(response.data));
+          // y redireccionar al usuario al home
+          dispatch({ type: LOGIN_SUCCESS });
+          return { success: true, email: response.data.email, id: response.data.id };
+        } else {
+          // Autenticación fallida
+          const errorMessage = response.data.message || "Error de autenticación";
+          return { success: false, message: errorMessage };
+        }
       }
+
+
     } catch (error) {
       // Error en la petición
       console.error(error);
@@ -321,7 +348,7 @@ export const getComponents = () => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${GET_COMPONENTS}:`, error);
@@ -329,15 +356,15 @@ export const getComponents = () => {
   };
 };
 //creaciones propias por id 
- export const getCreationFilters = (TypeProducts,id) => {
+export const getCreationFilters = (TypeProducts, id) => {
   //console.log('id',id);
   //console.log('typeProducts', TypeProducts);
-  return async function (dispatch){
+  return async function (dispatch) {
     try {
       const json = await axios.get(`/creations/myCreations/${id}?type=user&filterName=typeProduct${TypeProducts}`)
-      return dispatch ({
-        type : GET_CREATION_FILTERS,
-        payload : json.data,
+      return dispatch({
+        type: GET_CREATION_FILTERS,
+        payload: json.data,
       })
     } catch (error) {
       Swal.fire({
@@ -345,21 +372,21 @@ export const getComponents = () => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert((`Message ${GET_CREATION_FILTERS}:`, error))
     }
   }
- }
+}
 
- export const getPublicacionesFilters = (TypeProducts) => {
-  return async function (dispatch){
+export const getPublicacionesFilters = (TypeProducts) => {
+  return async function (dispatch) {
     try {
       const json = await axios.get(`/creations/posts?filterName=typeProduct${TypeProducts}`)
-      return dispatch ({
-        type : GET_PUBLICATION_FILTERS,
-        payload : json.data,
+      return dispatch({
+        type: GET_PUBLICATION_FILTERS,
+        payload: json.data,
       })
     } catch (error) {
       Swal.fire({
@@ -367,30 +394,30 @@ export const getComponents = () => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert((`Message ${GET_PUBLICATION_FILTERS}:`, error))
     }
   }
- }
+}
 
- export const getCreationFilterPrice = (payload) => {
- // console.log('value', payload );
-  return  {
-    type:GET_CREATION_FILTERS_PRICE,
-     payload: payload,  
+export const getCreationFilterPrice = (payload) => {
+  // console.log('value', payload );
+  return {
+    type: GET_CREATION_FILTERS_PRICE,
+    payload: payload,
   }
 }
 
 export const getPublicacionesFilterPrice = (payload) => {
   //console.log('value', payload );
-  return  {
-    type:GET_PUBLICATION_FILTERS_PRICE,
-     payload: payload,  
+  return {
+    type: GET_PUBLICATION_FILTERS_PRICE,
+    payload: payload,
   }
 }
- 
+
 
 //  export const getPublicacionesFilterPrice = (TypePrice) => {
 //   return async function (dispatch){
@@ -405,9 +432,9 @@ export const getPublicacionesFilterPrice = (payload) => {
 //     }
 //   }
 //  }
- 
 
- export function cleanDetail(){
+
+export function cleanDetail() {
   return {
     type: CLEAN_DETAIL,
   }
@@ -417,7 +444,7 @@ export const getCreationByName = (id, name) => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`/searchBar/${id}?productName=${name}`);
-     
+
       return dispatch({
         type: GET_CREATION_BY_NAME,
         payload: json.data,
@@ -428,7 +455,7 @@ export const getCreationByName = (id, name) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${GET_CREATION_BY_NAME}:`, error);
@@ -440,7 +467,7 @@ export const getPublicationName = (name) => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`/searchBar/?productName=${name}`);
-    
+
       return dispatch({
         type: GET_PUBLICATION_BY_NAME,
         payload: json.data,
@@ -451,7 +478,7 @@ export const getPublicationName = (name) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${GET_PUBLICATION_BY_NAME}:`, error);
@@ -461,24 +488,24 @@ export const getPublicationName = (name) => {
 
 export const pageCreations = (value) => {
   return {
-    type : NUM_PAGE_CREATION, 
-    payload : value,
+    type: NUM_PAGE_CREATION,
+    payload: value,
   }
 }
 
 export const pagePublications = (value) => {
   return {
-    type : NUM_PAGE_PUBLICATION,
-    payload : value
+    type: NUM_PAGE_PUBLICATION,
+    payload: value
   }
 }
 
-export function cleanYourCreations(){
+export function cleanYourCreations() {
   return {
     type: CLEAN_YOUR_CREATIONS,
   }
 }
-export function cleanPublications(){
+export function cleanPublications() {
   return {
     type: CLEAN_PUBLICATIONS,
   }
@@ -486,7 +513,7 @@ export function cleanPublications(){
 
 
 export const postAssessment = (payload) => {
-  
+
   return async function (dispatch) {
     try {
       const json = await axios.post(`/assessments`, payload);
@@ -498,7 +525,7 @@ export const postAssessment = (payload) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message POST_ASSESSMENT:`, error);
@@ -508,14 +535,14 @@ export const postAssessment = (payload) => {
 
 
 export const comments = (id) => {
-  console.log('id',id);
+  console.log('id', id);
   return async function (dispatch) {
     try {
       const json = await axios.get(`/assessments/comments/${id}`);
       console.log("::jsonDdata:::", json.data);
       return dispatch({
-        type : GET_ALL_COMMENTS ,
-        payload:json.data
+        type: GET_ALL_COMMENTS,
+        payload: json.data
       })
     } catch (error) {
       Swal.fire({
@@ -523,7 +550,7 @@ export const comments = (id) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message AssesmentValidate:`, error);
@@ -535,7 +562,7 @@ export const comments = (id) => {
 export const getAssessmentValidate = () => {
   return async function (dispatch) {
     try {
-      const obj = {creation_id:1,user_id:100}
+      const obj = { creation_id: 1, user_id: 100 }
       const json = await axios.get(`/assessments/validateAssessment`, obj);
       return json.data;
     } catch (error) {
@@ -544,7 +571,7 @@ export const getAssessmentValidate = () => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message AssesmentValidate:`, error);
@@ -561,11 +588,11 @@ export const LoginAdminValidate = (payload) => {
         "/users/validate",
         payload
       );
-     console.log("date",response.data);
+      console.log("date", response.data);
       if (response.data.validate === true) {
-      if(response.data.id){
-        localStorage.setItem("id", response.data.id);
-      }
+        if (response.data.id) {
+          localStorage.setItem("id", response.data.id);
+        }
         // y redireccionar al usuario al home
         dispatch({ type: LOGIN_SUCCESS });
         return { validate: true };
@@ -601,7 +628,7 @@ export const putProductsbyid = (id) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${PUT_PRODUCTS}:`, error);
@@ -611,12 +638,12 @@ export const putProductsbyid = (id) => {
 
 
 export const GetAllUsers = () => {
-  return async function (dispatch){
+  return async function (dispatch) {
     try {
       const json = await axios.get(`/users`)
-      return dispatch ({
-        type : GET_ALL_USERS,
-        payload : json.data,
+      return dispatch({
+        type: GET_ALL_USERS,
+        payload: json.data,
       })
     } catch (error) {
       Swal.fire({
@@ -624,15 +651,15 @@ export const GetAllUsers = () => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert((`Message ${GET_ALL_USERS}:`, error))
     }
   }
- }
+}
 
- 
+
 export const DeleteUser = (id) => {
   return async function (dispatch) {
     try {
@@ -647,7 +674,7 @@ export const DeleteUser = (id) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${DELETE_PRODUCTS}:`, error);
@@ -655,70 +682,70 @@ export const DeleteUser = (id) => {
   };
 };
 export const GetAllComments = (id) => {
-  return async function (dispatch){
+  return async function (dispatch) {
     try {
       const json = await axios.get(`/assessments/${id}`)
-      return dispatch ({
-        type : GET_COMMENTS,
-        payload : json.data,
+      return dispatch({
+        type: GET_COMMENTS,
+        payload: json.data,
       })
     } catch (error) {
       alert((`Message ${GET_ALL_USERS}:`, error))
     }
   }
- }
+}
 
- export function addCreation(payload){
+export function addCreation(payload) {
   return {
     type: ADD_CREATION,
     payload
   }
 }
 
-export function deleteCreation(payload){
+export function deleteCreation(payload) {
   return {
     type: DELETE_CREATION,
     payload
   }
 }
-export function updateCreationQuantity(payload){
+export function updateCreationQuantity(payload) {
   return {
     type: UPDATE_CREATION_QUANTITY,
     payload
   }
 }
- export function addProduct(payload){
+export function addProduct(payload) {
   return {
     type: ADD_PRODUCT,
     payload
   }
 }
 
-export function deleteProduct(payload){
+export function deleteProduct(payload) {
   return {
     type: DELETE_PRODUCT,
     payload
   }
 }
-export function updateProductQuantity(payload){
+export function updateProductQuantity(payload) {
   return {
     type: UPDATE_PRODUCT_QUANTITY,
     payload
   }
 }
-export function setShoppingCart(payload){
+export function setShoppingCart(payload) {
   return {
     type: SET_SHOPPING_CART,
     payload
   }
 }
-export function cleanShoppingCart(){
+export function cleanShoppingCart() {
   return {
     type: CLEAN_SHOPPING_CART,
   }
 }
 
- export const DeleteComments = (id) => {
+export const DeleteComments = (id) => {
   return async function (dispatch) {
     try {
       const json = await axios.delete(`/assessments/${id}`);
@@ -732,7 +759,7 @@ export function cleanShoppingCart(){
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       //alert(`Message ${DELETE_PRODUCTS}:`, error);
@@ -754,7 +781,7 @@ export const orderDetail = (id) => {
         icon: 'error',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
     }
@@ -762,54 +789,56 @@ export const orderDetail = (id) => {
 };
 
 export const setUser = () => {
-   return  {
-     type:SET_USER,  
-   }
- }
+  return {
+    type: SET_USER,
+  }
+}
 
 
- export const getRecentOrders = () => {
-  return async function (dispatch){
+export const getRecentOrders = () => {
+  return async function (dispatch) {
     try {
       const json = await axios.get(`/admin/orders`)
-      return dispatch ({
-        type : GET_RECENT_ORDERS,
-        payload : json.data,
+      return dispatch({
+        type: GET_RECENT_ORDERS,
+        payload: json.data,
       })
     } catch (error) {
       alert((`Message ${GET_RECENT_ORDERS}:`, error))
     }
-  }}
+  }
+}
 
- export const getComponentsCategProducts = (productId) => {
-  return async function (dispatch){
+export const getComponentsCategProducts = (productId) => {
+  return async function (dispatch) {
     try {
       const json = await axios.get(`/componentsCategProducts/${productId}`)
-      return dispatch ({
-        type : GET_COMPONENTS_CATEG_PRODUCTS,
-        payload : json.data,
+      return dispatch({
+        type: GET_COMPONENTS_CATEG_PRODUCTS,
+        payload: json.data,
       })
     } catch (error) {
       alert((`Message ${GET_COMPONENTS_CATEG_PRODUCTS}:`, error))
     }
-  }}
+  }
+}
 
-  export const sendRegisterMail = (payload) => {
+export const sendRegisterMail = (payload) => {
 
-    return async function () {
-      try {
-        const sendmail = {email:payload}
-        const response = await axios.post( "/nodeMailer/send-email",sendmail );
-        console.log(response,"repueta");
-        return response
-      }
-       catch (error) {
-        // Error en la petición
-        console.error(error);
-        return { failed:false};
-      }
-    };
+  return async function () {
+    try {
+      const sendmail = { email: payload }
+      const response = await axios.post("/nodeMailer/send-email", sendmail);
+      console.log(response, "repueta");
+      return response
+    }
+    catch (error) {
+      // Error en la petición
+      console.error(error);
+      return { failed: false };
+    }
   };
+};
 
 
   export const changedateUser = (payload,id) => {

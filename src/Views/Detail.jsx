@@ -72,7 +72,7 @@ export default function Detail() {
         title: 'Comentario enviado',
         buttonsStyling: false,
         customClass: {
-          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
         }
       })
       window.location.reload();
@@ -129,48 +129,48 @@ export default function Detail() {
               <h3 className="capitalize">
                 {creation &&
                   creation.components?.Ingredientes ? (
-                    creation.components.Ingredientes.map((elem, index) => {
-                      return index === creation.components.Ingredientes.length - 1 ? (
-                        elem
-                      ) : (
-                        elem + ", "
-                      );
-                    })
-                  ) : (
-                    "No hay Ingredientes"
-                  )}
+                  creation.components.Ingredientes.map((elem, index) => {
+                    return index === creation.components.Ingredientes.length - 1 ? (
+                      elem
+                    ) : (
+                      elem + ", "
+                    );
+                  })
+                ) : (
+                  "No hay Ingredientes"
+                )}
               </h3>
               <br></br>
               <span className="text-orange-600 font-semibold">Salsas:</span>
               <h3 className="capitalize">
                 {creation &&
                   creation.components?.Salsas ? (
-                    creation.components.Salsas.map((elem, index) => {
-                      return index === creation.components.Salsas.length - 1 ? (
-                        elem
-                      ) : (
-                        elem + ", "
-                      );
-                    })
-                  ) : (
-                    "No hay Salsas"
-                  )}
+                  creation.components.Salsas.map((elem, index) => {
+                    return index === creation.components.Salsas.length - 1 ? (
+                      elem
+                    ) : (
+                      elem + ", "
+                    );
+                  })
+                ) : (
+                  "No hay Salsas"
+                )}
               </h3>
               <br></br>
               <span className="text-orange-600 font-semibold">Adiciones:</span>
               <h3 className="capitalize">
                 {creation &&
                   creation.components?.Adiciones ? (
-                    creation.components.Adiciones.map((elem, index) => {
-                      return index === creation.components.Adiciones.length - 1 ? (
-                        elem
-                      ) : (
-                        elem + ", "
-                      );
-                    })
-                  ) : (
-                    "No hay adiciones"
-                  )}
+                  creation.components.Adiciones.map((elem, index) => {
+                    return index === creation.components.Adiciones.length - 1 ? (
+                      elem
+                    ) : (
+                      elem + ", "
+                    );
+                  })
+                ) : (
+                  "No hay adiciones"
+                )}
               </h3>
             </div>
           </div>
@@ -196,35 +196,41 @@ export default function Detail() {
             {allComments.length === 0 ? (
               <p className="text-gray-700 text-lg">Esta creación aún no tiene comentarios.</p>
             ) : (
-              allComments.map((elem) => {
+              allComments && allComments.map((elem) => {
                 return (
-                  <div key={elem.id} className="mb-4">
-                    <div className="flex items-center">
-                      {elem.img ? (
-                        <img
-                          className="w-8 h-8 rounded-full mr-2"
-                          src={elem.img}
-                          alt="User Avatar"
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          className="h-5 ml-2 mr-2"
-                          icon={faUser}
-                        />
-                      )}
-
-                      <h4 className="text-gray-900 font-bold">
-                        {elem.userName}
-                      </h4>
-                      <div className="ml-4">
-                        <RatingStars disabled={showComments} value={parseInt(elem.vote)} />
-                      </div>
-                    </div>
-                    <p className="w-44 p-2 text-gray-700 rounded-md">
-                      {elem.content}
-                    </p>
-                    <div className="flex items-center mt-2"></div>
-                  </div>
+                  <>
+                    {
+                      !elem.isDeleted ? (
+                        <div key={elem.id} className="mb-4">
+                          <div className="flex items-center">
+                            {elem.img ? (
+                              <img
+                                className="w-8 h-8 rounded-full mr-2"
+                                src={elem.img}
+                                alt="User Avatar"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                className="h-5 ml-2 mr-2"
+                                icon={faUser}
+                              />
+                            )}
+                            <h4 className="text-gray-900 font-bold">
+                              {elem.userName}
+                            </h4>
+                            <div className="ml-4">
+                              <RatingStars disabled={showComments} value={parseInt(elem.vote)} />
+                            </div>
+                          </div>
+                          <p className="w-44 p-2 text-gray-700 rounded-md">
+                            {elem.content}
+                          </p>
+                          <div className="flex items-center mt-2"></div>
+                        </div>
+                      ) :
+                        null
+                    }
+                  </>
                 );
               })
             )}
