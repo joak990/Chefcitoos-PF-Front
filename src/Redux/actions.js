@@ -733,7 +733,7 @@ export const DeleteComments = (id) => {
       });
     } catch (error) {
       Swal.fire({
-        title: 'Error DELETE_PRODUCTS',
+        title: 'Error DELETE_COMMENTS',
         icon: 'error',
         buttonsStyling: false,
         customClass: {

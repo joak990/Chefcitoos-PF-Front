@@ -52,7 +52,18 @@ const dispatch = useDispatch()
                     <tbody>
                       {orders?.map(order => (
                         <tr key={order.id}>
-                          <td className='py-2 px-4 text-green-600'> ✔</td>
+                          {
+                            order.state === "Pendiente"? (
+                              <td className='py-2 px-4 text-yellow-600'>{order.state} ⚠️</td>
+                            ) : (
+                              order.state === "Pagada" ? (
+                                <td className='py-2 px-4 text-green-600'>{order.state} ✔</td>
+                              ) : 
+                              (
+                                <td className='py-2 px-4 text-red-600'>{order.state} ❌</td>
+                              )
+                            )
+                          }
                           <td className='py-2 px-10'>{order.date}</td>
                           <td className='py-2'>{order.User.name}</td>
                           <td className='py-2'><img className='w-4 ml-10' src={merca} alt="" /> Mercado Pago</td>

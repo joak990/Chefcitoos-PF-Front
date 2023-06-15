@@ -6,9 +6,12 @@ import { Card } from "@tremor/react";
 import { Link } from "react-router-dom";
 import RatingStars from "../components/RatingStars";
 import Swal from 'sweetalert2'
+import ModalComments from '../components/ModalComments';
 
 function CreationsAdmin() {
   const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCreationId, setSelectedCreationId] = useState(null);
 
   useEffect(() => {
     dispatch(getCreations());
@@ -23,7 +26,17 @@ function CreationsAdmin() {
   const creations = useSelector((state) => state.allCreations);
   const comments = useSelector((state) => state.Comments);
 
+  const openModal = (id) => {
+    setSelectedCreationId(id);
+    setIsModalOpen(true);
+  };
+  
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const handleviewCreation = async (id) => {
+
    
     //alert("Vas a mandar");
     dispatch(GetAllComments(id));
@@ -130,6 +143,12 @@ function CreationsAdmin() {
     <main className="bg-slate-200 min-h-screen overflow-y-auto">
       <NavAdmin />
       <div className="w-9/12 flex flex-col lg:flex-row lg:justify-center">
+      {isModalOpen && (
+          <ModalComments
+            onClose = {() => setIsModalOpen(false)}
+            creationId={selectedCreationId}
+          />
+        )}
         <div className="h-screen bg-slate-200 flex-grow"></div>
         <div className="lg:w-3/4">
           <div className="mt-5">
@@ -203,103 +222,11 @@ function CreationsAdmin() {
                           } text-center`}
                         >
                           <button
-                            onClick={() => handleviewCreation(creation.id)}
+                            // onClick={() => handleviewCreation(creation.id)}
+                            onClick={() => openModal(creation.id)}
                             className="bg-blue-200 rounded-2xl font-semibold w-48"
                           >
                             Ver Comentarios
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </Card>
-            <Card className="p-4 bg-white">
-              <h1 className="text-2xl font-bold">Comentarios</h1>
-              <div className="overflow-x-hidden">
-                <table className="w-full mt-2">
-                  <thead>
-                    <tr>
-                      <th className="py-2 pr-8 text-left border-b border-gray-300 border-r border-gray-300">
-                        Id de creacion
-                      </th>
-                      <th className="py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r border-gray-300">
-                        Id de usuario
-                      </th>
-                      <th className="py-2 pl-10 pr-2 text-center border-b border-gray-300 border-r border-gray-300">
-                        Comentario
-                      </th>
-                      <th className="py-2 pl-24 pr-10 text-center border-b border-gray-300 border-r border-gray-300">
-                        <div className="mr-8">Voto</div>
-                        
-                      </th>
-                      <th className="py-6 pl-8 pr-2 text-left border-b border-gray-300 border-r border-gray-300">
-                        Eliminar
-                      </th>
-                     
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {comments?.map((comment, index) => (
-                      <tr key={index}>
-                        <td
-                          className={`py-2 pr-8 ${
-                            index !== comment.length - 1
-                              ? "border-b border-gray-300"
-                              : ""
-                          } border-r border-gray-300`}
-                        >
-                          {comment.id}
-                        </td>
-                        <td
-                          className={`py-2 pl-8 pr-8 ${
-                            index !== comment.length - 1
-                              ? "border-b border-gray-300"
-                              : ""
-                          } border-r border-gray-300`}
-                        >
-                          {comment.user_id}
-                        </td>
-                        {comment.content ? (<td
-                          className={`py-2 pl-8 pr-8 ${
-                            index !== comment.length - 1
-                              ? "border-b border-gray-300"
-                              : ""
-                          } border-r border-gray-300`}
-                        >
-                          {comment.content}
-                        </td>): <td
-                          className={`py-2 pl-8 pr-8 ${
-                            index !== comment.length - 1
-                              ? "border-b border-gray-300"
-                              : ""
-                          } border-r border-gray-300`}
-                        >
-                          NO HAY
-                        </td>}
-                
-                        <td
-                          className={`py-2 pl-4 pr-8 ${
-                            index !== comment.length - 1
-                              ? "border-b border-gray-300"
-                              : ""
-                          } border-r border-gray-300`}
-                        >
-                        <RatingStars   value={parseInt(comment.vote)} />
-                        </td>
-                        <td
-                          className={`py-2 pl-1 pr-8 ${
-                            index !== comment.length - 1
-                              ? "border-b border-gray-300"
-                              : ""
-                          } text-center`}
-                        >
-                          <button
-                            onClick={() => handleDeleteCreation(comment.id)}
-                            className="bg-red-200 rounded-2xl font-semibold w-32"
-                          >
-                            Eliminar
                           </button>
                         </td>
                       </tr>
@@ -316,3 +243,99 @@ function CreationsAdmin() {
 }
 
 export default CreationsAdmin;
+
+
+
+// </Card>
+//             <Card className="p-4 bg-white">
+//               <h1 className="text-2xl font-bold">Comentarios</h1>
+//               <div className="overflow-x-hidden">
+//                 <table className="w-full mt-2">
+//                   <thead>
+//                     <tr>
+//                       <th className="py-2 pr-8 text-left border-b border-gray-300 border-r border-gray-300">
+//                         Id de creacion
+//                       </th>
+//                       <th className="py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r border-gray-300">
+//                         Id de usuario
+//                       </th>
+//                       <th className="py-2 pl-10 pr-2 text-center border-b border-gray-300 border-r border-gray-300">
+//                         Comentario
+//                       </th>
+//                       <th className="py-2 pl-24 pr-10 text-center border-b border-gray-300 border-r border-gray-300">
+//                         <div className="mr-8">Voto</div>
+                        
+//                       </th>
+//                       <th className="py-6 pl-8 pr-2 text-left border-b border-gray-300 border-r border-gray-300">
+//                         Eliminar
+//                       </th>
+//                     </tr>
+//                   </thead>
+//                   <tbody>
+//                     {comments?.map((comment, index) => (
+//                       <tr key={index}>
+//                         <td
+//                           className={`py-2 pr-8 ${
+//                             index !== comment.length - 1
+//                               ? "border-b border-gray-300"
+//                               : ""
+//                           } border-r border-gray-300`}
+//                         >
+//                           {comment.id}
+//                         </td>
+//                         <td
+//                           className={`py-2 pl-8 pr-8 ${
+//                             index !== comment.length - 1
+//                               ? "border-b border-gray-300"
+//                               : ""
+//                           } border-r border-gray-300`}
+//                         >
+//                           {comment.user_id}
+//                         </td>
+//                         {comment.content ? (<td
+//                           className={`py-2 pl-8 pr-8 ${
+//                             index !== comment.length - 1
+//                               ? "border-b border-gray-300"
+//                               : ""
+//                           } border-r border-gray-300`}
+//                         >
+//                           {comment.content}
+//                         </td>): <td
+//                           className={`py-2 pl-8 pr-8 ${
+//                             index !== comment.length - 1
+//                               ? "border-b border-gray-300"
+//                               : ""
+//                           } border-r border-gray-300`}
+//                         >
+//                           NO HAY
+//                         </td>}
+                
+//                         <td
+//                           className={`py-2 pl-4 pr-8 ${
+//                             index !== comment.length - 1
+//                               ? "border-b border-gray-300"
+//                               : ""
+//                           } border-r border-gray-300`}
+//                         >
+//                         <RatingStars   value={parseInt(comment.vote)} />
+//                         </td>
+//                         <td
+//                           className={`py-2 pl-1 pr-8 ${
+//                             index !== comment.length - 1
+//                               ? "border-b border-gray-300"
+//                               : ""
+//                           } text-center`}
+//                         >
+//                           <button
+//                             onClick={() => handleDeleteCreation(comment.id)}
+//                             className="bg-red-200 rounded-2xl font-semibold w-32"
+//                           >
+//                             Eliminar
+//                           </button>
+//                         </td>
+//                       </tr>
+//                     ))}
+//                   </tbody>
+//                 </table>
+//               </div>
+//             </Card>
