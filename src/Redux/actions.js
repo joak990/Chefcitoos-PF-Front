@@ -43,7 +43,7 @@ import {
   CHANGE_DATE_USER,
   GET_COMPONENTS_CATEG_PRODUCTS,
   GET_FAV_CREATIONS,
-  GET_FAV_BY_USER
+  GET_FAV_BY_USER,
   CHANGE_PASSWORD,
   GET_USER
 } from "./typeAction";
@@ -236,7 +236,7 @@ export const postRegisterUser = (payload) => {
           }
         })
         return post.data
-      }else {
+      } else {
         if (post.data.root === "register") {
           if (post.data.duplicated === true) {
             Swal.fire({
@@ -281,12 +281,9 @@ export const postLoginUser = (payload) => {
   return async function (dispatch) {
     try {
 
-      const response = await axios.post(
-        "/users/validate",
-        payload
-      );
+      const response = await axios.post("/users/validate",payload);
 
-    if (response.data === true) {
+      if (response.data === true) {
         return { success: false }
       } else {
         if (response.data.email && response.data.id && response.data.name) {
@@ -299,29 +296,13 @@ export const postLoginUser = (payload) => {
           // y redireccionar al usuario al home
           dispatch({ type: LOGIN_SUCCESS });
           dispatch(getFavByUser(response.data.id))
+          dispatch(getuserbyid(response.data.id))
           return { success: true, email: response.data.email, id: response.data.id };
         } else {
-      }else{
-      if (response.data.email && response.data.id && response.data.name) {
-        // Autenticación exitosa
-        // Puedes realizar acciones adicionales aquí, como guardar el token de autenticación en el estado global
-        localStorage.setItem("email", response.data.email);
-        localStorage.setItem("id", response.data.id);
-        localStorage.setItem("name", response.data.name);
-        localStorage.setItem("userLogin", JSON.stringify(response.data));
-        // y redireccionar al usuario al home
-        dispatch({ type: LOGIN_SUCCESS });
-        dispatch(getuserbyid(response.data.id))
-
-        return { success: true,email:response.data.email, id:response.data.id }}
-        else {
-          // Autenticación fallida
           const errorMessage = response.data.message || "Error de autenticación";
           return { success: false, message: errorMessage };
         }
       }
-
-
     } catch (error) {
       // Error en la petición
       console.error(error);
@@ -838,88 +819,88 @@ export const sendRegisterMail = (payload) => {
 };
 
 
-  export const changedateUser = (payload,id) => {
+export const changedateUser = (payload, id) => {
 
-    return async function (dispatch) {
-      try {
-          console.log(id,payload);
-        const response = await axios.put(
-          `/users/changeData/${id}`,
-          payload
-        );
-          dispatch({ type: CHANGE_PASSWORD });
-          return { success: true,response};
-        } 
-       catch (error) {
-        // Error en la petición
-        console.error(error);
-        return { failed: false, message: "Error al cambiar datos" };
-      }
-    };
+  return async function (dispatch) {
+    try {
+      console.log(id, payload);
+      const response = await axios.put(
+        `/users/changeData/${id}`,
+        payload
+      );
+      dispatch({ type: CHANGE_PASSWORD });
+      return { success: true, response };
+    }
+    catch (error) {
+      // Error en la petición
+      console.error(error);
+      return { failed: false, message: "Error al cambiar datos" };
+    }
   };
+};
 
 
-  export const changeUserPassword = (payload,id) => {
+export const changeUserPassword = (payload, id) => {
 
-    return async function (dispatch) {
-      try {
-          console.log(id,payload);
-        const response = await axios.put(
-          `/users/changePassword/${id}`,
-          payload
-        );
-          dispatch({ type: CHANGE_PASSWORD });
-          return { success: true,response};
-        } 
-        catch (error) {
-        // Error en la petición
-        console.error(error);
-        return { failed: false, message: "Error al cambiar datos" };
-      }
-    };
+  return async function (dispatch) {
+    try {
+      console.log(id, payload);
+      const response = await axios.put(
+        `/users/changePassword/${id}`,
+        payload
+      );
+      dispatch({ type: CHANGE_PASSWORD });
+      return { success: true, response };
+    }
+    catch (error) {
+      // Error en la petición
+      console.error(error);
+      return { failed: false, message: "Error al cambiar datos" };
+    }
   };
+};
 
-  export const getFavCreations = (productId) => {
-    return async function (dispatch) {
-      try {
-        const json = await axios.get(`/creations/topRated`)
-        return dispatch({
-          type: GET_FAV_CREATIONS,
-          payload: json.data,
-        })
-      } catch (error) {
-        alert((`Message ${GET_FAV_CREATIONS}:`, error))
-      }
+export const getFavCreations = (productId) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/creations/topRated`)
+      return dispatch({
+        type: GET_FAV_CREATIONS,
+        payload: json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_FAV_CREATIONS}:`, error))
     }
   }
+}
 
 
-  export const getFavByUser = (id) => {
-    return async function (dispatch) {
-      try {
-        const json = await axios.get(`/users/favorites/${id}`)
-        return dispatch({
-          type: GET_FAV_BY_USER,
-          payload: json.data,
-        })
-      } catch (error) {
-        alert((`Message ${GET_FAV_BY_USER}:`, error))
-      }
+export const getFavByUser = (id) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/users/favorites/${id}`)
+      return dispatch({
+        type: GET_FAV_BY_USER,
+        payload: json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_FAV_BY_USER}:`, error))
     }
   }
-  
-  export const getuserbyid = (id) => {
-    return async function (dispatch){
-      try {
-        const json = await axios.get(`/users/${id}`)
-        const data = json.data
-        return dispatch ({
-          type : GET_USER,
-          payload : {tel: data.tel,address: data.address},
-        })
-      } catch (error) {
-        alert((`Message ${GET_USER}:`, error))
-      }
+}
+
+export const getuserbyid = (id) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/users/${id}`)
+      const data = json.data
+      return dispatch({
+        type: GET_USER,
+        payload: { tel: data.tel, address: data.address },
+      })
+    } catch (error) {
+      alert((`Message ${GET_USER}:`, error))
     }
-   }
-  
+  }
+}
+
