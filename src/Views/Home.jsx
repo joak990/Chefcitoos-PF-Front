@@ -7,44 +7,9 @@ import MercadoPagoButton from "../components/MercadoPagoButton";
 import { useUser } from "../useUser";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { getFavCreations  , getFavByUser } from "../Redux/actions";
 import CardCreations from "../components/CardCreations";
 import { getuserbyid } from "../Redux/actions";
-import { useDispatch } from "react-redux";
-
-
-
-
-const burgers = [
-  {
-    id: 1,
-    image: `${hambur}`,
-    name: "Hamburguesa Clásica",
-    description:
-      "Una deliciosa hamburguesa con ingredientes frescos y jugosa carne de res.",
-    ratingValue: 4.5,
-    price: 8.99,
-  },
-  {
-    id: 2,
-    image: `${hambur}`,
-    name: "Hamburguesa con Queso",
-    description:
-      "Una hamburguesa con queso fundido y carne jugosa, perfecta para los amantes del queso.",
-    ratingValue: 4.2,
-    price: 9.99,
-  },
-  {
-    id: 3,
-    image: `${hambur}`,
-    name: "Hamburguesa Vegetariana",
-    description:
-      "Una opción saludable y deliciosa, hecha con una mezcla de vegetales frescos y legumbres.",
-    ratingValue: 4.0,
-    price: 7.99,
-  },
-];
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -56,14 +21,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getFavCreations())
   },[dispatch])
-
- const dispatch = useDispatch()
- const [id,setId]= useState( localStorage.getItem("id"))
-
-  useEffect(() => {
-       
-  }, []);
-  
+    
   return (
     <>
       <div className="flex md:flex-row flex-row md:gap-10 items-center justify-around w-full pt-20 bg-gradient-to-b from-orange-100 to-white">
