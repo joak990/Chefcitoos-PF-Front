@@ -10,7 +10,7 @@ import ModalShoppingCart from "./ModalShoppingCart";
 // import { useUser } from "../useUser";
 import { FaSignInAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { setShoppingCart, setUser } from "../Redux/actions";
+import { GetAllUsers, getuserbyid, setShoppingCart, setUser } from "../Redux/actions";
 const Nav = () => {
   const location = useLocation();
   let quantity = useSelector((state) => state.shoppingCart.quantity);
@@ -25,7 +25,8 @@ const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleProfileClick = () => {
-    setIsMenuOpen(false); // Cerrar el menú al hacer clic en "Ver perfil"
+    setIsMenuOpen(false);
+    // Cerrar el menú al hacer clic en "Ver perfil"
   };
 
 const toggleMenu2 = () => {
