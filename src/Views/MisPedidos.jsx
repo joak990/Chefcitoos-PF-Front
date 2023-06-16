@@ -127,7 +127,7 @@ function MisPedidos() {
           <h2 className="text-xl font-bold mb-4">Mis Órdenes</h2>
           <div className="flex justify-between bg-gray-100 p-2 mb-4">
             <div className="w-1/6 text-center">Estado</div>
-            <div className="w-1/6 text-center">Id Producto</div>
+            <div className="w-1/6 text-center">Id Creación</div>
             <div className="w-1/3 text-center">Fecha</div>
             <div className="w-1/6 text-center">Total</div>
             <div className="w-1/6 text-center">Detalles</div>

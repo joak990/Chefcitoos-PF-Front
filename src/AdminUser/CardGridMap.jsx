@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BadgeDelta, Flex, Metric, Text } from '@tremor/react';
 import { Card } from '@tremor/react';
+import { getsalesandpercentaje } from '../Redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 function CardGridMap() {
   const data = [
@@ -23,20 +25,35 @@ function CardGridMap() {
       deltatype: 'increase',
     },
   ];
+const dispatch = useDispatch()
+  useEffect(() => {
+  
+    dispatch(getsalesandpercentaje());
+  }, []);
+  const salesandpercentaje = useSelector((state) => state.salesandpercentaje);
 
   return (
     <div className='flex flex-wrap justify-center gap-4 mx-auto'>
-      {data.map((item) => (
-        <Card key={item.title} className='w-full  md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4'>
-          <div>
-            <h4 className='font-semibold'>{item.title}</h4>
-            <div className='flex justify-end items-center'>
-              <Metric>{item.metric}</Metric>
-              <BadgeDelta className='ml-2'>{item.progress}</BadgeDelta>
-            </div>
-          </div>
-        </Card>
-      ))}
+     
+     <Card className="max-w-sm">
+    <Flex justifyContent="between" alignItems="center">
+      <Text>Ventas</Text>
+      <BadgeDelta  deltaType={salesandpercentaje.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
+        {salesandpercentaje.porcentaje}%
+      </BadgeDelta>
+    </Flex>
+    <Metric>${salesandpercentaje.ventas}</Metric>
+  </Card>
+    
+  <Card className="max-w-sm">
+    <Flex justifyContent="between" alignItems="center">
+      <Text>Clientes</Text>
+      <BadgeDelta  deltaType={salesandpercentaje.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
+        {salesandpercentaje.porcentaje}%
+      </BadgeDelta>
+    </Flex>
+    <Metric>${salesandpercentaje.ventas}</Metric>
+  </Card>
     </div>
   );
 }

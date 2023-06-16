@@ -4,7 +4,7 @@ import logochefcito from "../img/hamburguesafinal.png";
 
 
 import { useDispatch } from "react-redux";
-import { LoginAdminValidate, postLoginUser,  } from "../Redux/actions";
+import { LoginAdminValidate, getsalesandpercentaje, postLoginUser,  } from "../Redux/actions";
 import Swal from 'sweetalert2'
 
 const validation = (form)=>{
@@ -39,6 +39,7 @@ function LoginAdmin() {
     type:"admin"
   });
 
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setForm({
