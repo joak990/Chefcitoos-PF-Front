@@ -7,10 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../Firebase.config";
 import ModalShoppingCart from "./ModalShoppingCart";
-// import { useUser } from "../useUser";
 import { FaSignInAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAllUsers, getuserbyid, setShoppingCart, setUser } from "../Redux/actions";
+import {  setShoppingCart, setUser } from "../Redux/actions";
 const Nav = () => {
   const location = useLocation();
   let quantity = useSelector((state) => state.shoppingCart.quantity);
@@ -19,11 +18,11 @@ const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userorigin, setUserOrigin] = useState(null);
   const [name, setName] = useState("");
-
+ 
   const [showShoppingCart, setShowShoppingCart] = useState(false);
   const [storedEmail, setStoredEmail] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+ 
   const handleProfileClick = () => {
     setIsMenuOpen(false);
     // Cerrar el menú al hacer clic en "Ver perfil"
@@ -60,11 +59,15 @@ const toggleMenu2 = () => {
   };
   console.log(storedEmail);
   const isIdInLocalStorage = localStorage.getItem("id");
+  const storedFotoURL = localStorage.getItem("fotoURL");
   const navigate = useNavigate();
   const firebaseAuth = getAuth(app);
   const user = firebaseAuth.currentUser;
   console.log(isIdInLocalStorage);
-
+  const fotoURL = user?.photoURL
+  if (fotoURL) {
+    localStorage.setItem("fotoURL", fotoURL);
+  }
   const handleLogout = async () => {
     try {
       await signOut(firebaseAuth);
@@ -72,6 +75,7 @@ const toggleMenu2 = () => {
       localStorage.removeItem("password");
       localStorage.removeItem("name");
       localStorage.removeItem("id");
+      localStorage.removeItem("fotoURL");
       navigate("/");
       window.location.reload()
     } catch (error) {
@@ -197,8 +201,8 @@ const toggleMenu2 = () => {
               
               <div className="bg-gray-200 rounded-full flex justify-center items-center w-12">
   <button onClick={toggleMenu2}>
-    {user ? (
-      <img className="rounded-full" src={user && user.photoURL} alt="" />
+    {storedFotoURL  ? (
+      <img className="rounded-full" src={storedFotoURL} alt="" />
     ) : (
       <FontAwesomeIcon icon={faUser} />
     )}

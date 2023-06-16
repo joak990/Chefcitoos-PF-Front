@@ -18,16 +18,25 @@ function UserProfile() {
     const user = firebaseAuth.currentUser;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const users = useSelector(state => state.userbyid);
-  
     useEffect(() => {
       dispatch(getuserbyid(id))
           
              
        }, []);
-    const [form, setForm] = useState({
-        name:  name,
-        address:users?.address,
-          tel:users?.tel,
+
+       useEffect(() => {
+        setForm({
+          ...form,
+          name: name || "",
+          address: users?.address || "",
+          tel: users?.tel || ""
+        });
+      }, [name, users]);
+
+      const [form, setForm] = useState({
+        name: name || "",
+        address: users?.address || "",
+        tel: users?.tel || ""
       });
       const [errors, setErrors] = useState({});
 const dispatch = useDispatch()
