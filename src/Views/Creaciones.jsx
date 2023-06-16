@@ -64,6 +64,7 @@ function Creaciones() {
                     name={elem.name}
                     user={elem.Users.name}
                     price={elem.price}
+                    average={elem.average}
                   />
                 ) :
                   null
