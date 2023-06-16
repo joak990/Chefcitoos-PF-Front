@@ -97,7 +97,7 @@ export default function Detail() {
       <div className="px-6 md:px-20">
         <div className="flex items-center justify-center mb-4">
           <h2 className="text-gray-900 font-bold text-3xl mt-6 mb-6">
-            Detalle de tu creación
+            Detalle de la creación
           </h2>
         </div>
         <div className="flex flex-col md:flex-row md:gap-8">

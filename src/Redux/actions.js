@@ -45,7 +45,9 @@ import {
   GET_FAV_CREATIONS,
   GET_FAV_BY_USER,
   CHANGE_PASSWORD,
-  GET_USER
+  GET_USER,
+  GET_ORDERS_BY_ID,
+  GET_DETAIL_ORDER
 } from "./typeAction";
 
 import axios from "axios";
@@ -262,6 +264,7 @@ export const postRegisterUser = (payload) => {
           localStorage.setItem("userLogin", JSON.stringify(post.data));
           dispatch(getFavByUser(post.data.id))
           dispatch(getuserbyid(post.data.id))
+          dispatch(getordersbyid(post.data.id))
           return post.data;
         }
       }
@@ -297,6 +300,7 @@ export const postLoginUser = (payload) => {
           dispatch({ type: LOGIN_SUCCESS });
           dispatch(getFavByUser(response.data.id))
           dispatch(getuserbyid(response.data.id))
+          dispatch(getordersbyid(response.data.id))
           return { success: true, email: response.data.email, id: response.data.id };
         } else {
           const errorMessage = response.data.message || "Error de autenticación";
@@ -900,6 +904,36 @@ export const getuserbyid = (id) => {
       })
     } catch (error) {
       alert((`Message ${GET_USER}:`, error))
+    }
+  }
+}
+
+export const getordersbyid = (id) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/orders/all/${id}`)
+      
+      return dispatch({
+        type: GET_ORDERS_BY_ID,
+        payload: json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_USER}:`, error))
+    }
+  }
+}
+
+export const getdetailorder = (id) => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/orders/${id}`)
+      
+      return dispatch({
+        type: GET_DETAIL_ORDER,
+        payload: json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_DETAIL_ORDER}:`, error))
     }
   }
 }

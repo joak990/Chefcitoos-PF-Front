@@ -19,6 +19,7 @@ import CreationsAdmin from "./AdminUser/CreationsAdmin";
 import Checkout from "./Views/Checkout";
 import { ResultCheckout } from "./Views/ResultCheckout";
 import UserProfile from "./Views/UserProfile";
+import MisPedidos from "./Views/MisPedidos";
 function App() {
   const location = useLocation();
     const hasId = localStorage.getItem("id");
@@ -53,6 +54,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/publicaciones" element={<Publicaciones />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/myorders" element={<MisPedidos />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/checkout/:id" element={<Checkout />} />
         <Route path="/result/order/:id" element={<ResultCheckout />} />

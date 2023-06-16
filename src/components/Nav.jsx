@@ -209,7 +209,7 @@ const toggleMenu2 = () => {
       <Link to="/myProfile"onClick={handleProfileClick} className="block px-4 py-2 text-gray-800 hover:bg-orange-200">
         Ver perfil
       </Link>
-      <Link to="/myProfile"onClick={handleProfileClick} className="block px-4 py-2 text-gray-800 hover:bg-orange-200">
+      <Link to="/myorders"onClick={handleProfileClick} className="block px-4 py-2 text-gray-800 hover:bg-orange-200">
         mis pedidos
       </Link>
     </div>
