@@ -3,7 +3,7 @@ import { Card, TabList, Tab, DonutChart } from '@tremor/react';
 import NavAdmin from './NavAdmin';
 import CardGridMap from './CardGridMap';
 import Chardonut from './Chardonut';
-import { getRecentOrders } from '../Redux/actions';
+import { getRecentOrders, getsalesandpercentaje } from '../Redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import merca from "./merca.png"
 function Dashboard() {
@@ -12,6 +12,7 @@ function Dashboard() {
 const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getRecentOrders());
+  
   }, [dispatch]);
   
 

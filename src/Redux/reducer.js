@@ -45,6 +45,7 @@ import {
   GET_USER,
   GET_ORDERS_BY_ID,
   GET_DETAIL_ORDER,
+  GET_SALES_PERCENTAJE,
 } from "./typeAction";
 
 const initialState = {
@@ -79,6 +80,7 @@ const initialState = {
   favCreationsByUser : [],
   userbyid: [],
   ordersbyid: [],
+  salesandpercentaje: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -430,6 +432,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
               ...state,
             orderDetail: payload,
             };
+            case GET_SALES_PERCENTAJE:
+              return {
+                ...state,
+              salesandpercentaje: payload,
+              };
+            
     default:
       return { ...state };
   }

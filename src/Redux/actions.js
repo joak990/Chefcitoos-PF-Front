@@ -47,7 +47,8 @@ import {
   CHANGE_PASSWORD,
   GET_USER,
   GET_ORDERS_BY_ID,
-  GET_DETAIL_ORDER
+  GET_DETAIL_ORDER,
+  GET_SALES_PERCENTAJE
 } from "./typeAction";
 
 import axios from "axios";
@@ -934,6 +935,21 @@ export const getdetailorder = (id) => {
       })
     } catch (error) {
       alert((`Message ${GET_DETAIL_ORDER}:`, error))
+    }
+  }
+}
+
+export const getsalesandpercentaje = () => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/orders/sales/total`)
+      
+      return dispatch({
+        type: GET_SALES_PERCENTAJE,
+        payload: json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_SALES_PERCENTAJE}:`, error))
     }
   }
 }
