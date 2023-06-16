@@ -38,7 +38,10 @@ function LoginAdmin() {
     password: "",
     type:"admin"
   });
-
+  useEffect(() => {
+  
+    dispatch(getsalesandpercentaje());
+  }, []);
   
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -53,7 +56,7 @@ function LoginAdmin() {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+   
 
     dispatch(LoginAdminValidate(form))
       .then((response) => {
