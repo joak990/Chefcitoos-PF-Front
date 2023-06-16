@@ -43,3 +43,5 @@ export const GET_FAV_CREATIONS = "GET_FAV_CREATIONS";
 export const GET_FAV_BY_USER = "GET_FAV_BY_USER";
 export const CHANGE_PASSWORD  = "CHANGE_PASSWORD"
 export const GET_USER  = "GET_USER"
+export const GET_ORDERS_BY_ID  = "GET_ORDERS_BY_ID"
+export const GET_DETAIL_ORDER  = "GET_DETAIL_ORDER"

@@ -43,6 +43,8 @@ import {
   GET_FAV_CREATIONS,
   GET_FAV_BY_USER,
   GET_USER,
+  GET_ORDERS_BY_ID,
+  GET_DETAIL_ORDER,
 } from "./typeAction";
 
 const initialState = {
@@ -76,6 +78,7 @@ const initialState = {
   favCreations : [],
   favCreationsByUser : [],
   userbyid: [],
+  ordersbyid: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -417,6 +420,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
           ...state,
           userbyid: payload,
         };
+        case GET_ORDERS_BY_ID:
+          return {
+            ...state,
+          ordersbyid: payload,
+          };
+          case GET_DETAIL_ORDER:
+            return {
+              ...state,
+            orderDetail: payload,
+            };
     default:
       return { ...state };
   }

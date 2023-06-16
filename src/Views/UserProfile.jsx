@@ -4,9 +4,9 @@ import { app } from "../Firebase.config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteUser, changedateUser } from '../Redux/actions';
+import { DeleteUser, changedateUser, getuserbyid } from '../Redux/actions';
 import Modalpassword from '../components/Modalpassword';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 
 function UserProfile() {
@@ -19,7 +19,11 @@ function UserProfile() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const users = useSelector(state => state.userbyid);
   
-   
+    useEffect(() => {
+      dispatch(getuserbyid(id))
+          
+             
+       }, []);
     const [form, setForm] = useState({
         name:  name,
         address:users?.address,
@@ -32,11 +36,7 @@ const dispatch = useDispatch()
         setForm({ ...form, [name]: value });
       };
 
-      useEffect(() => {
-         
-     
-        
-      }, []);
+      
      const handleSubmit = (event) => {
         event.preventDefault();
      
@@ -74,6 +74,9 @@ const dispatch = useDispatch()
           localStorage.setItem("name", form.name);
           dispatch(changedateUser(form,id))
         }
+
+        
+
         const openModal = () => {
             setIsModalOpen(true);
           };
@@ -126,9 +129,11 @@ const dispatch = useDispatch()
                     <p className='bg-white rounded-3xl w-44 text-center'>{email}</p>
                   </div>
                   <div className="flex mt-4 space-x-2">
+                    <Link to="/myorders" >
                     <button className="px-2 py-1 bg-gray-300 rounded-md text-gray-800 hover:bg-gray-400">
                       Mis pedidos
                     </button>
+                    </Link>
                   </div>
                   <div className="flex mt-4 space-x-2">
                     <button onClick={openModal} className="px-2 py-1 bg-gray-300 rounded-md text-gray-800 hover:bg-gray-400">

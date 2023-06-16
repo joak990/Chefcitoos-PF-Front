@@ -5,10 +5,15 @@ import { changeUserPassword } from "../Redux/actions";
 import { useNavigate } from "react-router-dom";
 import { getAuth,signOut } from "firebase/auth";
 import { app } from "../Firebase.config";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 function Modalpassword({ onClose }) {
   const [form, setForm] = useState({
     password:""
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 const dispatch = useDispatch()
 const firebaseAuth = getAuth(app);
   const [errors, setErrors] = useState({});
@@ -85,18 +90,24 @@ const handleSubmit = (event) => {
       <div className="bg-white rounded-lg p-8 w-96 sm:max-w-sm sm:mx-auto">
         <h2 className="text-2xl font-bold mb-4">Cambiar contraseña</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="password-input" className="block text-lg font-bold mb-1">
+          <div className="mb-4 ml-9 relative">
+            <label htmlFor="password-input" className="block text-lg ml-10 font-bold mb-1">
               Contraseña nueva:
             </label>
             <input
               id="password-input"
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={form.password}
               onChange={handleInputChange}
-              className="px-2 py-1 border border-gray-300 rounded-md"
+              className="px-2 py-1 border border-gray-300 rounded-md pr-10"
             />
+            <div
+              className="absolute top-2 right-2 mt-8  cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? <HiEyeOff size={20} /> : <HiEye size={20} />}
+            </div>
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
             )}
