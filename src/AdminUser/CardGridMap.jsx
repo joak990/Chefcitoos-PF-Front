@@ -38,21 +38,21 @@ const dispatch = useDispatch()
      <Card className="max-w-sm">
     <Flex justifyContent="between" alignItems="center">
       <Text>Ventas</Text>
-      <BadgeDelta  deltaType={salesandpercentaje.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
-        {salesandpercentaje.porcentaje}%
+      <BadgeDelta  deltaType={salesandpercentaje?.ventas?.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
+        {salesandpercentaje?.ventas?.porcentaje}%
       </BadgeDelta>
     </Flex>
-    <Metric>${salesandpercentaje.ventas}</Metric>
+    <Metric>${salesandpercentaje?.ventas?.total}</Metric>
   </Card>
     
   <Card className="max-w-sm">
     <Flex justifyContent="between" alignItems="center">
-      <Text>Clientes</Text>
-      <BadgeDelta  deltaType={salesandpercentaje.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
-        {salesandpercentaje.porcentaje}%
+      <Text>Clientes nuevos</Text>
+      <BadgeDelta  deltaType={salesandpercentaje?.clientes.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
+        {salesandpercentaje?.clientes?.porcentaje}%
       </BadgeDelta>
     </Flex>
-    <Metric>${salesandpercentaje.ventas}</Metric>
+    <Metric>{salesandpercentaje?.clientes?.total}</Metric>
   </Card>
     </div>
   );

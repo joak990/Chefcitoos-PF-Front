@@ -46,6 +46,7 @@ const Chardonut = () => (
     <h1 className="bg-cyan-400 text-center w-32 font-semibold">Otros Platos</h1>
     <h1 className="bg-rose-400 text-center w-32 font-semibold">Sandwitches</h1>
     <h1 className="bg-indigo-400 text-center w-32 font-semibold">Burritos</h1>
+    <h1 className="bg-violet-400 text-center  w-32 font-semibold">Perritos</h1>
     </div>
     
   </Card>
