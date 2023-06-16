@@ -124,6 +124,7 @@ const Home = () => {
                 name={elem.name}
                 image={elem.image}
                 price={elem.price}
+                average={elem.average}
               />
               ))   
             )
@@ -152,6 +153,7 @@ const Home = () => {
             name={elem.name}
             image={elem.image}
             price={elem.price}
+            average={elem.average}
           />
           ))}
         </div>

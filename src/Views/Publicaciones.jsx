@@ -91,6 +91,7 @@ function Publicaciones() {
       <div className="flex flex-row flex-wrap justify-center gap-8 pb-6">
         {allCreations &&
           allCreations
+          
             .slice((page - 1) * perPage, (page - 1) * perPage + perPage)
             .map((elem, index) => (
               <>
@@ -104,10 +105,13 @@ function Publicaciones() {
                       name={elem.name}
                       user={elem.Users.name}
                       price={elem.price}
+                      average={elem.average}
+                     
                     />
                   ) :
                     null
                 }
+                
               </>
             ))}
       </div>
