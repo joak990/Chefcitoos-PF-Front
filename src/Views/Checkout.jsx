@@ -17,14 +17,6 @@ const Checkout = () => {
 
   useEffect(() => {
     dispatch(orderDetail(id));
-    // try {
-    //   let userLogin = localStorage.getItem("userLogin");
-    //   if (userLogin && !userRedux?.name) {
-    //     dispatch(setUser());
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   }, []);
 
   const handleSubmit = (event) => {
@@ -38,20 +30,20 @@ const Checkout = () => {
 
     if (Object.fromEntries(formData.entries()).newAddress.length > 15) {
       axios
-      .put(`/users/newAddress/${userRedux.id}`, Object.fromEntries(formData.entries()))
-      .then((response) => {
-        Swal.fire({
-          title: 'Direccion de envio guardada satisfactoriamente',
-          icon: 'success',
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
-          }
+        .put(`/users/newAddress/${userRedux.id}`, Object.fromEntries(formData.entries()))
+        .then((response) => {
+          Swal.fire({
+            title: 'Direccion de envio guardada satisfactoriamente',
+            icon: 'success',
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
+            }
+          })
         })
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       setErrorAddress("La dirección debe contener al menos 15 caracteres")
     }
@@ -88,14 +80,14 @@ const Checkout = () => {
                             defaultValue={
                               userRedux.address ? userRedux.address : ""
                             }
-                            // value={inputAddress}
-                            // onChange={handleChange}
+                          // value={inputAddress}
+                          // onChange={handleChange}
                           />
-                          { errorAddress && <p className="text-red-500 mb-3 text-sm">{errorAddress}</p>}
+                          {errorAddress && <p className="text-red-500 mb-3 text-sm">{errorAddress}</p>}
                           <button
                             type="submit"
                             className="bg-orange-600 pointer w-24 h-8 text-white rounded-xl font-bold"
-                            //   onClick={() => navigate("/shippingaddress")}
+                          //   onClick={() => navigate("/shippingaddress")}
                           >
                             Cambiar
                           </button>
@@ -172,7 +164,7 @@ const Checkout = () => {
                       </div>
                     )}
                   </div>
-                  {order.total_price && errorAddress.length<=0 && <MercadoPagoButton order={order} />}
+                  {order.total_price && errorAddress.length <= 0 && <MercadoPagoButton order={order} />}
                 </div>
               </div>
             </div>

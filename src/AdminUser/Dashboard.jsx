@@ -3,16 +3,18 @@ import { Card, TabList, Tab, DonutChart } from '@tremor/react';
 import NavAdmin from './NavAdmin';
 import CardGridMap from './CardGridMap';
 import Chardonut from './Chardonut';
-import { getRecentOrders, getsalesandpercentaje } from '../Redux/actions';
+import { getDonutProducts, getRecentOrders, getsalesandpercentaje } from '../Redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import merca from "./merca.png"
 function Dashboard() {
+  const dispatch = useDispatch()
   const [selectedView, setSelectedView] = useState(1);
+  const donutProductos = useSelector((state) => state.donutProducts)
+  console.log('::donutProductos::', donutProductos);
 
-const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getRecentOrders());
-  
+    dispatch(getDonutProducts())
   }, [dispatch]);
   
 
@@ -33,7 +35,7 @@ const dispatch = useDispatch()
             <CardGridMap />
             <Card className='mt-5 bg-transparent'>
               <div className='h-96 flex justify-center items-center'>
-                <Chardonut />
+                <Chardonut donutProductos={donutProductos} />
               </div>
             </Card>
             <div className='mt-5'>

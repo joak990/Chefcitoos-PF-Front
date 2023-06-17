@@ -46,6 +46,7 @@ import {
   GET_ORDERS_BY_ID,
   GET_DETAIL_ORDER,
   GET_SALES_PERCENTAJE,
+  GET_DONUT_PRODUCTS,
 } from "./typeAction";
 
 const initialState = {
@@ -74,13 +75,14 @@ const initialState = {
   },
   orderDetail: {},
   user: {},
-  recentorders:[],
-  componentsCategProducts:[],
-  favCreations : [],
-  favCreationsByUser : [],
+  recentorders: [],
+  componentsCategProducts: [],
+  favCreations: [],
+  favCreationsByUser: [],
   userbyid: [],
   ordersbyid: [],
   salesandpercentaje: [],
+  donutProducts: []
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -148,23 +150,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
       let sorteCreation2 =
         payload === "desc"
           ? state.yourCreations.sort(function (a, b) {
-              if (a.price > b.price) {
-                return 1;
-              }
-              if (b.price > a.price) {
-                return -1;
-              }
-              return 0;
-            })
+            if (a.price > b.price) {
+              return 1;
+            }
+            if (b.price > a.price) {
+              return -1;
+            }
+            return 0;
+          })
           : state.yourCreations.sort(function (a, b) {
-              if (a.price > b.price) {
-                return -1;
-              }
-              if (b.price > a.price) {
-                return 1;
-              }
-              return 0;
-            });
+            if (a.price > b.price) {
+              return -1;
+            }
+            if (b.price > a.price) {
+              return 1;
+            }
+            return 0;
+          });
       return {
         ...state,
         yourCreations: [...sorteCreation2],
@@ -179,23 +181,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
       let sortePubli =
         payload === "desc"
           ? state.allCreations.sort(function (a, b) {
-              if (a.price > b.price) {
-                return 1;
-              }
-              if (b.price > a.price) {
-                return -1;
-              }
-              return 0;
-            })
+            if (a.price > b.price) {
+              return 1;
+            }
+            if (b.price > a.price) {
+              return -1;
+            }
+            return 0;
+          })
           : state.allCreations.sort(function (a, b) {
-              if (a.price > b.price) {
-                return -1;
-              }
-              if (b.price > a.price) {
-                return 1;
-              }
-              return 0;
-            });
+            if (a.price > b.price) {
+              return -1;
+            }
+            if (b.price > a.price) {
+              return 1;
+            }
+            return 0;
+          });
       return {
         ...state,
         allCreations: [...sortePubli],
@@ -396,48 +398,53 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         user: JSON.parse(localStorage.getItem("userLogin")),
       };
-      case GET_RECENT_ORDERS:
+    case GET_RECENT_ORDERS:
       return {
         ...state,
         recentorders: [...payload]
-       
+
       };
-      case GET_COMPONENTS_CATEG_PRODUCTS:
+    case GET_COMPONENTS_CATEG_PRODUCTS:
       return {
         ...state,
         componentsCategProducts: payload,
       };
-      case GET_FAV_CREATIONS:
-        return {
-          ...state,
-          favCreations: [...payload],
-        };
-        case GET_FAV_BY_USER:
-          return {
-            ...state,
-            favCreationsByUser: [...payload],
-          };
-      case GET_USER:
-        return {
-          ...state,
-          userbyid: payload,
-        };
-        case GET_ORDERS_BY_ID:
-          return {
-            ...state,
-          ordersbyid: payload,
-          };
-          case GET_DETAIL_ORDER:
-            return {
-              ...state,
-            orderDetail: payload,
-            };
-            case GET_SALES_PERCENTAJE:
-              return {
-                ...state,
-              salesandpercentaje: payload,
-              };
-            
+    case GET_FAV_CREATIONS:
+      return {
+        ...state,
+        favCreations: [...payload],
+      };
+    case GET_FAV_BY_USER:
+      return {
+        ...state,
+        favCreationsByUser: [...payload],
+      };
+    case GET_USER:
+      return {
+        ...state,
+        userbyid: payload,
+      };
+    case GET_ORDERS_BY_ID:
+      return {
+        ...state,
+        ordersbyid: payload,
+      };
+    case GET_DETAIL_ORDER:
+      return {
+        ...state,
+        orderDetail: payload,
+      };
+    case GET_SALES_PERCENTAJE:
+      return {
+        ...state,
+        salesandpercentaje: payload,
+      };
+    case GET_DONUT_PRODUCTS:
+      return {
+        ...state,
+        donutProducts: [...payload],
+      };
+
     default:
       return { ...state };
   }

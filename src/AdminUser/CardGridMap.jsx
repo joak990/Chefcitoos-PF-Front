@@ -5,6 +5,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getsalesandpercentaje } from '../Redux/actions';
 
 function CardGridMap() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+
+    dispatch(getsalesandpercentaje());
+  }, []);
   const salesandpercentaje = useSelector((state) => state.salesandpercentaje);
   const dispatch = useDispatch();
 
@@ -39,6 +44,11 @@ function CardGridMap() {
 
   return (
     <div className='flex flex-wrap justify-center gap-4 mx-auto'>
+
+      <Card className="max-w-sm">
+        <Flex justifyContent="between" alignItems="center">
+          <Text>Ventas</Text>
+          <BadgeDelta deltaType={salesandpercentaje?.ventas?.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
       <Card className="max-w-sm">
         <Flex justifyContent="between" alignItems="center">
           <Text>Ventas</Text>
@@ -52,6 +62,11 @@ function CardGridMap() {
         </Flex>
         <Metric>${salesandpercentaje?.ventas?.total}</Metric>
       </Card>
+
+      <Card className="max-w-sm">
+        <Flex justifyContent="between" alignItems="center">
+          <Text>Clientes nuevos</Text>
+          <BadgeDelta deltaType={salesandpercentaje?.clientes.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
     
       <Card className="max-w-sm">
         <Flex justifyContent="between" alignItems="center">

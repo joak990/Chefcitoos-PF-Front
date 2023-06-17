@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import logochefcito from "../img/hamburguesafinal.png";
 
 
 import { useDispatch } from "react-redux";
-import { LoginAdminValidate, getsalesandpercentaje, postLoginUser,  } from "../Redux/actions";
+import { LoginAdminValidate, getsalesandpercentaje, postLoginUser, } from "../Redux/actions";
 import Swal from 'sweetalert2'
 
-const validation = (form)=>{
+const validation = (form) => {
   const newErrors = {};
 
   // Validar campo de email
@@ -27,7 +27,7 @@ const validation = (form)=>{
   } else if (form.password.length > 20) {
     newErrors.password = "La contraseña debe tener como máximo 20 caracteres";
   }
-return newErrors 
+  return newErrors
 }
 function LoginAdmin() {
   const navigate = useNavigate();
@@ -36,34 +36,34 @@ function LoginAdmin() {
   const [form, setForm] = useState({
     email: "",
     password: "",
-    type:"admin"
+    type: "admin"
   });
   useEffect(() => {
-  
+
     dispatch(getsalesandpercentaje());
   }, []);
-  
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setForm({
       ...form,
       [name]: value,
     });
-    setErrors(validation({ 
-      ...form,[name]:value,
+    setErrors(validation({
+      ...form, [name]: value,
     }))
-    
+
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-   
+
 
     dispatch(LoginAdminValidate(form))
       .then((response) => {
-     console.log("_____",response);
+        console.log("_____", response);
         if (response.validate === true) {
           localStorage.setItem("user", JSON.stringify(response.user));
-         
+
           navigate("/admin/account=successfully");
         } else {
           Swal.fire({
@@ -71,10 +71,10 @@ function LoginAdmin() {
             icon: 'error',
             buttonsStyling: false,
             customClass: {
-              confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+              confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
             }
           })
-          
+
           //alert("los datos son incorrectos")
         }
       })
@@ -83,8 +83,8 @@ function LoginAdmin() {
         console.error("Error en el inicio de sesión:", error);
       });
   };
-useEffect(() => {
-});
+  useEffect(() => {
+  });
   return (
     <div className="bg-black flex min-h-screen w-screen flex-col lg:flex-row justify-center items-center">
       <img className="w-35 h-36 lg:h-96 lg:mb-4 " src={logochefcito} alt="" />
@@ -94,9 +94,9 @@ useEffect(() => {
       >
         <h1 className="text-3xl font-bold mb-8 text-center">Ingresar</h1>
         <div className="mb-6 lg:ml-4">
-      
-    </div>
-        
+
+        </div>
+
         <div className="flex flex-col mb-6">
           <label htmlFor="email" className="mb-2 flex items-center">
             Email:
@@ -138,12 +138,12 @@ useEffect(() => {
           Ingresar
         </button>
         <Link to="/login">
-        <div> <p className=" hover:bg-gray-300 mr-6 text-sm text-gray-500 flex justify-center mt-2">Ingreso para usuarios aqui</p></div>
-        
+          <div> <p className=" hover:bg-gray-300 mr-6 text-sm text-gray-500 flex justify-center mt-2">Ingreso para usuarios aqui</p></div>
+
         </Link>
       </form>
-      
-     
+
+
     </div>
   );
 }

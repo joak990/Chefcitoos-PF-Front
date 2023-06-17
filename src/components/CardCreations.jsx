@@ -11,10 +11,12 @@ const CardCreations = ({ image, name, user, price, id, average }) => {
   const creationsShoppingCart = useSelector((state) => state.shoppingCart.creations);
   const isIdInLocalStorage = localStorage.getItem("id");
   const handleOrderCreation = () => {
-    if( creationsShoppingCart.some(creationCurrent => creationCurrent.id === id)){
-      dispatch(updateCreationQuantity({quantity: 1, index: creationsShoppingCart.findIndex(creationCurrent => { 
-        return creationCurrent.id === id
-      })}))
+    if (creationsShoppingCart.some(creationCurrent => creationCurrent.id === id)) {
+      dispatch(updateCreationQuantity({
+        quantity: 1, index: creationsShoppingCart.findIndex(creationCurrent => {
+          return creationCurrent.id === id
+        })
+      }))
     } else {
       const creation = {
         image,
@@ -31,24 +33,24 @@ const CardCreations = ({ image, name, user, price, id, average }) => {
       icon: 'success',
       buttonsStyling: false,
       customClass: {
-        confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
       }
     })
   };
 
-  const handlealertbutton = ()=>{
+  const handlealertbutton = () => {
     Swal.fire({
       title: 'Debes iniciar sesión',
       icon: 'error',
       buttonsStyling: false,
       customClass: {
-        confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2', 
+        confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
       }
     })
-    
+
     //alert("regis")
   }
- 
+
 
   return (
     <div className="bg-white flex flex-col items-center justify-center rounded-3xl w-80 mt-5 p-8 shadow-md">
@@ -64,8 +66,8 @@ const CardCreations = ({ image, name, user, price, id, average }) => {
           <div className="flex flex-row items-center justify-center mt-3.5 rounded-[1.76px] w-[49%] md:w-full">
           </div>
           <div className="pointer-events-none">
-          <RatingStars value={average} />
-        </div>
+            <RatingStars value={average} />
+          </div>
 
         </div>
 
@@ -81,7 +83,7 @@ const CardCreations = ({ image, name, user, price, id, average }) => {
             onClick={handlealertbutton}>
             Ordenar ahora
           </button>}
-         
+
         </div>
         <div className="flex flex-row justify-center mt-4">
           <Link to={`/detail/${id}`}>
