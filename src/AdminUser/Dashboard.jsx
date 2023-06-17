@@ -16,11 +16,11 @@ function Dashboard() {
     dispatch(getRecentOrders());
     dispatch(getDonutProducts())
   }, [dispatch]);
-  
 
-  
+
+
   const orders = useSelector((state) => state.recentorders);
- 
+
 
   return (
     <main className='bg-slate-200 min-h-screen overflow-y-auto'>
@@ -56,15 +56,15 @@ function Dashboard() {
                       {orders?.map(order => (
                         <tr key={order.id}>
                           {
-                            order.state === "Pendiente"? (
+                            order.state === "Pendiente" ? (
                               <td className='py-2 px-4 text-yellow-600'>{order.state} ⚠️</td>
                             ) : (
                               order.state === "Pagada" ? (
                                 <td className='py-2 px-4 text-green-600'>{order.state} ✔</td>
-                              ) : 
-                              (
-                                <td className='py-2 px-4 text-red-600'>{order.state} ❌</td>
-                              )
+                              ) :
+                                (
+                                  <td className='py-2 px-4 text-red-600'>{order.state} ❌</td>
+                                )
                             )
                           }
                           <td className='py-2 px-10'>{order.date}</td>
