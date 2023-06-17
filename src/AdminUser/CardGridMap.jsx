@@ -51,30 +51,7 @@ function CardGridMap() {
       </Card>
       <Card className="max-w-sm">
         <Flex justifyContent="between" alignItems="center">
-          <Text>Ventas</Text>
-          <BadgeDelta
-            deltaType={salesandpercentaje?.ventas?.porcentaje < 0 ? 'decrease' : 'increase'}
-            isIncreasePositive={true}
-            size="xs"
-          >
-            {salesandpercentaje?.ventas?.porcentaje}%
-          </BadgeDelta>
-        </Flex>
-        <Metric>${salesandpercentaje?.ventas?.total}</Metric>
-      </Card>
-
-      <Card className="max-w-sm">
-        <Flex justifyContent="between" alignItems="center">
-          <Text>Clientes nuevos</Text>
-          <BadgeDelta deltaType={salesandpercentaje?.clientes.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
-            {salesandpercentaje?.clientes?.porcentaje}%
-          </BadgeDelta>
-        </Flex>
-        <Metric>{salesandpercentaje?.clientes?.total}</Metric>
-      </Card>
-      <Card className="max-w-sm">
-        <Flex justifyContent="between" alignItems="center">
-          <Text>Clientes nuevos</Text>
+          <Text>Clientes Nuevos</Text>
           <BadgeDelta
             deltaType={salesandpercentaje?.clientes?.porcentaje < 0 ? 'decrease' : 'increase'}
             isIncreasePositive={true}
@@ -85,6 +62,8 @@ function CardGridMap() {
         </Flex>
         <Metric>{salesandpercentaje?.clientes?.total}</Metric>
       </Card>
+
+  
     </div>
   );
 }
