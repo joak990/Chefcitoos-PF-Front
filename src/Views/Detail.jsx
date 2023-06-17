@@ -172,6 +172,22 @@ export default function Detail() {
                   "No hay adiciones"
                 )}
               </h3>
+              <br></br>
+              <span className="text-orange-600 font-semibold">Carnes:</span>
+              <h3 className="capitalize">
+                {creation &&
+                  creation.components?.Carnes ? (
+                  creation.components.Adiciones.map((elem, index) => {
+                    return index === creation.components.Adiciones.length - 1 ? (
+                      elem
+                    ) : (
+                      elem + ", "
+                    );
+                  })
+                ) : (
+                  "No hay carnes"
+                )}
+              </h3>
             </div>
           </div>
         </div>
