@@ -48,7 +48,8 @@ import {
   GET_USER,
   GET_ORDERS_BY_ID,
   GET_DETAIL_ORDER,
-  GET_SALES_PERCENTAJE
+  GET_SALES_PERCENTAJE,
+  GET_DONUT_PRODUCTS
 } from "./typeAction";
 
 import axios from "axios";
@@ -285,7 +286,7 @@ export const postLoginUser = (payload) => {
   return async function (dispatch) {
     try {
 
-      const response = await axios.post("/users/validate",payload);
+      const response = await axios.post("/users/validate", payload);
 
       if (response.data === true) {
         return { success: false }
@@ -913,7 +914,7 @@ export const getordersbyid = (id) => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`/orders/all/${id}`)
-      
+
       return dispatch({
         type: GET_ORDERS_BY_ID,
         payload: json.data,
@@ -928,7 +929,7 @@ export const getdetailorder = (id) => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`/orders/${id}`)
-      
+
       return dispatch({
         type: GET_DETAIL_ORDER,
         payload: json.data,
@@ -943,7 +944,7 @@ export const getsalesandpercentaje = () => {
   return async function (dispatch) {
     try {
       const json = await axios.get(`/orders/sales/total`)
-      
+
       return dispatch({
         type: GET_SALES_PERCENTAJE,
         payload: json.data,
@@ -953,4 +954,20 @@ export const getsalesandpercentaje = () => {
     }
   }
 }
+
+export const getDonutProducts = () => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/products/dashboard/total`)
+
+      return dispatch({
+        type: GET_DONUT_PRODUCTS,
+        payload: json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_DONUT_PRODUCTS}:`, error))
+    }
+  }
+}
+
 

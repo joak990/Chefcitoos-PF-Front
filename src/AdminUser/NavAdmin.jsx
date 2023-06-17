@@ -11,7 +11,7 @@ const NavAdmin = () => {
       <nav className="flex items-center justify-center h-16 px-4">
         <div className="flex justify-center">
           <div className="flex justify-center">
-          <Link to="/admin/account=successfully">
+            <Link to="/admin/account=successfully">
               <button className="mr-4 text-white hover:text-gray-300">Dashboard</button>
             </Link>
             <Link to="/admin/users">

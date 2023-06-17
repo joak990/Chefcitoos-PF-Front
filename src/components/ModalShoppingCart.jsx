@@ -58,7 +58,7 @@ const ModalShoppingCart = ({ onClose }) => {
           });
           navigate("/checkout/" + response.data.id);
         })
-        .catch((error) => {});
+        .catch((error) => { });
       //   console.log(JSON.stringify(order));
     }
   };
