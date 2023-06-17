@@ -18,25 +18,16 @@ function UserProfile() {
     const user = firebaseAuth.currentUser;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const users = useSelector(state => state.userbyid);
+  
     useEffect(() => {
       dispatch(getuserbyid(id))
           
              
        }, []);
-
-       useEffect(() => {
-        setForm({
-          ...form,
-          name: name || "",
-          address: users?.address || "",
-          tel: users?.tel || ""
-        });
-      }, [name, users]);
-
-      const [form, setForm] = useState({
-        name: name || "",
-        address: users?.address || "",
-        tel: users?.tel || ""
+    const [form, setForm] = useState({
+        name:  name,
+        address:users?.address,
+          tel:users?.tel,
       });
       const [errors, setErrors] = useState({});
 const dispatch = useDispatch()
@@ -45,73 +36,45 @@ const dispatch = useDispatch()
         setForm({ ...form, [name]: value });
       };
 
-      const handleSubmit = (event) => {
+      
+     const handleSubmit = (event) => {
         event.preventDefault();
-    
+     
         const newErrors = {};
     
         // Validar campo de nombre
         if (!form.name.trim()) {
-          newErrors.name = 'El nombre es requerido';
+          newErrors.name = "El nombre es requerido";
         } else if (form.name.length > 15) {
-          newErrors.name = 'El nombre debe tener como máximo 20 caracteres';
+          newErrors.name = "El nombre debe tener como máximo 20 caracteres";
         }
-    
+
         // Validar campo de contraseña
         if (!form.tel.trim()) {
-          newErrors.tel = 'El telefono es requerido';
+          newErrors.tel = "El telefono es requerido";
         } else if (form.tel.length < 13) {
-          newErrors.tel = ' debe tener al menos 13 caracteres';
+          newErrors.tel = " debe tener al menos 13 caracteres";
         } else if (form.tel.length > 14) {
-          newErrors.tel = 'debe tener como máximo 20 caracteres';
+          newErrors.tel = "debe tener como máximo 20 caracteres";
         }
-    
+
         if (!form.address.trim()) {
-          newErrors.address = ' *Debes completar este Campo';
-        }
+            newErrors.address = " *Debes completar este Campo";
+            
+          }
     
         setErrors(newErrors);
     
         // Si no hay errores, enviar el formulario
         if (Object.keys(newErrors).length === 0) {
-          Swal.fire({
-            title: '¿Estás seguro que deseas modificar los datos?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ff9800',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, guardar cambios',
-            cancelButtonText: 'Cancelar',
-            reverseButtons: true,
-            buttonsStyling: false,
-            customClass: {
-              confirmButton: 'bg-red-600 text-white rounded-md px-4 py-2 mr-2',
-              cancelButton: 'bg-green-600 text-white rounded-md px-4 py-2 mr-2',
-            },
-            allowOutsideClick: () => !Swal.isLoading(),
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Se confirma la modificación
-              localStorage.setItem('address', form.address);
-              localStorage.setItem('tel', form.tel);
-              localStorage.setItem('name', form.name);
-              dispatch(changedateUser(form, id));
-    
-              Swal.fire({
-                title: 'Cambios guardados con éxito',
-                icon: 'success',
-                buttonsStyling: false,
-                customClass: {
-                  confirmButton: 'bg-orange-600 text-white rounded-2xl px-4 py-2',
-                },
-              }).then(() => {
-                window.location.reload(); // Recargar la página
-              });
-            }
-          });
+         
+          }
+          localStorage.setItem("address", form.address);
+          localStorage.setItem("tel", form.tel);
+          localStorage.setItem("name", form.name);
+          dispatch(changedateUser(form,id))
         }
-      };
-     
+
         
 
         const openModal = () => {
@@ -237,7 +200,7 @@ const dispatch = useDispatch()
                     )}
                     <button
                       type="submit"
-                      className="px-2 py-1 bg-orange-500 rounded-md text-white hover:bg-orange-600"
+                      className="flex mt-4 items-center text-center justify-center w-full md:w-56 text-white bg-orange-500 rounded-2xl"
                     >
                       Guardar cambios
                     </button>
