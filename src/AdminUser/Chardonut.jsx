@@ -1,8 +1,10 @@
 import { Card, Title, DonutChart } from "@tremor/react";
 import React from 'react'
 
+
 const valueFormatter = (number) =>
   `$ ${Intl.NumberFormat("us").format(number).toString()}`;
+  
 
 const Chardonut = ({ donutProductos }) => {
   return (
@@ -22,6 +24,7 @@ const Chardonut = ({ donutProductos }) => {
         <h1 className="bg-rose-400 text-center w-32 font-semibold">Sandwitches</h1>
         <h1 className="bg-indigo-400 text-center w-32 font-semibold">Burritos</h1>
         <h1 className="bg-violet-400 text-center  w-32 font-semibold">Perritos</h1>
+        <h1 className="bg-amber-400 text-center  w-32 font-semibold">Bebidas</h1>
       </div>
 
     </Card>
