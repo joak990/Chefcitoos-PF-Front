@@ -104,6 +104,8 @@ const dispatch = useDispatch()
                 customClass: {
                   confirmButton: 'bg-orange-600 text-white rounded-2xl px-4 py-2',
                 },
+              }).then(() => {
+                window.location.reload(); // Recargar la página
               });
             }
           });
