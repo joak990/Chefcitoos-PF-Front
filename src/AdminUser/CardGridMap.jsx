@@ -6,21 +6,16 @@ import { getsalesandpercentaje } from '../Redux/actions';
 
 function CardGridMap() {
   const dispatch = useDispatch()
-  useEffect(() => {
-
-    dispatch(getsalesandpercentaje());
-  }, []);
   const salesandpercentaje = useSelector((state) => state.salesandpercentaje);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getsalesandpercentaje())
       .then(response => {
-   
+
         dispatch({ type: 'SET_SALES_AND_PERCENTAJE', payload: response });
       })
       .catch(error => {
-      
+
       });
   }, [dispatch]);
 
@@ -49,6 +44,11 @@ function CardGridMap() {
         <Flex justifyContent="between" alignItems="center">
           <Text>Ventas</Text>
           <BadgeDelta deltaType={salesandpercentaje?.ventas?.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
+            {salesandpercentaje?.ventas?.porcentaje}%
+          </BadgeDelta>
+        </Flex>
+        <Metric>${salesandpercentaje?.ventas?.total}</Metric>
+      </Card>
       <Card className="max-w-sm">
         <Flex justifyContent="between" alignItems="center">
           <Text>Ventas</Text>
@@ -67,7 +67,11 @@ function CardGridMap() {
         <Flex justifyContent="between" alignItems="center">
           <Text>Clientes nuevos</Text>
           <BadgeDelta deltaType={salesandpercentaje?.clientes.porcentaje < 0 ? 'decrease' : 'increase'} isIncreasePositive={true} size="xs">
-    
+            {salesandpercentaje?.clientes?.porcentaje}%
+          </BadgeDelta>
+        </Flex>
+        <Metric>{salesandpercentaje?.clientes?.total}</Metric>
+      </Card>
       <Card className="max-w-sm">
         <Flex justifyContent="between" alignItems="center">
           <Text>Clientes nuevos</Text>
