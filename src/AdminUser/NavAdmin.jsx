@@ -15,16 +15,13 @@ const NavAdmin = () => {
               <button className="mr-4 text-white hover:text-gray-300">Dashboard</button>
             </Link>
             <Link to="/admin/users">
-              <button className="mr-4 text-white hover:text-gray-300">Administrar usuarios</button>
+              <button className="mr-4 text-white hover:text-gray-300">Administrar Usuarios</button>
             </Link>
             <Link to="/admin/creations">
-              <button className="mr-4 text-white hover:text-gray-300">Administrar comentarios</button>
+              <button className="mr-4 text-white hover:text-gray-300">Administrar Comentarios</button>
             </Link>
             <Link to="/admin/products">
-              <button className="mr-4 text-white hover:text-gray-300">Gestionar productos</button>
-            </Link>
-            <Link to="/admin/addproducts">
-              <button className="mr-4 text-white hover:text-gray-300">Añadir  Productos</button>
+              <button className="mr-4 text-white hover:text-gray-300">Administrar Productos</button>
             </Link>
           </div>
         </div>

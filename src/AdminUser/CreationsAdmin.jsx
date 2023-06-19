@@ -74,7 +74,7 @@ function CreationsAdmin() {
       case 10:
       case 11:
         return (
-          <button className="bg-yellow-200 rounded-2xl w-48">Burritos</button>
+          <button className="bg-orange-200 rounded-2xl w-48">Burritos</button>
         );
       case 12:
       case 13:
@@ -95,7 +95,7 @@ function CreationsAdmin() {
       case 25:
       case 26:
         return (
-          <button className="bg-yellow-200 rounded-2xl w-48">
+          <button className="bg-red-200 rounded-2xl w-48">
             Otros Platos
           </button>
         );
