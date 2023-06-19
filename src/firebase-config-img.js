@@ -22,4 +22,4 @@ async function uploadFile(file) {
   return url;
 }
 
-module.exports = uploadFile;
+export {uploadFile};

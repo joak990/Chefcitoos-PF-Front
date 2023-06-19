@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { getProducts } from "../Redux/actions";
-import uploadFile from "../firebase-config-img";
+import {uploadFile} from "../firebase-config-img";
 
 const ModalProducts = ({ onClose, productSelected }) => {
   const [selectedImage, setSelectedImage] = useState(null);
