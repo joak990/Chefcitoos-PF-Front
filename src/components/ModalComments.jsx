@@ -83,7 +83,11 @@ function ModalComments({ creationId, onClose }) {
               {/* Modal body */}
               <ul className="flex-col mt-[6px] w-[100%] h-[350px] overflow-y-auto">
                 {/* div card */}
-                {allComments &&
+                {
+                  allComments.length === 0 ? (
+                    <p className="text-lg text-center" >Esta creacion no tiene comentarios</p>
+                  ) : (
+                    allComments &&
                   allComments.map((creation, index) => (
                     <div className="flex justify-between mb-3 gap-10 py-[9px] w-full border-b border-gray-300 pb-2">
                         <div className="w-5/6">
@@ -106,7 +110,33 @@ function ModalComments({ creationId, onClose }) {
                           </div>
                         </div>
                     </div>
-                  ))}
+                  ))
+                  ) 
+                }
+                {/* {allComments &&
+                  allComments.map((creation, index) => (
+                    <div className="flex justify-between mb-3 gap-10 py-[9px] w-full border-b border-gray-300 pb-2">
+                        <div className="w-5/6">
+                          <h5 className="font-semibold text-lg uppercase">
+                            {creation.User.name}
+                          </h5>
+                          <RatingStars value={creation.vote}></RatingStars>
+                          <h6 className="text-sm text-gray-800">
+                            {creation.content}
+                          </h6>
+                        </div>
+                        <div className="w-1/6">
+                          <div className="flex justify-end mr-4">
+                            <button
+                              onClick={() => handleDeleteCreation(creation.id)}
+                              className="relative bg-red-200 rounded-full w-8 h-8 shadow-lg flex items-center justify-center"
+                            >
+                              <span className="text-red-600 text-md">❌</span>
+                            </button>
+                          </div>
+                        </div>
+                    </div>
+                  ))} */}
               </ul>
             </div>
           </div>
