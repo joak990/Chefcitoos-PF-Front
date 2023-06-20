@@ -9,8 +9,10 @@ import {
   faPencil,
   faRotate,
   faRotateRight,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 
 function Products() {
   const dispatch = useDispatch();
@@ -59,6 +61,37 @@ function Products() {
     setProductSelected(product);
   };
 
+  const handleDeleteProduct = (productId) => {
+    Swal.fire({
+      title: "¿Está seguro que desea eliminar permanentemente el producto?",
+      icon: "danger",
+      showCancelButton: true,
+      confirmButtonColor: "#9CA3AF",
+      cancelButtonColor: "#EA580C",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+        .delete(`${process.env.REACT_APP_API_URL}products/${productId}`)
+        .then((response) => {
+          dispatch(getProducts());
+          Swal.fire({
+            title: "Producto eliminado satisfactoriamente",
+            icon: "success",
+            buttonsStyling: false,
+            customClass: {
+              confirmButton: "bg-orange-600 text-white rounded-md px-4 py-2",
+            },
+          });
+        })
+        .catch((error) => { 
+          console.log(error);
+        });
+      }
+    });
+  }
+
   return (
     <main className="bg-slate-200 min-h-screen overflow-y-auto">
       <NavAdmin />
@@ -68,7 +101,7 @@ function Products() {
           <div className="overflow-x-auto flex flex-col">
             <button
               onClick={() => handleModalProducts({})}
-              className="bg-orange-600 w-36 my-4 h-8 text-white rounded-xl font-semibold self-end"
+              className="bg-orange-600 w-36 my-4 h-8 text-white rounded-xl font-semibold self-start md:self-end lg:self-end"
             >
               Crear Producto
             </button>
@@ -81,22 +114,22 @@ function Products() {
                   <th className="py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r">
                     Imagen
                   </th>
-                  <th className="py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r">
+                  <th className="py-2 pl-4 pr-4 text-left border-b border-gray-300 border-r">
                     Nombre
                   </th>
-                  <th className="py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r">
-                    Descripción
+                  <th className="py-2 pl-4 pr-4 text-left border-b border-gray-300 border-r">
+                    Elementos
                   </th>
-                  <th className="py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r">
+                  <th className="py-2 pl-4 pr-4 text-center border-b border-gray-300 border-r">
                     Tipo de Producto
                   </th>
-                  <th className="py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r">
+                  <th className="py-2 pl-4 pr-4 text-left border-b border-gray-300 border-r">
                     Precio (COP)
                   </th>
-                  <th className="py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r">
+                  <th className="py-2 pl-4 pr-4 text-left border-b border-gray-300 border-r">
                     Estado
                   </th>
-                  <th className="py-2 pl-8 pr-8 text-left border-b border-gray-300">
+                  <th className="py-2 pl-4 pr-4 text-left border-b border-gray-300">
                     Acciones
                   </th>
                 </tr>
@@ -123,7 +156,7 @@ function Products() {
                       <img className="w-20" src={product.image} />
                     </td>
                     <td
-                      className={`py-2 pl-8 pr-8 ${
+                      className={`py-2 pl-4 pr-4 ${
                         index !== products.length - 1
                           ? "border-b border-gray-300"
                           : ""
@@ -132,16 +165,16 @@ function Products() {
                       {product.name}
                     </td>
                     <td
-                      className={`py-2 pl-8 pr-8 ${
+                      className={`py-2 pl-4 pr-4 ${
                         index !== products.length - 1
                           ? "border-b border-gray-300"
                           : ""
                       } border-r border-gray-300`}
                     >
-                      {product.elements}
+                      {product.elements?.length > 50 ? product.elements.slice(0, 50) + "..." : product.elements}
                     </td>
                     <td
-                      className={`py-2 pl-8 pr-8 text-center ${
+                      className={`py-2 pl-4 pr-4 text-center ${
                         index !== products.length - 1
                           ? "border-b border-gray-300"
                           : ""
@@ -166,7 +199,7 @@ function Products() {
                       </span>
                     </td>
                     <td
-                      className={`py-2 pl-8 pr-8 ${
+                      className={`py-2 pl-4 pr-4 text-center ${
                         index !== products.length - 1
                           ? "border-b border-gray-300"
                           : ""
@@ -228,7 +261,7 @@ function Products() {
                           <div className="group relative">
                             <button
                               onClick={() => prueba(product.id)}
-                              className="bg-red-400 rounded-xl"
+                              className="bg-yellow-400 rounded-xl"
                             >
                               <FontAwesomeIcon
                                 className="p-1 text-white"
@@ -252,6 +285,20 @@ function Products() {
                           </button>
                           <span className="invisible opacity-0 bg-gray-100 text-gray-800 rounded-md py-1 px-2 absolute bottom-full left-1/2 transform -translate-x-1/2 translate-y-2 group-hover:visible group-hover:opacity-100 text-sm">
                             Editar
+                          </span>
+                        </div>
+                        <div className="group relative">
+                          <button
+                            onClick={() => handleDeleteProduct(product.id)}
+                            className="bg-red-400 rounded-xl ml-2"
+                          >
+                            <FontAwesomeIcon
+                              className="p-1 text-white"
+                              icon={faTrash}
+                            />
+                          </button>
+                          <span className="invisible opacity-0 bg-gray-100 text-gray-800 rounded-md py-1 px-2 absolute bottom-full left-1/2 transform -translate-x-1/2 translate-y-2 group-hover:visible group-hover:opacity-100 text-sm">
+                            Eliminar
                           </span>
                         </div>
                       </div>
