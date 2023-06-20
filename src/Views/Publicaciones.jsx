@@ -155,8 +155,8 @@ const handleInputChange = (event) => {
           <option value="DEFAULT" disabled className="text-center">
             Rating
           </option>
-          <option value="desc">Menor Rating </option>
-          <option value="asc">Mayor Rating</option>
+          <option value="DESC">Menor Rating </option>
+          <option value="ASC">Mayor Rating</option>
 
         </select>
         <button type='submit' className='bg-orange-600 w-32 md:w-28 h-12 text-white rounded-xl font-bold mt-6 '>Filtrar</button>
