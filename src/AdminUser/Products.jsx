@@ -160,7 +160,7 @@ function Products() {
                             : product.type_product === "bebidas"
                             ? "bg-red-200"
                             : "bg-teal-200"
-                        } rounded-2xl w-full px-8`}
+                        } rounded-2xl w-full px-8 py-1 capitalize`}
                       >
                         {product.type_product}
                       </span>

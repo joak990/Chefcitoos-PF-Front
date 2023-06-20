@@ -91,29 +91,26 @@ function Users() {
   return (
     <main className='bg-slate-200 min-h-screen overflow-y-auto'>
       <NavAdmin />
-      <div className='w-9/12 flex flex-col lg:flex-row lg:justify-center'>
-        <div className='h-screen bg-slate-200 flex-grow'></div>
-        <div className='lg:w-3/4'>
-          <div className='mt-5'>
-            <Card className='p-4 bg-white'>
+      <div className='w-9/12 mx-auto flex justify-center'>
+            <Card className='p-4 bg-white mt-6 mb-6'>
               <h1 className='text-2xl font-bold'>Usuarios</h1>
-              <div className='overflow-x-hidden'>
+              <div className='overflow-x-auto flex flex-col'>
                 <table className='w-full mt-2'>
                   <thead>
                     <tr>
-                      <th className='py-2 pr-8 text-left border-b border-gray-300 border-r border-gray-300'>
+                      <th className='py-2 pr-8 text-left border-b border-gray-300 border-r'>
                         ID
                       </th>
-                      <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r border-gray-300'>
+                      <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r'>
                         Nombre
                       </th>
-                      <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r border-gray-300'>
+                      <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r'>
                         Email
                       </th>
-                      <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-r border-gray-300'>
+                      <th className='py-2 pl-8 pr-8 text-center border-b border-gray-300 border-r'>
                         Cambiar Rol
                       </th>
-                      <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-gray-300'>
+                      <th className='py-2 pl-8 pr-8 text-center border-b border-gray-300'>
                         Eliminar
                       </th>
                       {/* <th className='py-2 pl-8 pr-8 text-left border-b border-gray-300 border-gray-300'>
@@ -140,8 +137,8 @@ function Users() {
                           {user.email}
                         </td>}
 
-                        <td className={`py-2 pl-4 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
-                          {user.type === "user" ? (<button className='bg-yellow-200 rounded-2xl w-48'>User</button>) : <button className='bg-green-400 rounded-2xl w-48'>Admin</button>}
+                        <td className={`py-2 pl-4 pr-8 text-center ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} border-r border-gray-300`}>
+                          {user.type === "user" ? (<button className='bg-yellow-200 rounded-2xl w-24'>User</button>) : <button className='bg-green-300 rounded-2xl w-24'>Admin</button>}
 
                         </td>
                         <td className={`py-2 pl-1 pr-8 ${index !== users.length - 1 ? 'border-b border-gray-300' : ''} text-center`}>
@@ -170,8 +167,6 @@ function Users() {
                 </table>
               </div>
             </Card>
-          </div>
-        </div>
       </div>
     </main>
   );

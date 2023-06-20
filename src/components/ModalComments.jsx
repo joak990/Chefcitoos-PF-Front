@@ -5,44 +5,44 @@ import { faClose, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllComments, DeleteComments } from "../Redux/actions";
 import RatingStars from "./RatingStars";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 function ModalComments({ creationId, onClose }) {
   const dispatch = useDispatch();
-  const allComments = useSelector((state) => state.Comments)
-  console.log('creationId', creationId);
+  const allComments = useSelector((state) => state.Comments);
+  console.log("creationId", creationId);
 
-  console.log('::allComments::', allComments);
+  console.log("::allComments::", allComments);
 
   useEffect(() => {
-    dispatch(GetAllComments(creationId))
-  }, [dispatch])
+    dispatch(GetAllComments(creationId));
+  }, [dispatch]);
 
   const handleDeleteCreation = async (id) => {
-    console.log('::id::', id);
+    console.log("::id::", id);
     dispatch(DeleteComments(id));
 
     const confirmation = await Swal.fire({
-      title: '¿Estás seguro que quieres eliminar este comentario?',
-      icon: 'warning',
+      title: "¿Estás seguro que quieres eliminar este comentario?",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#ff9800',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonColor: "#ff9800",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
       reverseButtons: true,
       buttonsStyling: false,
       customClass: {
-        confirmButton: 'bg-red-600 text-white rounded-md px-4 py-2 mr-2',
-        cancelButton: 'bg-green-600 text-white rounded-md px-4 mr-2 py-2',
+        confirmButton: "bg-red-600 text-white rounded-md px-4 py-2 mr-2",
+        cancelButton: "bg-green-600 text-white rounded-md px-4 mr-2 py-2",
       },
       allowOutsideClick: () => !Swal.isLoading(),
     });
 
     if (confirmation.isConfirmed) {
       await Swal.fire({
-        icon: 'success',
-        title: 'Comentario eliminado',
+        icon: "success",
+        title: "Comentario eliminado",
         showConfirmButton: false,
         timer: 1500, // Duración del mensaje en milisegundos (1.5 segundos)
       });
@@ -79,42 +79,38 @@ function ModalComments({ creationId, onClose }) {
             </button>
           </div>
           <div className="bg-white px-5 pb-4 ">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col">
               {/* Modal body */}
-              <ul className="flex-col items-center mt-[6px] w-[100%] h-[350px] overflow-y-auto">
+              <ul className="flex-col mt-[6px] w-[100%] h-[350px] overflow-y-auto">
                 {/* div card */}
-                {allComments && allComments.map((creation, index) => (
-                  <div className="flex flex-col mb-3 gap-10 items-center justify-end py-[9px] w-full border-b border-gray-300 pb-2">
-                    <div className="flex px-2 lg:flex-row flex-col lg:items-end lg:justify-between w-full">
-                      <div className="bg-gray_51 flex flex-row items-center rounded-[16.5px] w-[50%]">
-                        <div className="max-w-[300px] px-3 flex flex-col">
-                          <h5 className="font-semibold text-s uppercase">
+                {allComments &&
+                  allComments.map((creation, index) => (
+                    <div className="flex justify-between mb-3 gap-10 py-[9px] w-full border-b border-gray-300 pb-2">
+                        <div className="w-5/6">
+                          <h5 className="font-semibold text-lg uppercase">
                             {creation.User.name}
                           </h5>
-                          <RatingStars value={creation.vote} ></RatingStars>
-                          <h6 className="text-black text-xl font-semibold">
+                          <RatingStars value={creation.vote}></RatingStars>
+                          <h6 className="text-sm text-gray-800">
                             {creation.content}
                           </h6>
-                          <div className="flex justify-between items-start">
-                            <div className="flex items-start">
-                              <button
-                                onClick={() => handleDeleteCreation(creation.id)}
-                                className="relative bg-red-200 rounded-full w-10 h-10 shadow-lg flex items-center justify-center"
-                              >
-                                <span className="text-red-600 text-xl">❌</span>
-                              </button>
-                            </div>
+                        </div>
+                        <div className="w-1/6">
+                          <div className="flex justify-end mr-4">
+                            <button
+                              onClick={() => handleDeleteCreation(creation.id)}
+                              className="relative bg-red-200 rounded-full w-8 h-8 shadow-lg flex items-center justify-center"
+                            >
+                              <span className="text-red-600 text-md">❌</span>
+                            </button>
                           </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </ul>
             </div>
           </div>
-          <div className="bg-gray-50 px-4 py-3 flex flex-row justify-end border-t border-gray-200">
-          </div>
+          <div className="bg-gray-50 px-4 py-3 flex flex-row justify-end border-t border-gray-200"></div>
         </div>
       </div>
     </div>,
