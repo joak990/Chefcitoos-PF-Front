@@ -49,7 +49,10 @@ import {
   GET_ORDERS_BY_ID,
   GET_DETAIL_ORDER,
   GET_SALES_PERCENTAJE,
-  GET_DONUT_PRODUCTS
+  GET_DONUT_PRODUCTS,
+  GET_FILTERS_PUBLICATIONS,
+  GET_COMPONENTS_FILTERS,
+  RESET_FILTERS
 } from "./typeAction";
 
 import axios from "axios";
@@ -970,4 +973,49 @@ export const getDonutProducts = () => {
   }
 }
 
+export const getallcomponents = () => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/components/1`)
+      console.log('jsoonData',json.data);
+      return dispatch({
+        type: GET_COMPONENTS_FILTERS,
+        payload: json.data,
+      })
+    } catch (error) {
+      alert((`Message ${GET_COMPONENTS_FILTERS}:`, error))
+    }
+  }}
 
+export const getPublicacionesFilter = (payload) => {
+  console.log('payloasdFilters',payload);
+  return async function (dispatch) {
+    try {
+      const post = await axios.post(`filters/creations`, payload);
+      console.log(':::post::', post.data);
+      return dispatch({
+        type: GET_FILTERS_PUBLICATIONS,
+        payload: post.data,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error POST_PRODUCTS',
+        icon: 'error',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-orange-600 text-white rounded-md px-4 py-2',
+        }
+      })
+      // alert(`Message ${POST_PRODUCTS}:`, error);
+    }
+  };
+};
+
+
+export const resetfilters = (payload) => {
+  // console.log('value', payload );
+  return {
+    type: RESET_FILTERS,
+    payload: payload,
+  }
+}
