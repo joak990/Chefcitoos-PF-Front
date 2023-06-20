@@ -47,6 +47,9 @@ import {
   GET_DETAIL_ORDER,
   GET_SALES_PERCENTAJE,
   GET_DONUT_PRODUCTS,
+  GET_FILTERS_PUBLICATIONS,
+  GET_COMPONENTS_FILTERS,
+  RESET_FILTERS
 } from "./typeAction";
 
 const initialState = {
@@ -82,7 +85,10 @@ const initialState = {
   userbyid: [],
   ordersbyid: [],
   salesandpercentaje: [],
-  donutProducts: []
+  donutProducts: [],
+  filterspublications: [],
+  allComponents: [],
+  reset: []
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -118,6 +124,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         allCreations: payload,
+        reset:payload
       };
     case GET_CREATIONS_BY_ID:
       return {
@@ -444,7 +451,21 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         donutProducts: [...payload],
       };
-
+      case GET_FILTERS_PUBLICATIONS:
+        return {
+          ...state,
+          allCreations:[...payload]
+        };
+        case GET_COMPONENTS_FILTERS:
+          return {
+            ...state,
+            allComponents: [...payload]
+          }
+          case RESET_FILTERS:
+      return {
+        ...state,
+        allCreations: [...state.reset],
+      };
     default:
       return { ...state };
   }
