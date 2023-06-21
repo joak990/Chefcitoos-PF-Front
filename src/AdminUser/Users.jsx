@@ -91,7 +91,7 @@ function Users() {
   return (
     <main className='bg-slate-200 min-h-screen overflow-y-auto'>
       <NavAdmin />
-      <div className='w-9/12 mx-auto flex justify-center'>
+      <div className='w-full md:w-9/12 lg:w-9/12 px-4 mx-auto flex justify-center'>
             <Card className='p-4 bg-white mt-6 mb-6'>
               <h1 className='text-2xl font-bold'>Usuarios</h1>
               <div className='overflow-x-auto flex flex-col'>

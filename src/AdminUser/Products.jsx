@@ -61,41 +61,10 @@ function Products() {
     setProductSelected(product);
   };
 
-  const handleDeleteProduct = (productId) => {
-    Swal.fire({
-      title: "¿Está seguro que desea eliminar permanentemente el producto?",
-      icon: "danger",
-      showCancelButton: true,
-      confirmButtonColor: "#9CA3AF",
-      cancelButtonColor: "#EA580C",
-      confirmButtonText: "Aceptar",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
-        .delete(`${process.env.REACT_APP_API_URL}products/${productId}`)
-        .then((response) => {
-          dispatch(getProducts());
-          Swal.fire({
-            title: "Producto eliminado satisfactoriamente",
-            icon: "success",
-            buttonsStyling: false,
-            customClass: {
-              confirmButton: "bg-orange-600 text-white rounded-md px-4 py-2",
-            },
-          });
-        })
-        .catch((error) => { 
-          console.log(error);
-        });
-      }
-    });
-  }
-
   return (
     <main className="bg-slate-200 min-h-screen overflow-y-auto">
       <NavAdmin />
-      <div className="w-10/12 mx-auto flex justify-center">
+      <div className="w-full md:w-10/12 lg:w-10/12 px-4 mx-auto flex justify-center">
         <Card className="p-4 bg-white mt-6 mb-6">
           <h1 className="text-2xl font-bold">Productos</h1>
           <div className="overflow-x-auto flex flex-col">
@@ -285,20 +254,6 @@ function Products() {
                           </button>
                           <span className="invisible opacity-0 bg-gray-100 text-gray-800 rounded-md py-1 px-2 absolute bottom-full left-1/2 transform -translate-x-1/2 translate-y-2 group-hover:visible group-hover:opacity-100 text-sm">
                             Editar
-                          </span>
-                        </div>
-                        <div className="group relative">
-                          <button
-                            onClick={() => handleDeleteProduct(product.id)}
-                            className="bg-red-400 rounded-xl ml-2"
-                          >
-                            <FontAwesomeIcon
-                              className="p-1 text-white"
-                              icon={faTrash}
-                            />
-                          </button>
-                          <span className="invisible opacity-0 bg-gray-100 text-gray-800 rounded-md py-1 px-2 absolute bottom-full left-1/2 transform -translate-x-1/2 translate-y-2 group-hover:visible group-hover:opacity-100 text-sm">
-                            Eliminar
                           </span>
                         </div>
                       </div>
