@@ -52,9 +52,9 @@ const dispatch = useDispatch()
         // Validar campo de contraseña
         if (!form.tel.trim()) {
           newErrors.tel = "El telefono es requerido";
-        } else if (form.tel.length < 13) {
-          newErrors.tel = " debe tener al menos 13 caracteres";
-        } else if (form.tel.length > 14) {
+        } else if (form.tel.length < 8) {
+          newErrors.tel = " debe tener al menos 8 caracteres";
+        } else if (form.tel.length > 20) {
           newErrors.tel = "debe tener como máximo 20 caracteres";
         }
 
