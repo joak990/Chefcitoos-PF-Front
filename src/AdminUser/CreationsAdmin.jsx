@@ -84,7 +84,7 @@ function CreationsAdmin() {
   return (
     <main className="bg-slate-200 min-h-screen overflow-y-auto">
       <NavAdmin />
-      <div className="w-9/12 mx-auto flex justify-center">
+      <div className="w-full md:w-9/12 lg:w-9/12 px-4 mx-auto flex justify-center">
         {isModalOpen && (
           <ModalComments
             onClose={() => setIsModalOpen(false)}

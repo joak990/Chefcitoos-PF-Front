@@ -26,12 +26,11 @@ function Dashboard() {
     <main className='bg-slate-200 min-h-screen overflow-y-auto'>
       <NavAdmin />
       <TabList defaultValue={selectedView} handleSelect={value => setSelectedView(value)}>
-        <Tab value={1} text='Principal' />
+        <Tab value={1} text='' />
       </TabList>
       {selectedView === 1 && (
-        <div className='w-full lg:w-9/12 flex flex-col lg:flex-row lg:justify-center'>
-          <div className='h-screen bg-slate-200 flex-grow'></div>
-          <div className='lg:w-3/4'>
+        <div className='w-full md:lg:w-9/12 lg:w-9/12 mx-auto flex flex-row lg:justify-center md:justify-center'>
+          <div className='w-full lg:w-3/4'>
             <CardGridMap />
             <Card className='mt-5 bg-transparent'>
               <div className='h-96 flex justify-center items-center'>
@@ -39,9 +38,9 @@ function Dashboard() {
               </div>
             </Card>
             <div className='mt-5'>
-              <Card className='p-4 bg-white'>
+              <Card className='p-4 bg-white mb-6 mx-1'>
                 <h1 className='text-2xl font-bold'>Órdenes Recientes</h1>
-                <div className='overflow-x-auto'>
+                <div className='overflow-x-auto '>
                   <table className='w-full mt-2'>
                     <thead>
                       <tr>
